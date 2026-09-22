@@ -50,11 +50,11 @@ class ActiveLaneAuditTests(unittest.TestCase):
             worktree / plan_path,
             """# Plan 0042 | Carrier Reconciliation
 
-State: OPEN
-Lane: P42
-Branch: feature/p42-carrier-reconciliation
-Target: main
-Integration: merge
+State: `open`
+Lane: `p42`
+Branch: `feature/p42-carrier-reconciliation`
+Target: `main`
+Integration: `merge`
 
 ## Current State
 
@@ -125,6 +125,49 @@ lanes:
         self.assertEqual(lane["local_remote_relation"], "equal")
         self.assertEqual(lane["checkpoint"], lane["local_tip"])
         self.assertEqual(len(lane["worktrees"]), 1)
+
+    def test_required_work_item_tracking_fails_when_lane_has_no_locator(self) -> None:
+        repo, temporary = self.make_registered_active_repo()
+        self.addCleanup(temporary.cleanup)
+        catalog = repo / "docs/dev/active-lanes.yaml"
+        catalog.write_text(
+            catalog.read_text(encoding="utf-8").replace(
+                "schema_version: 1", "schema_version: 1\nwork_item_tracking: required"
+            ),
+            encoding="utf-8",
+        )
+        self.git(repo, "add", "docs/dev/active-lanes.yaml")
+        self.git(repo, "commit", "-q", "-m", "Require work-item tracking")
+
+        result = self.run_audit(repo)
+
+        self.assertEqual(result.returncode, 1)
+        report = json.loads(result.stdout)
+        self.assertEqual(report["work_item_tracking"], "required")
+        self.assertIn(
+            "P42: work_items must not be empty when tracking is required",
+            report["problems"],
+        )
+
+    def test_required_work_item_tracking_accepts_compact_locator(self) -> None:
+        repo, temporary = self.make_registered_active_repo()
+        self.addCleanup(temporary.cleanup)
+        catalog = repo / "docs/dev/active-lanes.yaml"
+        catalog.write_text(
+            catalog.read_text(encoding="utf-8")
+            .replace("schema_version: 1", "schema_version: 1\nwork_item_tracking: required")
+            .replace("    dependencies: []", "    work_items: [owner/repo#42]\n    dependencies: []"),
+            encoding="utf-8",
+        )
+        self.git(repo, "add", "docs/dev/active-lanes.yaml")
+        self.git(repo, "commit", "-q", "-m", "Link lane work item")
+
+        result = self.run_audit(repo)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        report = json.loads(result.stdout)
+        self.assertEqual(report["work_item_tracking"], "required")
+        self.assertEqual(report["lanes"][0]["work_items"], ["owner/repo#42"])
 
     def test_duplicate_lane_ids_fail_closed(self) -> None:
         repo, temporary = self.make_registered_active_repo()
@@ -319,6 +362,71 @@ lanes:
         self.assertIn("registered_but_missing", lane["findings"])
         self.assertEqual(lane["worktrees"], [])
         self.assertIn("P42: ACTIVE_WORKTREE lane has no assigned worktree", report["problems"])
+
+    def test_remote_only_active_lane_is_portable_across_workstations(self) -> None:
+        repo, temporary = self.make_registered_active_repo()
+        self.addCleanup(temporary.cleanup)
+        worktree = Path(self.git(repo, "worktree", "list", "--porcelain").split("worktree ")[2].splitlines()[0])
+        self.git(repo, "worktree", "remove", str(worktree))
+        self.git(repo, "branch", "-D", "feature/p42-carrier-reconciliation")
+        catalog = repo / "docs/dev/active-lanes.yaml"
+        catalog.write_text(
+            catalog.read_text(encoding="utf-8").replace(
+                "plan_ref: refs/heads/feature/p42-carrier-reconciliation",
+                "plan_ref: feature/p42-carrier-reconciliation",
+            ),
+            encoding="utf-8",
+        )
+        self.git(repo, "add", "docs/dev/active-lanes.yaml")
+        self.git(repo, "commit", "-q", "-m", "Use workstation-neutral plan ref")
+
+        result = self.run_audit(repo)
+
+        self.assertEqual(result.returncode, 0, result.stdout)
+        report = json.loads(result.stdout)
+        lane = report["lanes"][0]
+        self.assertEqual(lane["local_remote_relation"], "remote_only")
+        self.assertEqual(lane["findings"], ["remote_active"])
+
+    def test_target_uses_explicit_remote_default_ref(self) -> None:
+        repo, temporary = self.make_registered_active_repo()
+        self.addCleanup(temporary.cleanup)
+        writer = repo.parent / "integrator"
+        remote = self.git(repo, "remote", "get-url", "origin")
+        subprocess.run(["git", "clone", "-q", "-b", "main", remote, str(writer)], check=True)
+        self.git(writer, "config", "user.email", "test@example.com")
+        self.git(writer, "config", "user.name", "Test")
+        self.git(writer, "merge", "-q", "--no-ff", "-m", "Integrate lane", "origin/feature/p42-carrier-reconciliation")
+        catalog = writer / "docs/dev/active-lanes.yaml"
+        catalog.write_text(
+            catalog.read_text(encoding="utf-8")
+            .replace("plan_state: OPEN", "plan_state: CLOSED")
+            .replace("custody_state: ACTIVE_WORKTREE", "custody_state: INTEGRATED"),
+            encoding="utf-8",
+        )
+        self.git(writer, "add", "docs/dev/active-lanes.yaml")
+        self.git(writer, "commit", "-q", "-m", "Record lane integration")
+        self.git(writer, "push", "-q", "origin", "main")
+        self.git(repo, "fetch", "-q", "origin")
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--repo-root",
+                str(repo),
+                "--default-ref",
+                "refs/remotes/origin/main",
+                "--json",
+            ],
+            capture_output=True,
+            text=True,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stdout)
+        lane = json.loads(result.stdout)["lanes"][0]
+        self.assertTrue(lane["integrated_into_target"])
+        self.assertIn("integrated_cleanup_pending", lane["findings"])
 
     def test_pushed_branch_without_worktree_can_be_paused(self) -> None:
         repo, temporary = self.make_registered_active_repo()

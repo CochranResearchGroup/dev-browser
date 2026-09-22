@@ -1,0 +1,17 @@
+{
+  "result": "173 test assertions passed; 19 suites passed; 2 suites failed afterAll teardown hooks at 180 seconds",
+  "failedSuites": [
+    "sandbox/__tests__/cua.test.ts navigation",
+    "sandbox/__tests__/playwright-api.test.ts navigation"
+  ],
+  "elapsedSeconds": 191.53,
+  "termination": "Suite exited before proposed SIGTERM; no signals sent",
+  "temporaryProfiles": [
+    "/tmp/dev-browser-playwright-api-drJCsq",
+    "/tmp/dev-browser-cua-xmLaLp"
+  ],
+  "remainingLiveProfileProcessIds": [],
+  "observedTestRootAndWorkerPidsGone": true,
+  "existingDaemonAlive": true,
+  "runtimeChanges": "none; configured Chromium 150 used by test harness"
+}

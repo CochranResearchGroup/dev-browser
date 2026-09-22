@@ -48,7 +48,7 @@ Repo-type guidance:
 
 ## Fork-specific contract
 
-Reviewed bundle: `v0.1.22`, source commit
-`12a7f9fef466522e99be44d980c44a4ff056f540`. Review updates during release or
+Reviewed bundle: `v0.1.26`, source commit
+`ead42f7d6932fedc9dea83111b234f954a6afa4d`. Review updates during release or
 upstream-sync maintenance, using the installed manifest and explicit policy-root.
 Preserve the local PR/issue contract and fork overrides during upgrades.
