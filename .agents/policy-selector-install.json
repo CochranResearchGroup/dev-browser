@@ -2,22 +2,22 @@
   "install_relpath": ".agents/skills/repo-policy-selector",
   "installed_bundle_release": {
     "bundle_name": "repo-policy-selector",
-    "bundle_version": "0.1.22",
+    "bundle_version": "0.1.26",
     "policy_library": {
       "catalog_path": "policy-library/catalog.yaml",
-      "content_sha256": "03d4cba5d1aaad7ca2805b847dd69083ebf4193b8812693ee7ea8d9079f56b42",
+      "content_sha256": "1129e37be16efbf571954f80d06ea7115eb8f244acbd327003abe37e2dadaa96",
       "relative_root": "policy-library",
       "schema_path": "policy-library/SCHEMA.md"
     },
-    "release_ref": "v0.1.22",
+    "release_ref": "v0.1.26",
     "schema_version": 1,
-    "source_commit": "12a7f9fef466522e99be44d980c44a4ff056f540",
-    "source_ref": "12a7f9fef466522e99be44d980c44a4ff056f540",
+    "source_commit": "ead42f7d6932fedc9dea83111b234f954a6afa4d",
+    "source_ref": "ead42f7d6932fedc9dea83111b234f954a6afa4d",
     "source_repo_root": "/home/ecochran76/workspace.local/agent-policies",
     "source_tree_state": "clean-ref"
   },
-  "installed_policy_root": "/home/ecochran76/workspace.local/dev-browser-policy-adoption/.agents/skills/repo-policy-selector/policy-library",
-  "installed_selector_root": "/home/ecochran76/workspace.local/dev-browser-policy-adoption/.agents/skills/repo-policy-selector",
-  "selector_root": "/home/ecochran76/.agents/skills/repo-policy-selector",
+  "installed_policy_root": "/home/ecochran76/workspace.local/dev-browser-skill-hygiene/.agents/skills/repo-policy-selector/policy-library",
+  "installed_selector_root": "/home/ecochran76/workspace.local/dev-browser-skill-hygiene/.agents/skills/repo-policy-selector",
+  "selector_root": "/tmp/dev-browser-policy-upgrade-v0126/repo-policy-selector",
   "source_type": "local-path"
 }

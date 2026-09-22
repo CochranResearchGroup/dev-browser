@@ -1,3 +1,4 @@
+import type { Server } from "node:http";
 import { rm } from "node:fs/promises";
 import { setTimeout as delay } from "node:timers/promises";
 
@@ -43,4 +44,17 @@ export async function removeDirectoryWithRetries(
       await sleep(retryDelayMs(attempt));
     }
   }
+}
+
+/** Close an exclusively owned HTTP test server, including unfinished connections. */
+export async function closeTestHttpServer(server: Server): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    server.close((error) => {
+      if (error) reject(error);
+      else resolve();
+    });
+    // Stop accepting first, then release preconnects and unfinished requests.
+    // Waiting for graceful close here can block the browser shutdown that follows.
+    server.closeAllConnections();
+  });
 }

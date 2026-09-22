@@ -8,7 +8,7 @@ import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { BrowserManager } from "../../browser-manager.js";
-import { removeDirectoryWithRetries } from "../../test-cleanup.js";
+import { closeTestHttpServer, removeDirectoryWithRetries } from "../../test-cleanup.js";
 import { QuickJSSandbox } from "../quickjs-sandbox.js";
 import { ensureSandboxClientBundle } from "./bundle-test-helpers.js";
 
@@ -302,17 +302,7 @@ async function createNavigationServer(): Promise<NavigationServer> {
 
   return {
     baseUrl: `http://127.0.0.1:${port}`,
-    close: async () => {
-      await new Promise<void>((resolve, reject) => {
-        server.close((error) => {
-          if (error) {
-            reject(error);
-            return;
-          }
-          resolve();
-        });
-      });
-    },
+    close: () => closeTestHttpServer(server),
   };
 }
 

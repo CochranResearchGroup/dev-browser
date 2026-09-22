@@ -1,0 +1,32 @@
+{
+  "command": "vitest run --maxWorkers 2",
+  "exitCode": 0,
+  "elapsedSeconds": 27.63,
+  "sampledAggregatePeakRssBytes": 4546093056,
+  "sampleIntervalSeconds": 0.2,
+  "observedProcessCount": 332,
+  "remainingOwnedLivePids": [],
+  "runtimeBefore": {
+    "config.json": "99770ab7efafceb493324ed17ba2d2b7668e5692cf977651a5b112f688692d6c",
+    "daemon.mjs": "a824ab2457b7319acb39d49ed4f75aef20bbf62a9a850e10b2d40a79ac75b395",
+    "sandbox-client.js": "ebd093d662faa8883b640860e60071b8f4c6f37f03ee3ebbeca572194560a7c8",
+    "daemon.pid": "05748197a73be2b6924a9414b63ac72553d671f25e0b8e0568a8d4bc56870a39"
+  },
+  "runtimeAfter": {
+    "config.json": "99770ab7efafceb493324ed17ba2d2b7668e5692cf977651a5b112f688692d6c",
+    "daemon.mjs": "a824ab2457b7319acb39d49ed4f75aef20bbf62a9a850e10b2d40a79ac75b395",
+    "sandbox-client.js": "ebd093d662faa8883b640860e60071b8f4c6f37f03ee3ebbeca572194560a7c8",
+    "daemon.pid": "05748197a73be2b6924a9414b63ac72553d671f25e0b8e0568a8d4bc56870a39"
+  },
+  "existingDaemonPid": 77326,
+  "existingDaemonSameProcess": true,
+  "browser": "configured chromium-stealthcdp 150; config unchanged",
+  "limits": {
+    "workers": 2,
+    "wallSeconds": 900,
+    "targetRssBytes": 8589934592
+  },
+  "profileCensus": "Unavailable in this first monitor: incorrect cmdline delimiter; PID/start-time census remains valid. Follow-up focused profile census recorded separately.",
+  "testFilesPassed": 21,
+  "testsPassed": 175
+}

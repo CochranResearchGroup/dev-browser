@@ -51,6 +51,7 @@ library is source material, not an additional set of active instructions.
 | Validating, reviewing, or handing off work | [0014-validation-and-handoff](docs/dev/policies/0014-validation-and-handoff.md) |
 | Fetching or integrating upstream changes | [0015-upstream-fork-maintenance](docs/dev/policies/0015-upstream-fork-maintenance.md) |
 | Managing issues, opening/reviewing/merging PRs | [0016-pull-request-and-issue-management](docs/dev/policies/0016-pull-request-and-issue-management.md) |
+| Routing substantial agent work or reassessing model/effort | [0017-model-selection-and-calibration](docs/dev/policies/0017-model-selection-and-calibration.md) |
 
 Use `docs/dev/plans/` for bounded plans and `docs/dev/notes/` for dated feedback.
 The adoption-time branch inventory is [workstreams](docs/dev/workstreams.md).
@@ -65,3 +66,10 @@ python3 .agents/skills/repo-policy-selector/scripts/audit_planning_contract.py -
 python3 .agents/skills/repo-policy-selector/scripts/audit_planning_contract.py --repo-root . --active-only --json
 python3 .agents/skills/repo-policy-selector/scripts/select_policy.py --repo-root . --policy-root .agents/skills/repo-policy-selector/policy-library --json
 ```
+
+## Browser runtime operations
+
+Before launching/attaching browsers or handing off browser work, read
+[the maintained dev-browser skill](skills/dev-browser/SKILL.md). Agents choose
+the appropriate existing runtime/profile and own tab, browser, daemon, and
+resource cleanup. v1 remains explicit opt-in until an approved migration.

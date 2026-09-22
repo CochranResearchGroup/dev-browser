@@ -1,0 +1,43 @@
+{
+  "date": "20260922T161519Z",
+  "version": "0.2.9",
+  "backup": "/home/ecochran76/.dev-browser/backups/embedded-skill-20260922T161519Z",
+  "previousBinarySha256": "8ec4899b452e741c1dc848c05a4c848110370999004ef7fe51549a8e1498a56c",
+  "binarySha256": "04c73cb93e9a932b212b5671b95386aa0459af95ba8052e0ea16624429ef3691",
+  "skillSha256": "6dca7a17df9c8dbf236d1d8c58416ac6696f4a4970d1e446a7ebfd13ff1d46e9",
+  "installedSkillTargets": [
+    "/home/ecochran76/.claude/skills/dev-browser/SKILL.md",
+    "/home/ecochran76/.agents/skills/dev-browser/SKILL.md",
+    "/home/ecochran76/.codex/skills/dev-browser/SKILL.md"
+  ],
+  "installerOutput": [
+    "dev-browser skill is already installed at ~/.claude/skills/dev-browser/SKILL.md",
+    "dev-browser skill is already installed at ~/.agents/skills/dev-browser/SKILL.md",
+    "dev-browser skill is already installed at ~/.codex/skills/dev-browser/SKILL.md"
+  ],
+  "before": {
+    "daemonPid": "77326",
+    "daemonAlive": true,
+    "daemonSha256": "a824ab2457b7319acb39d49ed4f75aef20bbf62a9a850e10b2d40a79ac75b395",
+    "sandboxSha256": "ebd093d662faa8883b640860e60071b8f4c6f37f03ee3ebbeca572194560a7c8",
+    "configSha256": "99770ab7efafceb493324ed17ba2d2b7668e5692cf977651a5b112f688692d6c"
+  },
+  "after": {
+    "daemonPid": "77326",
+    "daemonAlive": true,
+    "daemonSha256": "a824ab2457b7319acb39d49ed4f75aef20bbf62a9a850e10b2d40a79ac75b395",
+    "sandboxSha256": "ebd093d662faa8883b640860e60071b8f4c6f37f03ee3ebbeca572194560a7c8",
+    "configSha256": "99770ab7efafceb493324ed17ba2d2b7668e5692cf977651a5b112f688692d6c"
+  },
+  "daemonPayloadChanged": false,
+  "browserConfigChanged": false,
+  "daemonRestarted": false,
+  "validation": [
+    "daemon bundles rebuilt; hashes match installed payloads",
+    "TypeScript noEmit passed",
+    "cargo release build passed",
+    "cargo test: 12 passed",
+    "embedded skill exact bytes verified",
+    "install-skill all three targets passed"
+  ]
+}
