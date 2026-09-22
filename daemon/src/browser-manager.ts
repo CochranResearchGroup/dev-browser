@@ -42,6 +42,11 @@ type BrowserManagerDependencies = {
   readFile: typeof readFile;
 };
 
+interface BrowserOperationOptions {
+  deadline?: number;
+  signal?: AbortSignal;
+}
+
 type DebuggerWebSocketLookupResult =
   | {
       status: "ok";
@@ -95,7 +100,9 @@ export class BrowserManager {
   }
 
   private static detectWsl(): boolean {
-    return process.platform === "linux" && !!(process.env.WSL_DISTRO_NAME || process.env.WSL_INTEROP);
+    return (
+      process.platform === "linux" && !!(process.env.WSL_DISTRO_NAME || process.env.WSL_INTEROP)
+    );
   }
 
   async ensureBrowser(
@@ -103,9 +110,13 @@ export class BrowserManager {
     options: {
       headless?: boolean;
       ignoreHTTPSErrors?: boolean;
+      deadline?: number;
+      signal?: AbortSignal;
     } = {}
   ): Promise<BrowserEntry> {
+    this.throwIfOperationAborted(options);
     await this.ensureBaseDir();
+    this.throwIfOperationAborted(options);
     const existing = this.browsers.get(name);
     const requestedHeadless = options.headless ?? existing?.headless ?? false;
     const requestedIgnoreHTTPSErrors =
@@ -126,17 +137,19 @@ export class BrowserManager {
       await this.stopBrowser(name);
     }
 
-    return this.launchBrowser(name, requestedHeadless, requestedIgnoreHTTPSErrors);
+    return this.launchBrowser(name, requestedHeadless, requestedIgnoreHTTPSErrors, options);
   }
 
   async autoConnect(
     name: string,
-    options: {
+    options: BrowserOperationOptions & {
       port?: number;
       profilePath?: string;
     } = {}
   ): Promise<BrowserEntry> {
+    this.throwIfOperationAborted(options);
     await this.ensureBaseDir();
+    this.throwIfOperationAborted(options);
 
     const existing = this.browsers.get(name);
     if (existing?.type === "connected" && existing.browser.isConnected()) {
@@ -158,20 +171,23 @@ export class BrowserManager {
       attemptedEndpoints.add(endpoint);
 
       try {
-        return await this.openConnectedBrowser(name, endpoint);
+        return await this.openConnectedBrowser(name, endpoint, options);
       } catch (error) {
+        this.throwIfOperationAborted(options);
         lastError = error;
         return null;
       }
     };
 
     const devToolsEndpoint = await this.readDevToolsActivePort(undefined, options.profilePath);
+    this.throwIfOperationAborted(options);
     const devToolsBrowser = await tryEndpoint(devToolsEndpoint);
     if (devToolsBrowser) {
       return devToolsBrowser;
     }
 
     for (const endpoint of await this.discoverAgentBrowserEndpoints()) {
+      this.throwIfOperationAborted(options);
       const connectedBrowser = await tryEndpoint(endpoint);
       if (connectedBrowser) {
         return connectedBrowser;
@@ -180,7 +196,9 @@ export class BrowserManager {
 
     const candidatePorts = options.port !== undefined ? [options.port] : DISCOVERY_PORTS;
     for (const port of candidatePorts) {
+      this.throwIfOperationAborted(options);
       const endpoint = await this.probePort(port);
+      this.throwIfOperationAborted(options);
       const connectedBrowser = await tryEndpoint(endpoint);
       if (connectedBrowser) {
         return connectedBrowser;
@@ -193,7 +211,7 @@ export class BrowserManager {
   async connectBrowser(
     name: string,
     endpoint: string,
-    options: {
+    options: BrowserOperationOptions & {
       port?: number;
       profilePath?: string;
     } = {}
@@ -202,8 +220,11 @@ export class BrowserManager {
       return this.autoConnect(name, options);
     }
 
+    this.throwIfOperationAborted(options);
     await this.ensureBaseDir();
+    this.throwIfOperationAborted(options);
     const resolvedEndpoint = await this.resolveEndpoint(endpoint, options);
+    this.throwIfOperationAborted(options);
 
     const existing = this.browsers.get(name);
     if (existing) {
@@ -219,7 +240,7 @@ export class BrowserManager {
       await this.stopBrowser(name);
     }
 
-    return this.openConnectedBrowser(name, resolvedEndpoint);
+    return this.openConnectedBrowser(name, resolvedEndpoint, options);
   }
 
   getBrowser(name: string): BrowserEntry | undefined {
@@ -266,34 +287,36 @@ export class BrowserManager {
 
     this.pruneClosedPages(entry);
     const namesByPage = this.getNamedPagesByPage(entry);
-    const summaries: BrowserPageSummary[] = [];
+    const summaries = await Promise.all(
+      this.getContextPages(entry).map(
+        async ({ context, page }): Promise<BrowserPageSummary | null> => {
+          const id = await this.getPageTargetId(context, page);
+          if (!id) {
+            return null;
+          }
 
-    for (const { context, page } of this.getContextPages(entry)) {
-      const id = await this.getPageTargetId(context, page);
-      if (!id) {
-        continue;
-      }
+          let title = "";
+          try {
+            title = await this.getPageTitle(page);
+          } catch (error) {
+            if (page.isClosed()) {
+              return null;
+            }
 
-      let title = "";
-      try {
-        title = await this.getPageTitle(page);
-      } catch (error) {
-        if (page.isClosed()) {
-          continue;
+            throw error;
+          }
+
+          return {
+            id,
+            url: page.url(),
+            title,
+            name: namesByPage.get(page) ?? null,
+          };
         }
+      )
+    );
 
-        throw error;
-      }
-
-      summaries.push({
-        id,
-        url: page.url(),
-        title,
-        name: namesByPage.get(page) ?? null,
-      });
-    }
-
-    return summaries;
+    return summaries.filter((summary): summary is BrowserPageSummary => summary !== null);
   }
 
   async closePage(browserName: string, pageName: string): Promise<void> {
@@ -381,11 +404,13 @@ export class BrowserManager {
   private async launchBrowser(
     name: string,
     headless: boolean,
-    ignoreHTTPSErrors: boolean
+    ignoreHTTPSErrors: boolean,
+    operation: BrowserOperationOptions = {}
   ): Promise<BrowserEntry> {
     const profileDir = path.join(this.baseDir, name, "chromium-profile");
     await this.dependencies.mkdir(profileDir, { recursive: true });
 
+    const timeout = this.remainingOperationTimeout(operation);
     const context = await this.dependencies.launchPersistentContext(profileDir, {
       headless,
       viewport: headless ? undefined : null,
@@ -393,8 +418,19 @@ export class BrowserManager {
       handleSIGINT: false,
       handleSIGTERM: false,
       handleSIGHUP: false,
+      ...(timeout === undefined ? {} : { timeout }),
     });
     const browser = context.browser();
+
+    try {
+      this.throwIfOperationAborted(operation);
+    } catch (error) {
+      await context.close().catch(() => undefined);
+      if (browser?.isConnected()) {
+        await browser.close().catch(() => undefined);
+      }
+      throw error;
+    }
 
     if (!browser) {
       await context.close();
@@ -417,8 +453,22 @@ export class BrowserManager {
     return entry;
   }
 
-  private async openConnectedBrowser(name: string, endpoint: string): Promise<BrowserEntry> {
-    const browser = await this.dependencies.connectOverCDP(endpoint);
+  private async openConnectedBrowser(
+    name: string,
+    endpoint: string,
+    operation: BrowserOperationOptions = {}
+  ): Promise<BrowserEntry> {
+    const timeout = this.remainingOperationTimeout(operation);
+    const browser =
+      timeout === undefined
+        ? await this.dependencies.connectOverCDP(endpoint)
+        : await this.dependencies.connectOverCDP(endpoint, { timeout });
+    try {
+      this.throwIfOperationAborted(operation);
+    } catch (error) {
+      await browser.close().catch(() => undefined);
+      throw error;
+    }
     const contexts = browser.contexts();
 
     // Enumerate existing tabs for connected browsers, but leave them unnamed so getPage(name)
@@ -458,6 +508,25 @@ export class BrowserManager {
         this.browsers.delete(entry.name);
       }
     });
+  }
+
+  private throwIfOperationAborted(options: BrowserOperationOptions): void {
+    if (options.signal?.aborted) {
+      throw options.signal.reason instanceof Error
+        ? options.signal.reason
+        : new Error(String(options.signal.reason));
+    }
+    if (options.deadline !== undefined && Date.now() >= options.deadline) {
+      throw new Error("Browser setup deadline exceeded");
+    }
+  }
+
+  private remainingOperationTimeout(options: BrowserOperationOptions): number | undefined {
+    this.throwIfOperationAborted(options);
+    if (options.deadline === undefined) {
+      return undefined;
+    }
+    return Math.max(1, options.deadline - Date.now());
   }
 
   private async closeLaunchedBrowser(entry: BrowserEntry): Promise<void> {
@@ -581,7 +650,9 @@ export class BrowserManager {
           path.join(homeDir, ".config", "google-chrome-beta", "DevToolsActivePort"),
           path.join(homeDir, ".config", "google-chrome-unstable", "DevToolsActivePort"),
           path.join(homeDir, ".config", "BraveSoftware", "Brave-Browser", "DevToolsActivePort"),
-          ...(this.dependencies.isWsl ? await this.getWslWindowsDevToolsActivePortCandidates() : []),
+          ...(this.dependencies.isWsl
+            ? await this.getWslWindowsDevToolsActivePortCandidates()
+            : []),
         ]);
       case "win32":
         return this.dedupePaths([
@@ -667,7 +738,15 @@ export class BrowserManager {
 
       const userDir = path.join(windowsUsersRoot, entry.name);
       candidates.push(
-        path.join(userDir, "AppData", "Local", "Google", "Chrome", "User Data", "DevToolsActivePort"),
+        path.join(
+          userDir,
+          "AppData",
+          "Local",
+          "Google",
+          "Chrome",
+          "User Data",
+          "DevToolsActivePort"
+        ),
         path.join(
           userDir,
           "AppData",
@@ -756,8 +835,9 @@ export class BrowserManager {
   ): Promise<string | null> {
     let token: string;
     try {
-      token = (await this.dependencies.readFile(path.join(socketDir, `${session}.token`), "utf8"))
-        .trim();
+      token = (
+        await this.dependencies.readFile(path.join(socketDir, `${session}.token`), "utf8")
+      ).trim();
     } catch (error) {
       if (isIgnorableFileError(error)) {
         return null;
@@ -773,7 +853,10 @@ export class BrowserManager {
     if (this.dependencies.platform === "win32") {
       let portContents: string;
       try {
-        portContents = await this.dependencies.readFile(path.join(socketDir, `${session}.port`), "utf8");
+        portContents = await this.dependencies.readFile(
+          path.join(socketDir, `${session}.port`),
+          "utf8"
+        );
       } catch (error) {
         if (isIgnorableFileError(error)) {
           return null;

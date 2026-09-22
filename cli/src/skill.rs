@@ -240,32 +240,38 @@ mod tests {
 
     #[test]
     fn explicit_claude_flag_skips_prompt() {
-        let selection = resolve_install_target_selection(true, false, true);
+        let selection = resolve_install_target_selection(true, false, false, true);
         assert_selected(selection, &[0]);
     }
 
     #[test]
     fn explicit_agents_flag_skips_prompt() {
-        let selection = resolve_install_target_selection(false, true, true);
+        let selection = resolve_install_target_selection(false, true, false, true);
         assert_selected(selection, &[1]);
     }
 
     #[test]
-    fn explicit_flags_can_select_both_targets() {
-        let selection = resolve_install_target_selection(true, true, false);
-        assert_selected(selection, &[0, 1]);
+    fn explicit_codex_flag_skips_prompt() {
+        let selection = resolve_install_target_selection(false, false, true, true);
+        assert_selected(selection, &[2]);
+    }
+
+    #[test]
+    fn explicit_flags_can_select_all_targets() {
+        let selection = resolve_install_target_selection(true, true, true, false);
+        assert_selected(selection, &[0, 1, 2]);
     }
 
     #[test]
     fn interactive_terminal_without_flags_prompts() {
-        let selection = resolve_install_target_selection(false, false, true);
+        let selection = resolve_install_target_selection(false, false, false, true);
         assert!(matches!(selection, InstallTargetSelection::Prompt));
     }
 
     #[test]
-    fn non_interactive_without_flags_defaults_to_both_targets() {
-        let selection = resolve_install_target_selection(false, false, false);
-        assert_selected(selection, &[0, 1]);
+    fn non_interactive_without_flags_defaults_to_all_targets() {
+        let selection = resolve_install_target_selection(false, false, false, false);
+        assert_selected(selection, &[0, 1, 2]);
     }
 
     fn assert_selected(selection: InstallTargetSelection, expected: &[usize]) {

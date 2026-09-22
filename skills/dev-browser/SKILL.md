@@ -93,3 +93,5 @@ EOF
 - Use persistent named pages to avoid re-navigation across turns
 - Use `--connect` only when the user wants to work inside an existing Chrome session
 - For command details and API reference, run `dev-browser --help`
+
+Named daemon-launched browsers persist by default. For unattended work, `--idle-timeout 5m` closes each launched browser after inactivity while preserving its profile and login state. The setting never closes Chrome attached with `--connect`; use `--idle-timeout 0` to disable configured cleanup.
