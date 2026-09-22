@@ -1,16 +1,21 @@
-# Workstream custody at policy adoption
+# Fork workstreams and custody
 
-Snapshot: 2026-09-22. Refresh Git refs and worktree status before relying on this.
+Reconciled: 2026-09-22. Refresh origin and inspect worktrees before acting.
+Git refs and GitHub review state outrank this dated projection.
 
-| Branch | Role | Evidence | Custody / disposition |
+| Branch | Role | Published checkpoint / tracking | Disposition |
 | --- | --- | --- | --- |
-| main | v0.2.x maintenance | 6a6f9d6 before adoption; docs/maintenance-v0.2.9.md and docs/wsl-browser-default.md | Contains unpublished local maintenance; preserve and reconcile before remote publication |
-| eval/v1-rc3 | Completed v1 evaluation | d86af0c; branch-local docs/v1-evaluation-report.md | Local retained worktree; not integration-ready, not approved for cleanup or migration |
-| chore/repo-policy-adoption | Policy bootstrap | Plan 0001 | Local topic, then local fast-forward; retain worktree until remote custody is established |
+| main | Local v0.2.x maintenance plus bootstrap policy | Local 3d3b071, now tracks origin/main; origin/main remains e3a7174 | Local-ahead contents are preserved in review branches; do not push main around review or reset it |
+| maintenance/v0.2.9-wsl | Maintenance integration | origin/maintenance/v0.2.9-wsl at 6a6f9d6; [issue #1](https://github.com/CochranResearchGroup/dev-browser/issues/1), [draft PR #3](https://github.com/CochranResearchGroup/dev-browser/pull/3) | Await CI and approving maintainer review before authorized merge |
+| chore/repo-policy-adoption | Policy adoption and publication reconciliation | origin/chore/repo-policy-adoption; baseline 3d3b071 plus Plan 0002 receipt; [issue #2](https://github.com/CochranResearchGroup/dev-browser/issues/2), [draft PR #4](https://github.com/CochranResearchGroup/dev-browser/pull/4) | Depends on #3; both PRs target main, and #4's diff narrows after #3 merges |
+| eval/v1-rc3 | Completed v1 evaluation | origin/eval/v1-rc3 at d86af0c; branch-local docs/v1-evaluation-report.md | Published custody verified; retained worktree, no migration or cleanup approval |
 
-The v1 evaluation is closed research, not an active implementation lane. Defer
-the shared active-lane-coordination catalog until concurrent implementation
-lanes are opened; adopt it before such parallel execution. This inventory does
-not claim the library's machine-audited catalog contract. No roadmap/runbook
-is needed for this bounded CLI adoption. New substantive plans live in
-`docs/dev/plans/`; dated feedback lives in `docs/dev/notes/`.
+Issues are enabled on the organization fork. Existing .codex remains untouched.
+No worktree/ref was deleted. Publication is not integration: after approved
+merges, fetch and fast-forward local main only if ancestry allows it, then
+reconcile issue/plan state and cleanup against actual target ancestry.
+
+These are review/evaluation custody tracks, not simultaneous implementation
+lanes. Adopt the shared active-lane-coordination catalog before opening new
+concurrent implementation lanes; no machine-audited lane catalog is claimed
+here. Plans live in docs/dev/plans and dated feedback in docs/dev/notes.
