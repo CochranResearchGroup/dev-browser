@@ -1,0 +1,14 @@
+{
+  "groupId": "dev_browser_main",
+  "discoveryHealth": "healthy",
+  "initialFactCount": 0,
+  "preflightMatches": 0,
+  "jobId": "14dee3bb-960b-43d6-a535-ceaaff616aa8",
+  "status": "failed",
+  "error": "Processing failed with TimeoutError",
+  "episodeUuid": null,
+  "postFailureExactMatches": 0,
+  "persistenceVerified": false,
+  "retryAttempted": false,
+  "followUp": "Recheck job and exact metadata before any authorized retry; source artifact remains canonical."
+}

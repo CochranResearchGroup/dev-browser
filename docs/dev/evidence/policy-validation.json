@@ -1,0 +1,13 @@
+{
+  "bundleVersion": "0.1.22",
+  "sourceCommit": "12a7f9fef466522e99be44d980c44a4ff056f540",
+  "copiedFilesVerified": 100,
+  "policiesWired": 16,
+  "fullPlanningAudit": "pass",
+  "activePlanningAudit": "pass",
+  "selectorValidationProblems": [],
+  "templateWorkflowYaml": "pass (PyYAML 6.0.2)",
+  "diffCheck": "pass",
+  "runtimeTests": "not run; policy/tooling-only change",
+  "githubEnforcement": "not yet published or configured"
+}
