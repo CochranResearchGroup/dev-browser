@@ -1,6 +1,6 @@
 # Plan 0003: Review and merge fork maintenance and policies
 
-State: OPEN
+State: CLOSED
 
 ## Current State
 
@@ -8,7 +8,10 @@ Operator requested review/merge of PRs #3 and #4. Review identified six Windows
 fixture failures at the original maintenance head. Commit d26ad5c replaces
 host-specific path assumptions and uses the existing native Windows TCP
 transport in the agent-browser test. TypeScript and all 41 discovery tests
-pass locally. Fresh Linux/Windows CI and ordered merges remain.
+pass locally. The policy branch CI passed Linux/Windows daemon and Rust checks,
+formatting, bundling, and policy audit at e12d24f. This closeout becomes
+effective on integration through PR #4 after PR #3; current GitHub checks and
+merge ancestry remain the authority, not this prospective closure commit.
 
 ## Scope
 
@@ -37,7 +40,7 @@ Blocking: six failures in auto-connect.test.ts on Windows (PR #3 CI run
 35739438821, also reproduced in #4). Fixtures compared POSIX literals with
 native paths; custom profile fixtures omitted path resolution; Unix socket
 setup failed on Windows. Fixed without runtime changes or skipped tests.
-Validation: tsc --noEmit and focused Vitest (41/41) on Linux; Windows CI pending.
+Validation: tsc --noEmit and focused Vitest (41/41) on Linux; Windows CI passed in PR #4 run 35740904433.
 
 No additional blocking findings in reviewed fork configuration, protocol
 plumbing, permissions, policy wiring, or PR dependency arrangement. Existing

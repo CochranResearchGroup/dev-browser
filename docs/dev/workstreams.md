@@ -19,3 +19,13 @@ These are review/evaluation custody tracks, not simultaneous implementation
 lanes. Adopt the shared active-lane-coordination catalog before opening new
 concurrent implementation lanes; no machine-audited lane catalog is claimed
 here. Plans live in docs/dev/plans and dated feedback in docs/dev/notes.
+
+## Ordered integration closeout
+
+Plan 0003 records the operator-requested review/merge and Windows fixture fix
+`d26ad5c`. On integration of this closeout through PR #4, #3 is its required
+merged predecessor and the policy adoption is integrated. Use the PR merge
+commits and target ancestry for exact current SHAs rather than the earlier
+publication snapshot above. Close issues #1/#2 only after their respective
+merge is verified. Retain review and evaluation refs/worktrees; no cleanup
+or runtime reinstall is included. Local main then fast-forwards to origin/main.
