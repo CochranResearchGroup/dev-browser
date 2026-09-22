@@ -100,7 +100,7 @@ Windows npm installs download the native `dev-browser-windows-x64.exe` release a
 
 When `dev-browser` runs inside WSL:
 
-- daemon-managed launch mode still uses Playwright's bundled Chromium profile under `~/.dev-browser`
+- daemon-managed launch mode uses a persistent profile under `~/.dev-browser`; the browser executable can be configured as described below
 - `--connect` can auto-discover Chrome or Brave instances started on the Windows side when remote debugging is enabled
 - if auto-discovery still misses your browser, point directly at the Windows profile root with `--profile-path "/mnt/c/Users/<WindowsUser>/AppData/Local/Google/Chrome/User Data"`
 
@@ -109,6 +109,24 @@ Example:
 ```bash
 dev-browser --connect --profile-path "/mnt/c/Users/<WindowsUser>/AppData/Local/Google/Chrome/User Data"
 ```
+
+### Default browser executable
+
+To launch a custom Chromium build, such as native Linux `chromium-stealthcdp`
+inside WSL, set its absolute executable path in `~/.dev-browser/config.json`:
+
+```json
+{
+  "executablePath": "/absolute/path/to/chromium-stealthcdp/chrome-linux/chrome"
+}
+```
+
+This setting applies to both headed and headless daemon-managed browsers.
+`dev-browser status` and `dev-browser browsers` report the configured executable
+for launched browsers. Existing browser instances keep their executable until
+closed; new launches read the current configuration. A missing or invalid custom
+executable produces an error. Omit `executablePath` to use Playwright's bundled
+Chromium. `--connect` continues to attach to the requested external browser.
 
 ### Using with AI agents
 

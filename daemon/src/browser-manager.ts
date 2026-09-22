@@ -11,6 +11,7 @@ export interface BrowserEntry {
   context: BrowserContext;
   pages: Map<string, Page>;
   profileDir?: string;
+  executablePath?: string;
   endpoint?: string;
   headless: boolean;
   ignoreHTTPSErrors: boolean;
@@ -21,6 +22,7 @@ interface BrowserSummary {
   type: BrowserEntry["type"];
   status: "running" | "connected" | "disconnected";
   pages: string[];
+  executablePath?: string;
 }
 
 interface BrowserPageSummary {
@@ -354,6 +356,7 @@ export class BrowserManager {
           type: entry.type,
           status,
           pages: this.listNamedPages(entry),
+          ...(entry.executablePath ? { executablePath: entry.executablePath } : {}),
         };
       })
       .sort((left, right) => left.name.localeCompare(right.name));
@@ -410,8 +413,10 @@ export class BrowserManager {
     const profileDir = path.join(this.baseDir, name, "chromium-profile");
     await this.dependencies.mkdir(profileDir, { recursive: true });
 
+    const executablePath = await this.configuredExecutablePath();
     const timeout = this.remainingOperationTimeout(operation);
     const context = await this.dependencies.launchPersistentContext(profileDir, {
+      ...(executablePath === undefined ? {} : { executablePath }),
       headless,
       viewport: headless ? undefined : null,
       ignoreHTTPSErrors,
@@ -444,6 +449,7 @@ export class BrowserManager {
       context,
       pages: new Map(),
       profileDir,
+      ...(executablePath === undefined ? {} : { executablePath }),
       headless,
       ignoreHTTPSErrors,
     };
@@ -451,6 +457,38 @@ export class BrowserManager {
     this.attachBrowserLifecycle(entry);
     this.browsers.set(name, entry);
     return entry;
+  }
+
+  private async configuredExecutablePath(): Promise<string | undefined> {
+    const configPath = path.join(this.dependencies.homedir(), ".dev-browser", "config.json");
+    let contents: string;
+    try {
+      contents = await this.dependencies.readFile(configPath, "utf8");
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+        return undefined;
+      }
+      throw error;
+    }
+
+    let config: unknown;
+    try {
+      config = JSON.parse(contents);
+    } catch {
+      throw new Error(`Invalid JSON in ${configPath}`);
+    }
+    if (!config || typeof config !== "object" || Array.isArray(config)) {
+      throw new Error(`Invalid user config at ${configPath}: expected an object`);
+    }
+    const executablePath = (config as { executablePath?: unknown }).executablePath;
+    if (executablePath === undefined) {
+      return undefined;
+    }
+    const platformPath = this.dependencies.platform === "win32" ? path.win32 : path.posix;
+    if (typeof executablePath !== "string" || !platformPath.isAbsolute(executablePath)) {
+      throw new Error(`Invalid executablePath in ${configPath}: expected an absolute path`);
+    }
+    return executablePath;
   }
 
   private async openConnectedBrowser(

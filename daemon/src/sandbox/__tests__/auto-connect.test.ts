@@ -210,6 +210,94 @@ afterEach(() => {
 });
 
 describe("BrowserManager auto-connect", () => {
+  it.each([false, true])(
+    "launches the configured executable with headless=%s",
+    async (headless) => {
+      const context = new MockContext();
+      context.setBrowser(new MockBrowser([context]));
+      const launchPersistentContext = vi.fn(async () => context);
+      const executablePath = "/opt/chromium-stealthcdp/chrome";
+      const readFile = vi.fn(async (filePath: string) => {
+        expect(filePath).toBe("/Users/tester/.dev-browser/config.json");
+        return JSON.stringify({ executablePath, idleTimeout: "5m" });
+      });
+      const { manager } = createManager({
+        platform: "linux",
+        isWsl: true,
+        readFile,
+        launchPersistentContext,
+      });
+      await manager.ensureBrowser("stealth", { headless });
+      expect(launchPersistentContext).toHaveBeenCalledWith(
+        expect.stringContaining("stealth/chromium-profile"),
+        expect.objectContaining({ executablePath, headless })
+      );
+      expect(manager.listBrowsers()).toEqual([
+        expect.objectContaining({ name: "stealth", executablePath }),
+      ]);
+      await manager.stopAll();
+    }
+  );
+
+  it.each(["{}", '{"idleTimeout":"5m"}'])(
+    "keeps bundled Chromium for config %s",
+    async (contents) => {
+      const context = new MockContext();
+      context.setBrowser(new MockBrowser([context]));
+      const launchPersistentContext = vi.fn(async () => context);
+      const { manager } = createManager({
+        readFile: vi.fn(async () => contents),
+        launchPersistentContext,
+      });
+      await manager.ensureBrowser("bundled");
+      expect(launchPersistentContext).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.not.objectContaining({ executablePath: expect.anything() })
+      );
+      await manager.stopAll();
+    }
+  );
+
+  it.each([
+    "invalid-json",
+    "null",
+    "[]",
+    '{"executablePath":""}',
+    '{"executablePath":"relative/chrome"}',
+    '{"executablePath":42}',
+  ])("rejects invalid browser configuration without launching: %s", async (contents) => {
+    const { manager, launchPersistentContext } = createManager({
+      readFile: vi.fn(async () => contents),
+    });
+    await expect(manager.ensureBrowser("invalid")).rejects.toThrow("Invalid");
+    expect(launchPersistentContext).not.toHaveBeenCalled();
+  });
+
+  it("does not silently use bundled Chromium when the configured executable fails", async () => {
+    const launchPersistentContext = vi.fn(async () => {
+      throw new Error("executable does not exist");
+    });
+    const { manager } = createManager({
+      readFile: vi.fn(async () => '{"executablePath":"/missing/chrome"}'),
+      launchPersistentContext,
+    });
+    await expect(manager.ensureBrowser("missing")).rejects.toThrow("executable does not exist");
+    expect(launchPersistentContext).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not read the launch executable configuration when attaching over CDP", async () => {
+    const readFile = vi.fn(async () => {
+      throw new Error("must not read launch config");
+    });
+    const { manager } = createManager({
+      readFile,
+      connectOverCDP: vi.fn(async () => new MockBrowser([new MockContext()])),
+    });
+    await manager.connectBrowser("external", "ws://127.0.0.1:9333/devtools/browser/external");
+    expect(readFile).not.toHaveBeenCalled();
+    await manager.stopAll();
+  });
+
   it("passes ignoreHTTPSErrors to launched browsers and only relaunches when it changes", async () => {
     const launchPersistentContext = vi.fn(async () => {
       const context = new MockContext();
