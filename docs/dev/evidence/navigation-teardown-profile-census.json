@@ -1,0 +1,38 @@
+{
+  "command": "vitest run cua.test.ts playwright-api.test.ts --maxWorkers 1",
+  "exitCode": 0,
+  "elapsedSeconds": 18.16,
+  "sampledAggregatePeakRssBytes": 3289092096,
+  "sampleIntervalSeconds": 0.2,
+  "observedProcessCount": 125,
+  "ownedBrowserProfiles": [
+    "--user-data-dir=/tmp/dev-browser-cua-OBQtly/browsers/cua-navigation/chromium-profile",
+    "--user-data-dir=/tmp/dev-browser-playwright-api-1aSlTH/browsers/playwright-form-waiting/chromium-profile",
+    "--user-data-dir=/tmp/dev-browser-playwright-api-1aSlTH/browsers/playwright-locators/chromium-profile"
+  ],
+  "remainingOwnedLivePids": [],
+  "remainingOwnedProfilePids": [],
+  "runtimeBefore": {
+    "config.json": "99770ab7efafceb493324ed17ba2d2b7668e5692cf977651a5b112f688692d6c",
+    "daemon.mjs": "a824ab2457b7319acb39d49ed4f75aef20bbf62a9a850e10b2d40a79ac75b395",
+    "sandbox-client.js": "ebd093d662faa8883b640860e60071b8f4c6f37f03ee3ebbeca572194560a7c8",
+    "daemon.pid": "05748197a73be2b6924a9414b63ac72553d671f25e0b8e0568a8d4bc56870a39"
+  },
+  "runtimeAfter": {
+    "config.json": "99770ab7efafceb493324ed17ba2d2b7668e5692cf977651a5b112f688692d6c",
+    "daemon.mjs": "a824ab2457b7319acb39d49ed4f75aef20bbf62a9a850e10b2d40a79ac75b395",
+    "sandbox-client.js": "ebd093d662faa8883b640860e60071b8f4c6f37f03ee3ebbeca572194560a7c8",
+    "daemon.pid": "05748197a73be2b6924a9414b63ac72553d671f25e0b8e0568a8d4bc56870a39"
+  },
+  "existingDaemonPid": 77326,
+  "existingDaemonSameProcess": true,
+  "browser": "configured chromium-stealthcdp 150; config unchanged",
+  "limits": {
+    "workers": 1,
+    "wallSeconds": 900,
+    "targetRssBytes": 8589934592
+  },
+  "freshAllAffectedProfilePrefixPids": [],
+  "testsPassed": 32,
+  "testFilesPassed": 2
+}
