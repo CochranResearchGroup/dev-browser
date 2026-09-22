@@ -1,0 +1,56 @@
+[
+  {
+    "id": "dev-browser@1.0.0-rc.3",
+    "name": "dev-browser",
+    "version": "1.0.0-rc.3",
+    "size": 21092,
+    "unpackedSize": 54354,
+    "shasum": "e20c1ea371fddb5bdeb619f77c08926655ac4980",
+    "integrity": "sha512-EgMyADfWEshzcxJlGhitOgNHMyAv7qlESMHh6ZS5fykQxKh31C8Pw06F+W1UkotWedSptIPC9jlbCVgaI2oI8Q==",
+    "filename": "dev-browser-1.0.0-rc.3.tgz",
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 1068,
+        "mode": 384
+      },
+      {
+        "path": "README.md",
+        "size": 8333,
+        "mode": 384
+      },
+      {
+        "path": "bin/dev-browser.cjs",
+        "size": 3410,
+        "mode": 448
+      },
+      {
+        "path": "docs/help.md",
+        "size": 29674,
+        "mode": 384
+      },
+      {
+        "path": "package.json",
+        "size": 1308,
+        "mode": 384
+      },
+      {
+        "path": "scripts/download-binary.cjs",
+        "size": 7246,
+        "mode": 384
+      },
+      {
+        "path": "scripts/postinstall.cjs",
+        "size": 1495,
+        "mode": 448
+      },
+      {
+        "path": "skills/dev-browser/SKILL.md",
+        "size": 1820,
+        "mode": 384
+      }
+    ],
+    "entryCount": 8,
+    "bundled": []
+  }
+]

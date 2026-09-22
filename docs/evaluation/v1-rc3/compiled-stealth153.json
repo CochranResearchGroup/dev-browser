@@ -1,0 +1,102 @@
+{
+  "startedAt": "2026-09-22T02:27:03.842Z",
+  "finishedAt": "2026-09-22T02:27:45.933Z",
+  "binary": "/home/ecochran76/workspace.local/dev-browser-v1-eval/dist/dev-browser",
+  "chrome": "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/153.0.8003.0+stealthcdp.86aec912997e/chrome-linux/chrome",
+  "home": "/tmp/dev-browser-v1-accept-67TCXL",
+  "checks": [
+    {
+      "name": "compiled version",
+      "passed": true,
+      "ms": 21,
+      "detail": "dev-browser 1.0.0-rc.3"
+    },
+    {
+      "name": "headless native interaction and browser identity",
+      "passed": false,
+      "ms": 6384,
+      "error": "AssertionError [ERR_ASSERTION]: {\"code\":1,\"stdout\":\"{\\\"type\\\":\\\"error\\\",\\\"kind\\\":\\\"script\\\",\\\"name\\\":\\\"TimeoutError\\\",\\\"message\\\":\\\"Timed out after waiting 5000ms (cause: Locator.click)\\\",\\\"pages\\\":[{\\\"id\\\":\\\"549B3F641F8AA869140FD32A4296C95E\\\",\\\"name\\\":\\\"form\\\",\\\"url\\\":\\\"http://127.0.0.1:36889/\\\",\\\"title\\\":\\\"V1 fixture\\\"}]}\\n{\\\"type\\\":\\\"done\\\",\\\"exitCode\\\":1,\\\"durationMs\\\":6268}\\n\",\"stderr\":\"\"}\n\n1 !== 0\n"
+    },
+    {
+      "name": "headed native interaction and browser identity",
+      "passed": true,
+      "ms": 61,
+      "detail": {
+        "title": "v1-stealth-ok",
+        "webdriver": false,
+        "identity": {
+          "protocolVersion": "1.3",
+          "product": "Chrome/153.0.8003.0",
+          "revision": "@0000000000000000000000000000000000000000",
+          "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+          "jsVersion": "15.3.54"
+        },
+        "executable": "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/153.0.8003.0+stealthcdp.86aec912997e/chrome-linux/chrome",
+        "screenshotBytes": 13030
+      }
+    },
+    {
+      "name": "named page persists between compiled CLI calls",
+      "passed": false,
+      "ms": 37,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n+   title: 'V1 fixture',\n-   title: 'v1-stealth-ok',\n    value: 'v1-stealth-ok'\n  }\n"
+    },
+    {
+      "name": "snapshot refs act across a cross-origin iframe",
+      "passed": false,
+      "ms": 10029,
+      "error": "AssertionError [ERR_ASSERTION]: {\"code\":124,\"stdout\":\"{\\\"type\\\":\\\"error\\\",\\\"kind\\\":\\\"timeout\\\",\\\"name\\\":\\\"TimeoutError\\\",\\\"message\\\":\\\"Timed out after 10s (deadline)\\\",\\\"pages\\\":[{\\\"id\\\":\\\"450AD3EE4D6A506234E9A8530313CD10\\\",\\\"name\\\":\\\"frame\\\",\\\"url\\\":\\\"http://127.0.0.1:36889/\\\",\\\"title\\\":\\\"V1 fixture\\\"}]}\\n{\\\"type\\\":\\\"done\\\",\\\"exitCode\\\":124,\\\"durationMs\\\":10004}\\n\",\"stderr\":\"\"}\n\n124 !== 0\n"
+    },
+    {
+      "name": "four concurrent scripts retain independent named pages",
+      "passed": false,
+      "ms": 10031,
+      "error": "AssertionError [ERR_ASSERTION]: {\"code\":124,\"stdout\":\"{\\\"type\\\":\\\"error\\\",\\\"kind\\\":\\\"timeout\\\",\\\"name\\\":\\\"TimeoutError\\\",\\\"message\\\":\\\"Timed out after 10s (deadline) while in page.fill(\\\\\\\"#name\\\\\\\")\\\",\\\"pages\\\":[{\\\"id\\\":\\\"8644481A8E0E92684695916969566610\\\",\\\"name\\\":\\\"parallel-0\\\",\\\"url\\\":\\\"http://127.0.0.1:36889/\\\",\\\"title\\\":\\\"V1 fixture\\\"}]}\\n{\\\"type\\\":\\\"done\\\",\\\"exitCode\\\":124,\\\"durationMs\\\":10004}\\n\",\"stderr\":\"\"}\n\n124 !== 0\n"
+    },
+    {
+      "name": "explicit CDP attachment preserves the external browser on stop",
+      "passed": false,
+      "ms": 6126,
+      "error": "AssertionError [ERR_ASSERTION]: {\"code\":1,\"stdout\":\"{\\\"type\\\":\\\"error\\\",\\\"kind\\\":\\\"script\\\",\\\"name\\\":\\\"TimeoutError\\\",\\\"message\\\":\\\"Timed out after waiting 5000ms (cause: Locator.click)\\\",\\\"pages\\\":[{\\\"id\\\":\\\"F12D42139B733E7C8A08E3D071FFFEDC\\\",\\\"name\\\":\\\"external\\\",\\\"url\\\":\\\"http://127.0.0.1:36889/\\\",\\\"title\\\":\\\"V1 fixture\\\"}]}\\n{\\\"type\\\":\\\"done\\\",\\\"exitCode\\\":1,\\\"durationMs\\\":5237}\\n\",\"stderr\":\"\"}\n\n1 !== 0\n"
+    },
+    {
+      "name": "deadline exits 124 and next request succeeds",
+      "passed": true,
+      "ms": 1048,
+      "detail": {
+        "code": 124,
+        "error": "TimeoutError: Timed out after 1s (deadline)"
+      }
+    },
+    {
+      "name": "three immediate stop/start cycles",
+      "passed": true,
+      "ms": 2742,
+      "detail": [
+        45979,
+        46357,
+        46546
+      ]
+    },
+    {
+      "name": "compiled MCP initialize, tools and real browser action",
+      "passed": false,
+      "ms": 5267,
+      "error": "AssertionError [ERR_ASSERTION]: {\"jsonrpc\":\"2.0\",\"id\":3,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"TimeoutError: Timed out after waiting 5000ms (cause: Locator.click)\\n[page mcp] http://127.0.0.1:36889/ \\\"V1 fixture\\\"\\n(exit 1)\\n\"}],\"isError\":true}}\n\ntrue !== false\n"
+    },
+    {
+      "name": "evaluation runtime cleanup",
+      "passed": true,
+      "ms": 330,
+      "detail": {
+        "daemonPids": [
+          43129,
+          45979,
+          46357,
+          46546
+        ],
+        "remaining": []
+      }
+    }
+  ]
+}

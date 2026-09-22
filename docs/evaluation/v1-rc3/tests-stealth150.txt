@@ -1,0 +1,600 @@
+$ bun test --timeout 120000
+bun test v1.3.14 (0d9b296a)
+
+test/snapshot2.test.ts:
+(pass) name-from-content recurses into wrapping descendants (span/b/div/img/labelledby) [912.33ms]
+(pass) inline spans under a link/pointer ancestor do not become ref'd generic lines [116.50ms]
+(pass) contenteditable role=textbox shows its text as the value [184.35ms]
+(pass) interactive mode keeps alerts, live regions, status and dialog body text [126.81ms]
+(pass) frame keys stay stable per frame across snapshots; removed frames free no keys [376.38ms]
+(pass) [box=...] inside iframes is main-viewport relative (nested too) [356.11ms]
+(pass) tracked incremental: first = full, context lines per hunk, full on substantial change [198.33ms]
+(pass) diffLines: context line before each hunk and … between hunks [0.19ms]
+(pass) truncation hint is tailored to the mode; depth-cut nodes carry a […] marker [333.54ms]
+(pass) urls: false drops the /url lines [106.81ms]
+
+test/snapshot.test.ts:
+(pass) renders roles, names, states and refs on a form [914.79ms]
+(pass) refs work with page.$ / click / ref and are stable across snapshots [265.93ms]
+(pass) stale ref after navigation throws with 'stale' [244.83ms]
+(pass) interactive mode drops plain text but keeps the button [133.04ms]
+(pass) scope by ref and by selector [151.90ms]
+(pass) depth limits nesting [162.75ms]
+(pass) boxes appends [box=x,y,w,h] after the ref [185.76ms]
+(pass) maxChars truncates at a line boundary with the marker [262.92ms]
+(pass) track returns an incremental diff [140.64ms]
+(pass) diffLines produces +/- lines in order [0.21ms]
+(pass) available iframes are nested with document-scoped frame refs and clickable [308.12ms]
+(pass) cross-origin iframe (other port) is traversed and its refs are actionable [231.58ms]
+snapshot 286 elements, 9977 chars, 355 lines: host-to-host median 18.2 ms (min 16.0 ms), evaluate 15.9 ms
+(pass) ~200 element page snapshots in < 40 ms host-to-host [295.90ms]
+(pass) waitForSelector('ref/eN') and locator('ref/eN').click() work [251.84ms]
+
+test/wait-for-load.test.ts:
+static: {
+  ready: true,
+  readyState: "complete",
+  pending: 0,
+  ms: 227,
+}
+(pass) page.waitForLoad > static page -> ready quickly [1131.05ms]
+fetch-then-append: {
+  ready: true,
+  readyState: "complete",
+  pending: 0,
+  ms: 957,
+}
+(pass) page.waitForLoad > fetch /slow then append DOM -> ready only after settle [1094.61ms]
+long-poll: {
+  ready: true,
+  readyState: "complete",
+  pending: 0,
+  ms: 2028,
+}
+(pass) page.waitForLoad > never-ending stream/long-poll -> ignored once older than 2 s [2160.23ms]
+mutate-forever: {
+  ready: false,
+  readyState: "complete",
+  pending: 0,
+  ms: 1003,
+}
+(pass) page.waitForLoad > DOM mutating forever -> ready:false at timeout [1135.31ms]
+mid-navigation: {
+  ready: true,
+  readyState: "complete",
+  pending: 0,
+  ms: 934,
+}
+(pass) page.waitForLoad > called mid-navigation -> does not throw [1049.17ms]
+default-timeout: {
+  ready: false,
+  readyState: "complete",
+  pending: 0,
+  ms: 3002,
+}
+(pass) page.waitForLoad > default timeout is 3000 ms [3117.88ms]
+
+test/snapshot3.test.ts:
+(pass) clickable generic keeps its ref under presentation / pointer-events:none / display:contents pointer ancestors [894.01ms]
+(pass) accessible name includes CSS ::before/::after strings and svg <title> [111.90ms]
+(pass) [box=...] inside a padded iframe includes the iframe's border AND padding (nested too) [523.66ms]
+(pass) reinstalling the in-page script never reuses ref ids already handed out [140.71ms]
+(pass) name fallbacks: placeholder, 'Choose File', fieldset/figure/table captions, aria-owns, descendant values [148.12ms]
+(pass) elementHandle.$('ref/eN') finds refs inside an open shadow root of a descendant [186.05ms]
+
+test/socket-source.test.ts:
+(pass) --connect unix:/path drives a browser over raw CDP lines [274.74ms]
+
+test/mcp.test.ts:
+(pass) initialize + tools/list [93.55ms]
+(pass) dev_browser_run returns text + image content, errors set isError [1161.63ms]
+
+test/bench-fixtures.test.ts:
+(pass) small fixture is ~3 KB with ~60 elements [882.01ms]
+(pass) serp fixture has ~1500 nodes, 300 links, 100 buttons [164.90ms]
+
+test/page-helpers.test.ts:
+(pass) background tabs > click and shot on a page that is not the front tab do not hang [3635.44ms]
+(pass) background tabs > front lock: bringToFront every time (no cache), ~1 ms per action; same-page actions join, other pages queue [408.60ms]
+(pass) background tabs > raf-polled waits (visible/hidden, waitForFunction) resolve on a page another page's actions pushed to the background [1129.12ms]
+(pass) background tabs > locator actions and ElementHandle.scrollIntoView on a background tab complete [617.95ms]
+(pass) page.shot() math > viewport shot at DPR 2 is 1:1 CSS pixels with scale 1 [205.67ms]
+(pass) page.shot() math > viewport shot at DPR 1 and maxEdge downscale [276.39ms]
+(pass) page.shot() math > fullPage and clip shots at DPR 2: size = CSS size * scale, scale = min(1, maxEdge/longest) [254.43ms]
+(pass) page.shot() math > type follows the name extension; png gets png bytes [331.88ms]
+(pass) page.fill() > date/time/number/color/range take the value verbatim; text-like inputs are typed [412.60ms]
+(pass) page.fill() > readonly/disabled/checkbox/select throw and keep their value; events fire for value-set inputs [271.55ms]
+(pass) ref selectors > stale/unknown ref via selector APIs gives the documented message with the original as cause [168.46ms]
+(pass) dialogs > an unhandled alert is auto-dismissed and reported; click does not hang [364.40ms]
+(pass) dialogs > a script's own dialog listener keeps control [281.25ms]
+(pass) run gate > guarded page: calls work, then throw RunAbortedError after close; listeners and timers are cleaned up [607.89ms]
+(pass) run gate > ElementHandle/JSHandle/Frame methods called from a run whose gate closed reject with RunAbortedError [312.58ms]
+(pass) run gate > locator actions called from a closed run reject without touching the page [167.18ms]
+(pass) run gate > BrowserContext results and their pages stay behind the run gate [224.43ms]
+(pass) run gate > gated results: browser/pages/mainFrame/popup keep proxy identity; setRequestInterception is undone at close [354.46ms]
+(pass) run gate > per-call overhead of the guard is small [84.23ms]
+(pass) result/console formatting of vm-realm values > Error, Map, Set, typed arrays from the script realm [1.28ms]
+(pass) result/console formatting of vm-realm values > strings and primitives carry data; undefined has no result [0.04ms]
+
+test/snapshot-frames.test.ts:
+(pass) frame refs survive same-document navigation but never alias after reload, renderer swap, parent reload, or detach [1488.30ms]
+(pass) a frame unavailable during host lookup is marked unavailable, not cross-origin [188.92ms]
+(pass) delayed frame ref queries and actions cannot cross a document boundary [350.34ms]
+(pass) a delayed snapshot stays bound to its captured execution context [291.30ms]
+
+test/e2e/lifecycle3.test.ts:
+(pass) --connect: the user's own tabs are not extended > a tab the user opens while dev-browser is attached keeps its dialogs and gets no load tracker [824.47ms]
+(pass) --connect: the user's own tabs are not extended > a popup opened from the user's tab is not extended either [916.87ms]
+(pass) --connect: the user's own tabs are not extended > dev-browser's own named page auto-dismisses dialogs (extended) [71.92ms]
+(pass) --connect: the user's own tabs are not extended > a popup opened from a dev-browser page is extended (opener is a touched page) [252.20ms]
+(pass) --connect: the user's own tabs are not extended > a user tab reached via getPage(targetId) is extended lazily, on first access [709.89ms]
+(pass) --connect: the user's own tabs are not extended > browser.newPage() from a script is extended; listPages shows the user's tabs without touching them [623.98ms]
+(pass) pages/status do not reset --idle-timeout > `dev-browser pages -b NAME` and `status` keep the previously chosen idle timeout; a run with a new one changes it [1341.46ms]
+(pass) pages/status do not reset --idle-timeout > `dev-browser pages -b NEW` on a not-yet-running browser launches it with the default idle timeout [1040.60ms]
+
+test/e2e/lifecycle2.test.ts:
+(pass) large requests (socket backpressure) > a 1 MB script via stdin returns normally (dev path) [984.94ms]
+(pass) large requests (socket backpressure) > a 1 MB script via `run FILE` (and a 100 KB -e, the OS argv limit is lower) [76.90ms]
+(pass) large requests (socket backpressure) > a 1 MB script through the compiled binary [1957.87ms]
+(pass) large requests (socket backpressure) > yauzl is bundled into the daemon (dev-browser install works without unzip) [2.36ms]
+(pass) profiles per mode and orphan safety > headless launches use browsers/NAME/profile-headless, never the headed dir [866.81ms]
+(pass) profiles per mode and orphan safety > two headless browsers with different names run side by side, separate dirs [1637.52ms]
+(pass) profiles per mode and orphan safety > headed and headless of the same name coexist (under Xvfb when available) [3298.76ms]
+(pass) profiles per mode and orphan safety > a profile held by a live foreign Chrome is not killed: clear error instead [3425.54ms]
+(pass) daemon shutdown does not delete the successor's endpoint > stop then immediate status, three times: the new daemon stays reachable [15888.30ms]
+(pass) page creation is serialized > 12 parallel getPage with different names -> 12 distinct tabs [1736.28ms]
+(pass) page creation is serialized > 6 parallel getPage with the same name -> 1 tab, nothing leaked [885.10ms]
+(pass) page creation is serialized > inside one script: Promise.all of getPage calls [923.98ms]
+(pass) restored tabs and downloads > stop + relaunch does not accumulate session-restored tabs [3320.47ms]
+(pass) restored tabs and downloads > downloads land in DEV_BROWSER_HOME/tmp/downloads [1577.14ms]
+(pass) pages reached through Puppeteer's own graph are extended > page.browser().newPage(), popups via waitForTarget, browserContext().pages() [1366.21ms]
+(pass) --ignore-https-errors > self-signed server fails without the flag and works with it (separate instance) [2318.61ms]
+(pass) broken stdout pipe > `dev-browser -e big | head -c 100` prints no EPIPE stack [901.99ms]
+
+test/e2e/runtime3.test.ts:
+(pass) front lock > two concurrent scripts clicking 40x on two pages of one browser both finish [3867.12ms]
+(pass) front lock > an external Target.activateTarget between actions does not stall the next click/shot [1000.01ms]
+(pass) front lock > waitForSelector({visible}) on a background tab resolves [628.88ms]
+(pass) gate coverage beyond the page proxy > a zombie holding an ElementHandle stops after the run; page.on() returns the proxy [1206.69ms]
+(pass) gate coverage beyond the page proxy > page.browser().pages() returns the same proxies as getPage; popups and frame.page() keep identity [404.25ms]
+(pass) gate coverage beyond the page proxy > pages reached through browser().pages() are gated: a zombie loop on one stops at run end [1001.39ms]
+(pass) per-page state left by a script > request interception enabled by one script is switched off at run end; the next script navigates [270.20ms]
+(pass) per-page state left by a script > setDefaultTimeout/setDefaultNavigationTimeout do not leak into the next script [1997.10ms]
+(pass) per-page state left by a script > beforeunload dialogs are auto-accepted so the navigation proceeds [282.28ms]
+(pass) errors and logs > cross-realm script errors reach the daemon log as Name: message [434.38ms]
+(pass) errors and logs > after a failed goto the [page] line names the attempted URL [201.25ms]
+(pass) errors and logs > dev-browser stop during a run surfaces as BrowserStoppedError [1672.33ms]
+(pass) relative file paths resolve against the caller's cwd > uploadFile, page.screenshot({path}), handle.screenshot({path}) and pdf({path}) [2182.28ms]
+(pass) realm > instanceof Error holds for Puppeteer errors and script errors [132.01ms]
+
+test/e2e/lifecycle.test.ts:
+(pass) usage, version, help (no daemon needed) > unknown flag -> exit 2 with a dev-browser: message [21.52ms]
+(pass) usage, version, help (no daemon needed) > unknown command -> exit 2 [21.38ms]
+(pass) usage, version, help (no daemon needed) > --version [25.47ms]
+(pass) usage, version, help (no daemon needed) > --help contains USAGE and the version [42.04ms]
+(pass) usage, version, help (no daemon needed) > help <topic> prints only that section or a topic list [41.41ms]
+(pass) usage, version, help (no daemon needed) > --timeout validation is a usage error [20.73ms]
+(pass) usage, version, help (no daemon needed) > bad --idle-timeout is a usage error [23.47ms]
+(pass) usage, version, help (no daemon needed) > chrome --list prints at least one candidate [349.01ms]
+(pass) usage, version, help (no daemon needed) > chrome with an unknown flag is a usage error [90.32ms]
+(pass) usage, version, help (no daemon needed) > install-skill writes SKILL.md under HOME [340.17ms]
+(pass) daemon and browser lifecycle > first run spawns the daemon: pid file, socket, log [963.54ms]
+(pass) daemon and browser lifecycle > browsers output shape [61.53ms]
+(pass) daemon and browser lifecycle > status output shape [62.49ms]
+(pass) daemon and browser lifecycle > --idle-timeout is reflected in browsers [125.33ms]
+(pass) daemon and browser lifecycle > idle reaper closes a launched browser after --idle-timeout [2107.19ms]
+(pass) daemon and browser lifecycle > a second profile name is a separate browser; stop NAME stops only it [1045.77ms]
+(pass) daemon and browser lifecycle > stop default -> browsers says none; names file survives; getPage recreates [1244.97ms]
+(pass) daemon and browser lifecycle > killing the daemon with SIGTERM: next run spawns a fresh daemon [1155.86ms]
+270 |     process.kill(oldPid, "SIGKILL");
+271 |     expect(await waitFor(() => !pidAlive(oldPid), 10_000)).toBe(true);
+272 |     expect(fs.existsSync(path.join(cli.home, "daemon.sock"))).toBe(true); // stale
+273 |     // Chrome is orphaned (still holds the profile lock); the new daemon must reclaim the profile.
+274 |     const r = await cli.run([...H, "-e", "(await browser.getPage('after-kill')).url()"]);
+275 |     expect(r).toEqual({ code: 0, stdout: "about:blank\n", stderr: "" });
+                    ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "about:blank
++   "code": 1,
++   "stderr": 
++ "ProfileBusyError: profile "default" (headless) is in use by another Chrome (pid 27655, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:275:15)
+(fail) daemon and browser lifecycle > SIGKILLed daemon leaves a stale socket; the client recovers [6652.86ms]
+(pass) daemon and browser lifecycle > stop with no name stops everything and the daemon; auto-restarts on the next call [272.48ms]
+291 | 
+292 |   test("concurrent cold start: parallel clients share one daemon", async () => {
+293 |     await cli.run(["stop"]);
+294 |     await sleep(300);
+295 |     const rs = await Promise.all([1, 2, 3, 4].map((n) => cli.run([...H, "-e", `${n}`])));
+296 |     for (const [i, r] of rs.entries()) expect(r).toEqual({ code: 0, stdout: `${i + 1}\n`, stderr: "" });
+                                                       ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "1
++   "code": 1,
++   "stderr": 
++ "ProfileBusyError: profile "default" (headless) is in use by another Chrome (pid 27655, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:296:50)
+(fail) daemon and browser lifecycle > concurrent cold start: parallel clients share one daemon [8477.47ms]
+(pass) hung scripts > detached continuations cannot use browser registry operations after a run ends [1342.05ms]
+329 |   });
+330 | 
+331 |   test("a finite busy loop past the deadline still returns; the daemon stays healthy", async () => {
+332 |     const r = await cli.run([...H, "--timeout", "1", "-e", "const t = Date.now(); let i = 0; while (Date.now() - t < 2000) i++; 'done'"]);
+333 |     // the event loop was blocked so the deadline timer could not fire first; the value wins
+334 |     expect(r.code === 0 || r.code === 124).toBe(true);
+                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: false
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:334:44)
+(fail) hung scripts > a finite busy loop past the deadline still returns; the daemon stays healthy [899.34ms]
+339 |   test("an infinite loop: the client watchdog kills the hung daemon; the next call restarts it", async () => {
+340 |     const pid = Number(fs.readFileSync(path.join(cli.home, "daemon.pid"), "utf8"));
+341 |     const t0 = Date.now();
+342 |     const r = await cli.run([...H, "--timeout", "1", "-e", "while (true) {}"], { timeoutMs: 40_000 });
+343 |     expect(r.code).toBe(1);
+344 |     expect(r.stderr).toMatch(/no response from daemon for 16s; killed the hung daemon/);
+                           ^
+error: expect(received).toMatch(expected)
+
+Expected substring or pattern: /no response from daemon for 16s; killed the hung daemon/
+Received: "ProfileBusyError: profile \"default\" (headless) is in use by another Chrome (pid 27655, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.\n"
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:344:22)
+(fail) hung scripts > an infinite loop: the client watchdog kills the hung daemon; the next call restarts it [912.86ms]
+(pass) protocol: version handshake > daemon answers a mismatched hello with a version error and honors shutdown [245.67ms]
+(pass) protocol: version handshake > hello frame is the first line; a bad first frame yields a protocol error [28.61ms]
+466 |       });
+467 |     });
+468 |     await new Promise<void>((resolve) => fake.listen(sockPath, resolve));
+469 |     try {
+470 |       const r = await cli.run([...H, "-e", "'fresh'"]);
+471 |       expect(r).toEqual({ code: 0, stdout: "fresh\n", stderr: "" });
+                      ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "fresh
++   "code": 1,
++   "stderr": 
++ "ProfileBusyError: profile "default" (headless) is in use by another Chrome (pid 27655, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:471:17)
+(fail) client: version mismatch recovery > an old daemon is asked to exit and the request is retried on a fresh one [6741.64ms]
+(pass) --connect to an existing Chrome > --connect PORT [188.11ms]
+(pass) --connect to an existing Chrome > --connect http://127.0.0.1:PORT reaches the same browser and the same named page [76.65ms]
+(pass) --connect to an existing Chrome > --connect auto finds it via the remembered chrome-ports.json [473.29ms]
+(pass) --connect to an existing Chrome > dev-browser pages --connect lists the external Chrome's tabs [32.94ms]
+(pass) --connect to an existing Chrome > stop by cdp key disconnects without killing Chrome [29.24ms]
+(pass) --connect to an existing Chrome > --connect to a dead port is a clean error [3033.83ms]
+
+test/e2e/runtime2.test.ts:
+(pass) background tabs > click/shot on a named page that is no longer the front tab completes [1894.78ms]
+(pass) zombie scripts > after a deadline the script stops at its next page call and the page is free for the next script [1805.50ms]
+(pass) zombie scripts > a zombie that swallows errors and retries does not wedge the daemon [2028.73ms]
+(pass) zombie scripts > timeout message names the in-flight call with its selector; plain sleeps keep the old message [2071.28ms]
+(pass) zombie scripts > client disconnect ends the run: the script stops touching the page and status shows 0 active [2595.09ms]
+(pass) zombie scripts > page listeners and timers from a finished script are removed [1125.19ms]
+(pass) dialogs > unhandled alert is auto-dismissed and reported on stderr; click does not hang [401.89ms]
+(pass) dialogs > a script's own dialog handler keeps control [246.66ms]
+(pass) page console hygiene > favicon 404 is dropped; failed resources name their URL; overflow gets a marker [832.16ms]
+(pass) result formatting > vm-realm Error/Map/Set print usefully; console.log(err) shows the message [67.91ms]
+(pass) result formatting > --json result frame carries structured data [63.87ms]
+(pass) result formatting > trailing object literal without parens is the result [26.55ms]
+(pass) result formatting > page.shot() as the last expression prints one [image] line and a compact object [192.45ms]
+(pass) errors > per-action timeout shows the cause; stale ref via selector shows the documented message and a script frame [609.44ms]
+(pass) errors > stack columns before the inserted return( on the last line are not over-shifted [29.62ms]
+
+test/e2e/run.test.ts:
+(pass) basic eval and output > -e '1+1' -> 2 [37.72ms]
+(pass) basic eval and output > stdin script: console.log streams, object return is pretty JSON [38.30ms]
+(pass) basic eval and output > string return is printed raw (no quotes) [64.46ms]
+(pass) basic eval and output > undefined return prints nothing; null prints null [166.92ms]
+(pass) basic eval and output > console.warn/error -> stderr; console.log -> stdout [33.42ms]
+(pass) basic eval and output > top-level await and fetch work [35.88ms]
+(pass) basic eval and output > empty stdin script runs as an empty program and exits 0 [31.55ms]
+(pass) basic eval and output > run FILE [29.52ms]
+(pass) basic eval and output > run FILE: missing file is a usage error, not a crash [26.98ms]
+(pass) errors > syntax error -> stderr SyntaxError, exit 1 [31.91ms]
+(pass) errors > thrown TypeError -> name: message, script frame, [page NAME] context, exit 1 [114.49ms]
+(pass) errors > error from -e uses <eval> as the script name and line 1 [32.42ms]
+(pass) errors > script file name appears in stack [31.90ms]
+(pass) errors > thrown non-Error value [29.76ms]
+(pass) errors > --timeout 1 with a 3 s sleep -> TimeoutError, exit 124; next script still works [1060.40ms]
+(pass) errors > timeout inside a page action is clamped and still exits 124 with page context [1035.81ms]
+(pass) --json > prints NDJSON frames incl. result and done [36.26ms]
+(pass) --json > --json error frame [31.50ms]
+(pass) output cap > console.log 120k chars -> capped marker + spill file with everything [43.30ms]
+(pass) output cap > --no-cap prints everything [34.71ms]
+(pass) page console collection > page console.error + uncaught -> stderr [page:NAME] lines [348.56ms]
+(pass) page console collection > --quiet-page suppresses [276.67ms]
+(pass) script globals and page helpers > saveFile/readFile round trip; saveFile('../x') throws [32.63ms]
+(pass) script globals and page helpers > page.shot() prints [image] path (WxH) and writes a JPEG [211.58ms]
+(pass) script globals and page helpers > page.shot() in --json mode emits an image frame [165.88ms]
+(pass) script globals and page helpers > page.fill replaces an input's value [405.77ms]
+(pass) script globals and page helpers > page.goto defaults to domcontentloaded (load never fires) [189.75ms]
+(pass) script globals and page helpers > Puppeteer objects are tamed in console output [201.00ms]
+(pass) concurrency > two scripts sleeping 600 ms finish in < 1.5 s total [633.16ms]
+(pass) stack columns > ReferenceError in a one-line -e points at the real column [36.85ms]
+(pass) page console cap > at most 20 [page:...] lines are printed [313.07ms]
+
+test/e2e/pages.test.ts:
+(pass) named pages > a named page persists its URL across two invocations [206.91ms]
+(pass) named pages > getPage returns the same tab for the same name within one script [103.35ms]
+(pass) named pages > pages file under DEV_BROWSER_HOME/pages/*.json contains the name -> targetId [32.67ms]
+(pass) named pages > getPage by targetId from listPages attaches to the tab without renaming it [126.66ms]
+(pass) named pages > getPage with an unknown targetId throws a helpful error [36.36ms]
+(pass) named pages > getPage('') throws a TypeError [30.91ms]
+(pass) anonymous pages > newPage is not auto-closed; listPages count grows; closePage by name works [580.98ms]
+(pass) anonymous pages > closing a named tab with page.close() drops the name and getPage recreates it [458.29ms]
+(pass) dev-browser pages > lists browser key, id, name, url, title [31.87ms]
+(pass) dev-browser pages > --json payload shape [30.88ms]
+(pass) dev-browser pages > listPages entries have the documented shape [34.14ms]
+
+test/unit/output.test.ts:
+(pass) OutputSink > below cap: everything streams through unchanged [0.39ms]
+(pass) OutputSink > over cap: head streamed, marker + tail printed, spill file has everything [1.47ms]
+(pass) OutputSink > one huge write crossing the cap [0.18ms]
+(pass) OutputSink > stderr is never capped [0.05ms]
+(pass) OutputSink > cap disabled: everything streams, no spill, no marker [0.07ms]
+(pass) OutputSink > defaults: 50k cap, 5k tail [0.39ms]
+(pass) OutputSink > finish is a no-op when nothing was capped [0.03ms]
+
+test/unit/smoke.test.ts:
+(pass) fixture page + server [946.64ms]
+(pass) cli env runs -e [1189.53ms]
+
+test/unit/transform.test.ts:
+(pass) transformScript > last expression becomes the return value [2.86ms]
+(pass) transformScript > trailing semicolon [1.42ms]
+(pass) transformScript > trailing comment after last expression [1.11ms]
+(pass) transformScript > multi-line last expression [1.34ms]
+(pass) transformScript > multi-line call expression as last statement [0.99ms]
+(pass) transformScript > explicit return works [0.69ms]
+(pass) transformScript > const-only script returns undefined [0.87ms]
+(pass) transformScript > lone string literal (a 'directive' to the parser) is still returned [1.06ms]
+(pass) transformScript > top-level await [5.42ms]
+(pass) transformScript > await expression as last statement returns the resolved value [0.90ms]
+(pass) transformScript > never executes twice [0.51ms]
+(pass) transformScript > syntax error message includes line and column [0.74ms]
+(pass) transformScript > import statement gives a friendly error [1.12ms]
+(pass) transformScript > stack line numbers match the user's script (Bun ignores negative lineOffset) [0.62ms]
+(pass) transformScript > hashbang is allowed [0.30ms]
+(pass) transformScript > code is an async arrow expression sharing line 1 with the script [0.30ms]
+(pass) transformScript column shifts > records the wrapper shift on line 1 and the return( shift on the last statement line [0.26ms]
+(pass) transformScript: trailing object literal > `{ a: 1 }` as the last statement is returned like an object literal (not a block) [1.42ms]
+(pass) transformScript: trailing object literal > an object literal that does not even parse as a block (await/commas) is retried with parens [1.69ms]
+(pass) transformScript: trailing object literal > real blocks and labels are left alone; other syntax errors still throw [0.83ms]
+(pass) transformScript: trailing object literal > returnInsert records where `return (` went [0.41ms]
+
+test/unit/config-paths.test.ts:
+(pass) default home is versioned away from the v0.2 daemon [0.09ms]
+(pass) parseDuration > units [0.15ms]
+(pass) parseDuration > garbage throws [0.07ms]
+(pass) formatDuration > round-trips nicely [0.06ms]
+(pass) resolveIdleTimeoutMs precedence > flag > env > config > default [0.18ms]
+(pass) resolveIdleTimeoutMs precedence > bad flag throws [0.03ms]
+(pass) resolveIdleTimeoutMs precedence > accepts the 0.2.x DEV_BROWSER_IDLE_TIMEOUT_MS name as a fallback [0.03ms]
+(pass) jailPath > accepts plain names under the tmp dir [0.12ms]
+(pass) jailPath > rejects escapes [0.16ms]
+(pass) sanitizeName / sanitizeKey > sanitizeName [0.09ms]
+(pass) sanitizeName / sanitizeKey > sanitizeKey [0.11ms]
+(pass) sanitizeName / sanitizeKey > pagesFile uses the sanitized key [0.04ms]
+(pass) LineDecoder > partial chunks across boundaries [0.16ms]
+(pass) LineDecoder > UTF-8 code points split across byte chunks are preserved [0.22ms]
+(pass) LineDecoder > blank lines are skipped; incomplete tail is held [0.17ms]
+(pass) LineDecoder > cap on a single line [0.06ms]
+(pass) LineDecoder > invalid JSON throws [0.04ms]
+(pass) LineDecoder > encodeFrame round-trips [0.03ms]
+(pass) jailPath accepts downloads/<name> and nothing deeper [0.21ms]
+
+test/unit/migrate-from-doobie.test.ts:
+copied config.json, browsers from /tmp/dev-browser-migrate-fqtmhq/doobie to /tmp/dev-browser-migrate-fqtmhq/dev-browser-v1
+the original doobie state was left unchanged
+(pass) copies durable state and leaves the source intact [7.25ms]
+dev-browser: refusing to overwrite existing v1 state in /tmp/dev-browser-migrate-WCoaDj/dev-browser-v1 (config.json).
+Move that directory aside or use DEV_BROWSER_HOME to select an empty destination.
+(pass) refuses to overwrite existing v1 state [2.13ms]
+dev-browser: doobie daemon pid 11250 is still running. Run `doobie stop` before migrating.
+(pass) refuses to copy while the doobie daemon is running [1.69ms]
+
+test/unit/client-transport.test.ts:
+(pass) client transport: Bun.connect backpressure > a 2 MB payload arrives intact when the server reads slowly [20.42ms]
+(pass) client transport: Bun.connect backpressure > many small writes keep their order under backpressure [36.65ms]
+(pass) profile lock safety predicate (classifyLockHolder) > no lock -> none; dead holder -> stale [0.26ms]
+(pass) profile lock safety predicate (classifyLockHolder) > a pid that belongs to a live BrowserManager entry or chrome-ports.json is ours, never an orphan [0.05ms]
+(pass) profile lock safety predicate (classifyLockHolder) > reparented to init (daemon died) -> orphan; parent vanished -> orphan [0.10ms]
+(pass) profile lock safety predicate (classifyLockHolder) > a live parent that is not us (another daemon, a manual launch) -> foreign, not killable [0.03ms]
+(pass) profile lock safety predicate (classifyLockHolder) > our own child that is not a live entry -> child (wait first) [0.03ms]
+(pass) profile lock safety predicate (classifyLockHolder) > pid reuse: live process that does not mention the profile -> unrelated [0.02ms]
+(pass) profile lock safety predicate (classifyLockHolder) > chromePortPids reads pids recorded by `dev-browser chrome` [0.96ms]
+(pass) profile dirs > headed and headless instances of one name use different user-data-dirs; dev-browser chrome has its own root [0.61ms]
+(pass) profile dirs > keyFor: headless and --ignore-https-errors get their own instances [0.08ms]
+(pass) Chrome for Testing discovery (installedCandidates) > finds the linux and the (deep) macOS layouts under a temp DEV_BROWSER_HOME [3.59ms]
+(pass) dev-browser chrome picks the user's real browser > system beats env/config beats installed/playwright [0.10ms]
+(pass) CDP endpoint redaction > drops query strings and userinfo, keeps host/port/path [0.23ms]
+(pass) CDP endpoint redaction > canonical identity hides credentials without aliasing distinct remote sessions [0.19ms]
+(pass) --ignore-https-errors flag > is parsed and absent by default [0.21ms]
+(pass) read-only DEV_BROWSER_HOME > ensureHome fails fast with a clear message [0.88ms]
+
+test/unit/docs.test.ts:
+(pass) help.md stays within the line budget and every topic is present [3.23ms]
+(pass) help.md no longer carries the stale claims from the review [0.41ms]
+(pass) README, SKILL and design doc reflect the current behaviour [0.07ms]
+(pass) documented behaviours hold: help exit 2, ASI ReferenceError, stale ref $ -> null, ref wait is a TimeoutError, pages -b [2417.24ms]
+
+test/unit/launch-state.test.ts:
+(pass) preparePrefs creates/patches Preferences: clean exit, leak detection off, no password/autofill UI [1.16ms]
+(pass) needsNoSandbox reads the remembered set from launch-state.json [0.30ms]
+
+test/unit/packaging.test.ts:
+(pass) download-binary module > platformAsset names a supported asset on this CI platform [0.15ms]
+(pass) download-binary module > default base is the GitHub release URL for package.json version [0.13ms]
+(pass) download-binary module > DEV_BROWSER_DOWNLOAD_BASE overrides the base (trailing slash stripped) [0.20ms]
+(pass) download-binary module > findChecksum accepts text and binary (*) sha256sum lines [0.43ms]
+113 |     const dest = path.join(tmp(), "bin", "dev-browser-bin");
+114 |     const logs: string[] = [];
+115 |     const r = await dl.downloadBinary({ base: goodBase, dest, log: (m) => logs.push(m) });
+116 |     expect(r.dest).toBe(dest);
+117 |     expect(fs.readFileSync(dest)).toEqual(FAKE_BIN);
+118 |     expect(fs.statSync(dest).mode & 0o777).toBe(0o755);
+                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: 493
+Received: 448
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/unit/packaging.test.ts:118:44)
+(fail) download-binary module > downloads, verifies and installs the binary (mode 755, atomic) [6.58ms]
+(pass) download-binary module > follows redirects [6.18ms]
+(pass) download-binary module > refuses a checksum mismatch and leaves nothing behind [1.78ms]
+(pass) download-binary module > refuses when SHA256SUMS has no entry for the asset [2.13ms]
+(fail) download-binary module > 404 and connection errors reject with a useful message [133924.11ms]
+  ^ this test timed out after 120000ms.
+(pass) download-binary module > DEV_BROWSER_DOWNLOAD_BASE env drives downloadBinary when no base is given [2.65ms]
+(pass) relinkGlobal > does nothing for a project-local install (npm_config_global unset) [2.34ms]
+(pass) relinkGlobal > relinks for a global install whose link points at this package [3.08ms]
+(pass) relinkGlobal > does not hijack a global link that points at a different dev-browser package [2.82ms]
+(pass) relinkGlobal > ignores a missing link or a non-symlink [2.15ms]
+(pass) bin/dev-browser.cjs shim > self-heals: downloads the binary on first run, then runs it; second run does not download [192.78ms]
+(pass) bin/dev-browser.cjs shim > passes the binary's exit code through [90.31ms]
+killed 1 dangling process
+(fail) bin/dev-browser.cjs shim > offline / unreachable mirror: clear error, exit 1, no bun advice [120000.77ms]
+  ^ this test timed out after 120000ms.
+
+# Unhandled error between tests
+-------------------------------
+283 |   });
+284 | 
+285 |   test("offline / unreachable mirror: clear error, exit 1, no bun advice", async () => {
+286 |     const pkg = fakePackage();
+287 |     const r = await runNode(path.join(pkg, "bin/dev-browser.cjs"), ["--version"], { DEV_BROWSER_DOWNLOAD_BASE: "http://127.0.0.1:1/x" }, pkg);
+288 |     expect(r.code).toBe(1);
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 143
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/unit/packaging.test.ts:288:20)
+-------------------------------
+
+(pass) bin/dev-browser.cjs shim > checksum mismatch refuses the binary [100.99ms]
+(pass) bin/dev-browser.cjs shim > DEV_BROWSER_SKIP_DOWNLOAD: does not download, explains how to fix [84.19ms]
+(pass) bin/dev-browser.cjs shim > dev checkout: the real shim in this repo runs src/cli/main.ts with bun when no binary exists [106.75ms]
+(pass) scripts/postinstall.cjs > installs from DEV_BROWSER_DOWNLOAD_BASE and does not touch a global link for a local install [99.52ms]
+(pass) scripts/postinstall.cjs > global install relinks the global `dev-browser` symlink at the binary [97.91ms]
+(pass) scripts/postinstall.cjs > download failure: exit 0, message recommends npm rebuild / manual download, never bun [100.22ms]
+(pass) scripts/postinstall.cjs > DEV_BROWSER_SKIP_DOWNLOAD skips; dev checkout (src/ present) is a no-op [169.55ms]
+(pass) package.json > ships no runtime dependencies (the binary bundles everything) [0.22ms]
+(pass) package.json > files whitelist is the shim, the install scripts and docs only [0.06ms]
+(pass) package.json > npm pack --dry-run lists exactly the published files [330.61ms]
+
+test/unit/args.test.ts:
+(pass) parseArgs > no args -> script from stdin, defaults [0.71ms]
+(pass) parseArgs > every global flag [0.13ms]
+(pass) parseArgs > short flags [0.06ms]
+(pass) parseArgs > --headed overrides --headless [0.01ms]
+(pass) parseArgs > --flag=value form [0.05ms]
+(pass) parseArgs > --connect without value -> auto [0.06ms]
+(pass) parseArgs > --connect with url / port / host:port / unix: [0.08ms]
+(pass) parseArgs > --connect before a subcommand does not eat the subcommand [0.05ms]
+(pass) parseArgs > --connect with value before a subcommand [0.01ms]
+(pass) parseArgs > run FILE [0.07ms]
+(pass) parseArgs > stop [NAME] [0.08ms]
+(pass) parseArgs > simple subcommands [0.13ms]
+(pass) parseArgs > subcommands with passthrough args [0.07ms]
+(pass) parseArgs > unknown flag -> UsageError [0.09ms]
+(pass) parseArgs > unknown command -> UsageError [0.02ms]
+(pass) parseArgs > missing values -> UsageError [0.09ms]
+(pass) parseArgs > --timeout validation [0.12ms]
+(pass) parseArgs > -e accepts code starting with a dash [0.06ms]
+(pass) parseArgs > -- ends flag parsing [0.03ms]
+(pass) parseArgs: global flags after a subcommand > status/pages/browsers/stop accept --json after the subcommand [0.11ms]
+(pass) parseArgs: global flags after a subcommand > stray positional after a simple subcommand is a usage error [0.06ms]
+
+test/unit/errors.test.ts:
+(pass) cleanStack > keeps only script frames, strips anonymous names [0.23ms]
+(pass) cleanStack > max 5 frames [0.08ms]
+(pass) cleanStack > no script frames -> undefined [0.01ms]
+(pass) cleanStack > script names with regex chars are matched literally [0.06ms]
+(pass) cleanStack > multi-line message header is skipped [0.02ms]
+(pass) cleanStack > line1ColumnShift adjusts columns on line 1 only [0.02ms]
+(pass) cleanStack > frames without parentheses
+(pass) formatScriptError > Error objects [0.10ms]
+(pass) formatScriptError > thrown primitives [0.03ms]
+(pass) formatScriptError > object with empty name falls back to Error [0.01ms]
+(pass) cleanStack columnShifts > per-line shifts (wrapper on line 1, return( on the last statement's line) [0.02ms]
+(pass) formatScriptError cause > appends err.cause's message when it adds information [0.03ms]
+(pass) formatScriptError cause > string causes work; a cause already contained in the message is not repeated [0.03ms]
+(pass) formatScriptError cause > stack header is still recognised after the cause is appended [0.02ms]
+(pass) cleanStack returnInsert > frames before the insertion point are only shifted by the wrapper
+(pass) cleanStack returnInsert > frames after the insertion point are shifted by wrapper + return(
+(pass) cleanStack returnInsert > frames inside the inserted text clamp to the insertion point
+(pass) cleanStack returnInsert > other lines unaffected; without returnInsert the whole-line shift applies [0.02ms]
+
+test/unit/chrome-cmd.test.ts:
+(pass) dev-browser chrome verifies the launch > a Chrome that exits immediately: exit 1, stderr tail shown, no port recorded [188.62ms]
+(pass) dev-browser chrome verifies the launch > sandbox failure on Linux is retried once with --no-sandbox and remembered [482.15ms]
+(pass) dev-browser chrome verifies the launch > a real headless Chrome (--headless) answers /json/version before success is printed [815.92ms]
+(pass) dev-browser chrome verifies the launch > launching twice on the same profile is a clear error (ProcessSingleton), not a false success [1063.20ms]
+(pass) dev-browser chrome verifies the launch > flags: --headless is accepted, unknown flags are usage errors [80.76ms]
+(pass) dev-browser help <unknown topic> > exits 2 with the message on stderr; known topics still exit 0 [47.23ms]
+(pass) dev-browser help <unknown topic> > findTopicText/unknownTopicMessage [2.13ms]
+
+8 tests failed:
+(fail) daemon and browser lifecycle > SIGKILLed daemon leaves a stale socket; the client recovers [6652.86ms]
+(fail) daemon and browser lifecycle > concurrent cold start: parallel clients share one daemon [8477.47ms]
+(fail) hung scripts > a finite busy loop past the deadline still returns; the daemon stays healthy [899.34ms]
+(fail) hung scripts > an infinite loop: the client watchdog kills the hung daemon; the next call restarts it [912.86ms]
+(fail) client: version mismatch recovery > an old daemon is asked to exit and the request is retried on a fresh one [6741.64ms]
+(fail) download-binary module > downloads, verifies and installs the binary (mode 755, atomic) [6.58ms]
+(fail) download-binary module > 404 and connection errors reject with a useful message [133924.11ms]
+  ^ this test timed out after 120000ms.
+(fail) bin/dev-browser.cjs shim > offline / unreachable mirror: clear error, exit 1, no bun advice [120000.77ms]
+  ^ this test timed out after 120000ms.
+
+ 335 pass
+ 8 fail
+ 1 error
+ 3479 expect() calls
+Ran 343 tests across 28 files. [406.69s]
+error: script "test" exited with code 1

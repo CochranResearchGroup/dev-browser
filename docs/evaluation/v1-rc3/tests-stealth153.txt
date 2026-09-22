@@ -1,0 +1,1561 @@
+$ bun test --timeout 120000
+bun test v1.3.14 (0d9b296a)
+
+test/snapshot2.test.ts:
+(pass) name-from-content recurses into wrapping descendants (span/b/div/img/labelledby) [1098.62ms]
+(pass) inline spans under a link/pointer ancestor do not become ref'd generic lines [104.83ms]
+(pass) contenteditable role=textbox shows its text as the value [148.76ms]
+(pass) interactive mode keeps alerts, live regions, status and dialog body text [133.41ms]
+41 |                 break;
+42 |         }
+43 |         this.#args = args;
+44 |         this.#world.taskManager.add(this);
+45 |         if (options.timeout) {
+46 |             this.#timeoutError = new TimeoutError(`Waiting failed: ${options.timeout}ms exceeded`);
+                                      ^
+TimeoutError: Waiting failed: 5000ms exceeded
+      at new WaitTask (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/WaitTask.js:46:34)
+      at waitForFunction (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Realm.js:49:26)
+      at waitForFunction (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:585:43)
+      at withFrontWait (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:218:18)
+      at async framesReady (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/snapshot2.test.ts:40:14)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/snapshot2.test.ts:179:11)
+      at async withPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/helpers/browser.ts:35:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/snapshot2.test.ts:150:9)
+(fail) frame keys stay stable per frame across snapshots; removed frames free no keys [5351.97ms]
+(pass) [box=...] inside iframes is main-viewport relative (nested too) [393.51ms]
+(pass) tracked incremental: first = full, context lines per hunk, full on substantial change [214.53ms]
+(pass) diffLines: context line before each hunk and … between hunks [0.17ms]
+(pass) truncation hint is tailored to the mode; depth-cut nodes carry a […] marker [438.40ms]
+(pass) urls: false drops the /url lines [118.55ms]
+
+test/snapshot.test.ts:
+(pass) renders roles, names, states and refs on a form [1108.67ms]
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at #evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:288:27)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:104:30)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:154:37)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:343:38)
+      at isIntersectingViewport (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1329:47)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:118:33)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async scrollIntoViewIfNeeded (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1307:28)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:721:24)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:129:37)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:754:30)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:546:27)
+(fail) refs work with page.$ / click / ref and are stable across snapshots [30206.43ms]
+(pass) stale ref after navigation throws with 'stale' [174.77ms]
+(pass) interactive mode drops plain text but keeps the button [126.98ms]
+(pass) scope by ref and by selector [156.58ms]
+(pass) depth limits nesting [150.24ms]
+(pass) boxes appends [box=x,y,w,h] after the ref [168.55ms]
+(pass) maxChars truncates at a line boundary with the marker [219.28ms]
+(pass) track returns an incremental diff [137.32ms]
+(pass) diffLines produces +/- lines in order [0.25ms]
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:47:36)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:113:13)
+      at #evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:425:26)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:133:26)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:190:31)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:678:60)
+      at isIntersectingViewport (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1329:47)
+      at /home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:94:120
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at scrollIntoViewIfNeeded (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1307:28)
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1250:20)
+      at /home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:114:37
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:754:30)
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at /home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:543:39
+      at processTicksAndRejections (unknown:7:39)
+(fail) available iframes are nested with document-scoped frame refs and clickable [30275.71ms]
+(pass) cross-origin iframe (other port) is traversed and its refs are actionable [189.05ms]
+snapshot 286 elements, 9977 chars, 355 lines: host-to-host median 18.5 ms (min 17.1 ms), evaluate 17.0 ms
+(pass) ~200 element page snapshots in < 40 ms host-to-host [277.68ms]
+216 |  */
+217 | export function timeout(ms, cause) {
+218 |     return ms === 0
+219 |         ? NEVER
+220 |         : timer(ms).pipe(map(() => {
+221 |             throw new TimeoutError(`Timed out after waiting ${ms}ms`, { cause });
+                        ^
+TimeoutError: Timed out after waiting 3000ms
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/util.js:221:19)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1944:31)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1001:9)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:704:12)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:2288:20)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1368:12)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1357:22)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1435:26)
+
+288 |             }).pipe(first(identity), retry({ delay: RETRY_DELAY }), ignoreElements());
+289 |         }));
+290 |     };
+291 |     #click(options) {
+292 |         const signal = options?.signal;
+293 |         const cause = new Error('Locator.click');
+                                ^
+error: Locator.click
+      at #click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/locators/locators.js:293:27)
+      at click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/locators/locators.js:579:36)
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/snapshot.test.ts:298:55)
+      at async withPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/helpers/browser.ts:35:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/snapshot.test.ts:291:9)
+(fail) waitForSelector('ref/eN') and locator('ref/eN').click() work [3184.98ms]
+
+test/wait-for-load.test.ts:
+static: {
+  ready: true,
+  readyState: "complete",
+  pending: 0,
+  ms: 223,
+}
+(pass) page.waitForLoad > static page -> ready quickly [1289.36ms]
+fetch-then-append: {
+  ready: true,
+  readyState: "complete",
+  pending: 0,
+  ms: 954,
+}
+(pass) page.waitForLoad > fetch /slow then append DOM -> ready only after settle [1073.37ms]
+long-poll: {
+  ready: true,
+  readyState: "complete",
+  pending: 0,
+  ms: 2012,
+}
+(pass) page.waitForLoad > never-ending stream/long-poll -> ignored once older than 2 s [2114.22ms]
+mutate-forever: {
+  ready: false,
+  readyState: "complete",
+  pending: 0,
+  ms: 1004,
+}
+(pass) page.waitForLoad > DOM mutating forever -> ready:false at timeout [1112.18ms]
+mid-navigation: {
+  ready: true,
+  readyState: "complete",
+  pending: 0,
+  ms: 936,
+}
+(pass) page.waitForLoad > called mid-navigation -> does not throw [1053.18ms]
+default-timeout: {
+  ready: false,
+  readyState: "complete",
+  pending: 0,
+  ms: 3001,
+}
+(pass) page.waitForLoad > default timeout is 3000 ms [3112.99ms]
+
+test/snapshot3.test.ts:
+(pass) clickable generic keeps its ref under presentation / pointer-events:none / display:contents pointer ancestors [1158.04ms]
+(pass) accessible name includes CSS ::before/::after strings and svg <title> [105.43ms]
+(pass) [box=...] inside a padded iframe includes the iframe's border AND padding (nested too) [420.78ms]
+(pass) reinstalling the in-page script never reuses ref ids already handed out [144.91ms]
+(pass) name fallbacks: placeholder, 'Choose File', fieldset/figure/table captions, aria-owns, descendant values [137.42ms]
+(pass) elementHandle.$('ref/eN') finds refs inside an open shadow root of a descendant [168.75ms]
+
+test/socket-source.test.ts:
+(pass) --connect unix:/path drives a browser over raw CDP lines [270.35ms]
+
+test/mcp.test.ts:
+(pass) initialize + tools/list [88.65ms]
+80 | test("dev_browser_run returns text + image content, errors set isError", async () => {
+81 |   const r = await rpc("tools/call", {
+82 |     name: "dev_browser_run",
+83 |     arguments: { script: 'const p = await browser.getPage("m"); await p.setContent("<title>mcp</title><h1>hi</h1>"); console.log("log line"); await p.shot({ name: "mcp.jpg" }); await p.title()' },
+84 |   });
+85 |   expect(r.result.isError).toBe(false);
+                                ^
+error: expect(received).toBe(expected)
+
+Expected: false
+Received: true
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/mcp.test.ts:85:28)
+(fail) dev_browser_run returns text + image content, errors set isError [30120.60ms]
+
+test/bench-fixtures.test.ts:
+(pass) small fixture is ~3 KB with ~60 elements [1065.28ms]
+(pass) serp fixture has ~1500 nodes, 300 links, 100 buttons [151.46ms]
+
+test/page-helpers.test.ts:
+killed 1 dangling process
+(fail) background tabs > click and shot on a page that is not the front tab do not hang [20000.42ms]
+  ^ this test timed out after 20000ms.
+83 |         callback.resolve(value);
+84 |     }
+85 |     clear() {
+86 |         for (const callback of this.#callbacks.values()) {
+87 |             // TODO: probably we can accept error messages as params.
+88 |             this._reject(callback, new TargetCloseError('Target closed'));
+                                        ^
+TargetCloseError: Protocol error (Target.createTarget): Target closed
+      at clear (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:88:36)
+      at #onClose (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Connection.js:215:25)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/node/NodeWebSocketTransport.js:45:30)
+
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: 
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at _createPageInContext (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Browser.js:212:53)
+      at newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/BrowserContext.js:137:40)
+      at async newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Browser.js:205:43)
+      at async newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/helpers/browser.ts:27:24)
+      at async withPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/helpers/browser.ts:33:22)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:78:11)
+
+# Unhandled error between tests
+-------------------------------
+83 |         callback.resolve(value);
+84 |     }
+85 |     clear() {
+86 |         for (const callback of this.#callbacks.values()) {
+87 |             // TODO: probably we can accept error messages as params.
+88 |             this._reject(callback, new TargetCloseError('Target closed'));
+                                        ^
+TargetCloseError: Protocol error (Runtime.callFunctionOn): Target closed
+      at clear (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:88:36)
+      at onClosed (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:121:25)
+      at #onClose (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Connection.js:217:21)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/node/NodeWebSocketTransport.js:45:30)
+
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: 
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at #evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:288:27)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:104:30)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:154:37)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:343:38)
+      at isIntersectingViewport (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1329:47)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:118:33)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async scrollIntoViewIfNeeded (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1307:28)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:721:24)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:129:37)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:754:30)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:546:27)
+-------------------------------
+
+(fail) background tabs > front lock: bringToFront every time (no cache), ~1 ms per action; same-page actions join, other pages queue [41.58ms]
+killed 1 dangling process
+(fail) background tabs > raf-polled waits (visible/hidden, waitForFunction) resolve on a page another page's actions pushed to the background [20001.81ms]
+  ^ this test timed out after 20000ms.
+83 |         callback.resolve(value);
+84 |     }
+85 |     clear() {
+86 |         for (const callback of this.#callbacks.values()) {
+87 |             // TODO: probably we can accept error messages as params.
+88 |             this._reject(callback, new TargetCloseError('Target closed'));
+                                        ^
+TargetCloseError: Protocol error (Target.createTarget): Target closed
+      at clear (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:88:36)
+      at #onClose (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Connection.js:215:25)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/node/NodeWebSocketTransport.js:45:30)
+
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: 
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at _createPageInContext (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Browser.js:212:53)
+      at newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/BrowserContext.js:137:40)
+      at async newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Browser.js:205:43)
+      at async newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/helpers/browser.ts:27:24)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:149:21)
+
+# Unhandled error between tests
+-------------------------------
+83 |         callback.resolve(value);
+84 |     }
+85 |     clear() {
+86 |         for (const callback of this.#callbacks.values()) {
+87 |             // TODO: probably we can accept error messages as params.
+88 |             this._reject(callback, new TargetCloseError('Target closed'));
+                                        ^
+TargetCloseError: Protocol error (Runtime.callFunctionOn): Target closed
+      at clear (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:88:36)
+      at onClosed (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:121:25)
+      at #onClose (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Connection.js:217:21)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/node/NodeWebSocketTransport.js:45:30)
+
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: 
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at #evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:288:27)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:104:30)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:154:37)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:343:38)
+      at isIntersectingViewport (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1329:47)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:118:33)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async scrollIntoViewIfNeeded (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1307:28)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:721:24)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:129:37)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:754:30)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:546:27)
+-------------------------------
+
+(fail) background tabs > locator actions and ElementHandle.scrollIntoView on a background tab complete [38.27ms]
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Page.captureScreenshot timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at shot (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/shot.ts:92:36)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:177:28)
+      at async withPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/helpers/browser.ts:35:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:174:11)
+(fail) page.shot() math > viewport shot at DPR 2 is 1:1 CSS pixels with scale 1 [31015.85ms]
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Page.captureScreenshot timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at shot (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/shot.ts:92:36)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:187:28)
+      at async withPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/helpers/browser.ts:35:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:185:11)
+(fail) page.shot() math > viewport shot at DPR 1 and maxEdge downscale [30147.05ms]
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Page.captureScreenshot timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at shot (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/shot.ts:92:36)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:199:31)
+      at async withPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/helpers/browser.ts:35:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:195:11)
+(fail) page.shot() math > fullPage and clip shots at DPR 2: size = CSS size * scale, scale = min(1, maxEdge/longest) [30112.31ms]
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Page.captureScreenshot timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at shot (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/shot.ts:92:36)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:214:30)
+      at async withPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/helpers/browser.ts:35:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/page-helpers.test.ts:212:11)
+(fail) page.shot() math > type follows the name extension; png gets png bytes [30105.39ms]
+(pass) page.fill() > date/time/number/color/range take the value verbatim; text-like inputs are typed [319.20ms]
+(pass) page.fill() > readonly/disabled/checkbox/select throw and keep their value; events fire for value-set inputs [226.94ms]
+(pass) ref selectors > stale/unknown ref via selector APIs gives the documented message with the original as cause [147.64ms]
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at #evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:288:27)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:104:30)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:154:37)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:343:38)
+      at isIntersectingViewport (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1329:47)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:118:33)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async scrollIntoViewIfNeeded (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1307:28)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:721:24)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:129:37)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:754:30)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:546:27)
+(fail) dialogs > an unhandled alert is auto-dismissed and reported; click does not hang [30150.70ms]
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at #evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:288:27)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:104:30)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:154:37)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:343:38)
+      at isIntersectingViewport (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1329:47)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:118:33)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async scrollIntoViewIfNeeded (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1307:28)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:721:24)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:129:37)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:754:30)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:546:27)
+(fail) dialogs > a script's own dialog listener keeps control [30127.09ms]
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:47:36)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:113:13)
+      at #evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:425:26)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:133:26)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:190:31)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:678:60)
+      at isIntersectingViewport (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1329:47)
+      at /home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:94:120
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at scrollIntoViewIfNeeded (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1307:28)
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1250:20)
+      at /home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:114:37
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:754:30)
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at /home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:546:27
+      at processTicksAndRejections (unknown:7:39)
+(fail) run gate > guarded page: calls work, then throw RunAbortedError after close; listeners and timers are cleaned up [30346.87ms]
+(pass) run gate > ElementHandle/JSHandle/Frame methods called from a run whose gate closed reject with RunAbortedError [274.57ms]
+(pass) run gate > locator actions called from a closed run reject without touching the page [135.87ms]
+(pass) run gate > BrowserContext results and their pages stay behind the run gate [167.29ms]
+(pass) run gate > gated results: browser/pages/mainFrame/popup keep proxy identity; setRequestInterception is undone at close [292.70ms]
+(pass) run gate > per-call overhead of the guard is small [94.03ms]
+(pass) result/console formatting of vm-realm values > Error, Map, Set, typed arrays from the script realm [1.11ms]
+(pass) result/console formatting of vm-realm values > strings and primitives carry data; undefined has no result [0.03ms]
+
+test/snapshot-frames.test.ts:
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+      at #evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:288:27)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:104:30)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:154:37)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:343:38)
+      at isIntersectingViewport (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1329:47)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:118:33)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async scrollIntoViewIfNeeded (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1307:28)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:721:24)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:129:37)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:754:30)
+      at async withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:195:18)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:543:39)
+(fail) frame refs survive same-document navigation but never alias after reload, renderer swap, parent reload, or detach [31307.13ms]
+(pass) a frame unavailable during host lookup is marked unavailable, not cross-origin [145.26ms]
+(pass) delayed frame ref queries and actions cannot cross a document boundary [266.50ms]
+(pass) a delayed snapshot stays bound to its captured execution context [227.16ms]
+
+test/e2e/lifecycle3.test.ts:
+(pass) --connect: the user's own tabs are not extended > a tab the user opens while dev-browser is attached keeps its dialogs and gets no load tracker [750.16ms]
+216 |  */
+217 | export function timeout(ms, cause) {
+218 |     return ms === 0
+219 |         ? NEVER
+220 |         : timer(ms).pipe(map(() => {
+221 |             throw new TimeoutError(`Timed out after waiting ${ms}ms`, { cause });
+                        ^
+TimeoutError: Timed out after waiting 5000ms
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/util.js:221:19)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1944:31)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1001:9)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:704:12)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:2288:20)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1368:12)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1357:22)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/third_party/rxjs/rxjs.js:1435:26)
+(fail) --connect: the user's own tabs are not extended > a popup opened from the user's tab is not extended either [5091.73ms]
+(pass) --connect: the user's own tabs are not extended > dev-browser's own named page auto-dismisses dialogs (extended) [43.46ms]
+killed 2 dangling processes
+(fail) --connect: the user's own tabs are not extended > a popup opened from a dev-browser page is extended (opener is a touched page) [30001.54ms]
+  ^ this test timed out after 30000ms.
+
+# Unhandled error between tests
+-------------------------------
+131 | const pop = await (await popupP).page();
+132 | const r = [typeof pop.snapshot, typeof pop.shot, await pop.evaluate(() => confirm("pop?"))];
+133 | await pop.close();
+134 | r`,
+135 |     });
+136 |     expect(r.code).toBe(0);
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 0
+Received: 143
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle3.test.ts:136:20)
+-------------------------------
+
+83 |         callback.resolve(value);
+84 |     }
+85 |     clear() {
+86 |         for (const callback of this.#callbacks.values()) {
+87 |             // TODO: probably we can accept error messages as params.
+88 |             this._reject(callback, new TargetCloseError('Target closed'));
+                                        ^
+TargetCloseError: Protocol error (Target.createTarget): Target closed
+      at clear (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:88:36)
+      at #onClose (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Connection.js:215:25)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/node/NodeWebSocketTransport.js:45:30)
+
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: 
+      at new Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+      at _createPageInContext (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Browser.js:212:53)
+      at newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/BrowserContext.js:137:40)
+      at async newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Browser.js:205:43)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle3.test.ts:141:33)
+
+# Unhandled error between tests
+-------------------------------
+83 |         callback.resolve(value);
+84 |     }
+85 |     clear() {
+86 |         for (const callback of this.#callbacks.values()) {
+87 |             // TODO: probably we can accept error messages as params.
+88 |             this._reject(callback, new TargetCloseError('Target closed'));
+                                        ^
+TargetCloseError: Protocol error (Runtime.callFunctionOn): Target closed
+      at clear (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:88:36)
+      at onClosed (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:121:25)
+      at #onClose (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Connection.js:217:21)
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/node/NodeWebSocketTransport.js:45:30)
+
+107 |     #id;
+108 |     #error = new ProtocolError();
+109 |     #deferred = Deferred.create();
+110 |     #timer;
+111 |     #label;
+112 |     constructor(id, label, timeout) {
+                      ^
+ProtocolError: 
+      at Callback (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:17)
+      at create (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:47:36)
+      at send (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:113:13)
+      at #evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:425:26)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:133:26)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:190:31)
+      at evaluate (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:678:60)
+      at isIntersectingViewport (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1329:47)
+      at /home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:94:120
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at scrollIntoViewIfNeeded (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1307:28)
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:1250:20)
+      at /home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:114:37
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at click (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:754:30)
+      at withFront (/home/ecochran76/workspace.local/dev-browser-v1-eval/src/page/extend.ts:304:3)
+      at /home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle3.test.ts:127:48
+      at processTicksAndRejections (unknown:7:39)
+-------------------------------
+
+(fail) --connect: the user's own tabs are not extended > a user tab reached via getPage(targetId) is extended lazily, on first access [43.80ms]
+114 |     /**
+115 |      * @internal
+116 |      */
+117 |     _rawSend(callbacks, method, params, sessionId, options) {
+118 |         if (this.#closed) {
+119 |             return Promise.reject(new ConnectionClosedError('Connection closed.'));
+                                        ^
+ConnectionClosedError: Connection closed.
+      at _rawSend (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Connection.js:119:35)
+      at _createPageInContext (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Browser.js:212:53)
+      at newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/BrowserContext.js:137:40)
+      at async newPage (/home/ecochran76/workspace.local/dev-browser-v1-eval/node_modules/puppeteer-core/lib/puppeteer/cdp/Browser.js:205:43)
+      at async <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle3.test.ts:155:33)
+(fail) --connect: the user's own tabs are not extended > browser.newPage() from a script is extended; listPages shows the user's tabs without touching them [0.38ms]
+(pass) pages/status do not reset --idle-timeout > `dev-browser pages -b NAME` and `status` keep the previously chosen idle timeout; a run with a new one changes it [1699.41ms]
+(pass) pages/status do not reset --idle-timeout > `dev-browser pages -b NEW` on a not-yet-running browser launches it with the default idle timeout [1690.36ms]
+
+test/e2e/lifecycle2.test.ts:
+(pass) large requests (socket backpressure) > a 1 MB script via stdin returns normally (dev path) [1672.74ms]
+(pass) large requests (socket backpressure) > a 1 MB script via `run FILE` (and a 100 KB -e, the OS argv limit is lower) [127.92ms]
+(pass) large requests (socket backpressure) > a 1 MB script through the compiled binary [2723.94ms]
+(pass) large requests (socket backpressure) > yauzl is bundled into the daemon (dev-browser install works without unzip) [3.52ms]
+(pass) profiles per mode and orphan safety > headless launches use browsers/NAME/profile-headless, never the headed dir [1173.29ms]
+(pass) profiles per mode and orphan safety > two headless browsers with different names run side by side, separate dirs [1834.14ms]
+(pass) profiles per mode and orphan safety > headed and headless of the same name coexist (under Xvfb when available) [3832.83ms]
+(pass) profiles per mode and orphan safety > a profile held by a live foreign Chrome is not killed: clear error instead [3764.31ms]
+(pass) daemon shutdown does not delete the successor's endpoint > stop then immediate status, three times: the new daemon stays reachable [4919.97ms]
+(pass) page creation is serialized > 12 parallel getPage with different names -> 12 distinct tabs [1749.23ms]
+(pass) page creation is serialized > 6 parallel getPage with the same name -> 1 tab, nothing leaked [1044.75ms]
+(pass) page creation is serialized > inside one script: Promise.all of getPage calls [1187.85ms]
+(pass) restored tabs and downloads > stop + relaunch does not accumulate session-restored tabs [3833.18ms]
+(pass) restored tabs and downloads > downloads land in DEV_BROWSER_HOME/tmp/downloads [1869.33ms]
+killed 1 dangling process
+(fail) pages reached through Puppeteer's own graph are extended > page.browser().newPage(), popups via waitForTarget, browserContext().pages() [30000.59ms]
+  ^ this test timed out after 30000ms.
+
+# Unhandled error between tests
+-------------------------------
+344 | await p.click('#o');
+345 | const pop = await (await popupP).page();
+346 | const ctxPages = await p.browserContext().pages();
+347 | [typeof np.snapshot, typeof np.shot, typeof pop.snapshot, typeof pop.fill, ctxPages.every(x => typeof x.snapshot === 'function'), typeof pop.waitForLoad]`,
+348 |     });
+349 |     expect(r.code).toBe(0);
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 0
+Received: 143
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle2.test.ts:349:20)
+-------------------------------
+
+(pass) --ignore-https-errors > self-signed server fails without the flag and works with it (separate instance) [2764.17ms]
+(pass) broken stdout pipe > `dev-browser -e big | head -c 100` prints no EPIPE stack [1082.24ms]
+
+test/e2e/runtime3.test.ts:
+39 | });
+40 | 
+41 | describe("front lock", () => {
+42 |   test("two concurrent scripts clicking 40x on two pages of one browser both finish", async () => {
+43 |     const script = (name: string) => `const p = await browser.getPage(${q(name)})
+44 | await p.goto(${q(srv.url("/btn"))})
+                                     ^
+error: expect(received).toBe(expected)
+
+- ""
++ "TimeoutError: Timed out after 20s (deadline) while in page.click("#b")
++ [page fA] http://127.0.0.1:37505/btn "Btn"
++ "
+
+- Expected  - 1
++ Received  + 3
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime3.test.ts:44:33)
+(fail) front lock > two concurrent scripts clicking 40x on two pages of one browser both finish [20040.32ms]
+69 | await a.click("#b")
+70 | const shot = await a.shot()
+71 | const dt = Date.now() - t0;
+72 | ({ n: await a.$eval("#b", b => b.textContent), fast: dt < 3000, w: shot.width })`;
+73 |     const r = await cli.run([...H, "-t", "15"], { stdin: script });
+74 |     expect(r.stderr).toBe("");
+                          ^
+error: expect(received).toBe(expected)
+
+- ""
++ "TimeoutError: Timed out after 15s (deadline) while in page.click("#b")
++ [page extB] http://127.0.0.1:37505/btn "Btn"
++ [page extA] http://127.0.0.1:37505/btn "Btn"
++ "
+
+- Expected  - 1
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime3.test.ts:74:22)
+(fail) front lock > an external Target.activateTarget between actions does not stall the next click/shot [15038.67ms]
+85 | await B.evaluate(() => setTimeout(() => document.body.insertAdjacentHTML("beforeend", "<div id=l>hi</div>"), 300))
+86 | const t0 = Date.now()
+87 | await B.waitForSelector("#l", { visible: true, timeout: 3000 })
+88 | Date.now() - t0 < 2500`;
+89 |     const r = await cli.run([...H, "-t", "15"], { stdin: script });
+90 |     expect(r).toEqual({ code: 0, stdout: "true\n", stderr: "" });
+                   ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "true
++   "code": 124,
++   "stderr": 
++ "TimeoutError: Timed out after 15s (deadline) while in page.click("#b")
++ [page W1] http://127.0.0.1:37505/btn "Btn"
++ [page W2] http://127.0.0.1:37505/btn "Btn"
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 6
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime3.test.ts:90:15)
+(fail) front lock > waitForSelector({visible}) on a background tab resolves [15036.09ms]
+(pass) gate coverage beyond the page proxy > a zombie holding an ElementHandle stops after the run; page.on() returns the proxy [1177.39ms]
+129 |   popTitle: await pop.title(),
+130 | }
+131 | await pop.close()
+132 | out`;
+133 |     const r = await cli.run([...H, "-t", "15"], { stdin: script });
+134 |     expect(r.stderr).toBe("");
+                           ^
+error: expect(received).toBe(expected)
+
+- ""
++ "TimeoutError: Timed out after 15s (deadline) while in page.click("#l")
++ [page idm] http://127.0.0.1:37505/popup "Pop"
++ "
+
+- Expected  - 1
++ Received  + 3
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime3.test.ts:134:22)
+(fail) gate coverage beyond the page proxy > page.browser().pages() returns the same proxies as getPage; popups and frame.page() keep identity [15036.85ms]
+(pass) gate coverage beyond the page proxy > pages reached through browser().pages() are gated: a zombie loop on one stops at run end [980.81ms]
+(pass) per-page state left by a script > request interception enabled by one script is switched off at run end; the next script navigates [198.87ms]
+189 | const nav = Date.now() - t0
+190 | let waited = 0
+191 | try { await p.waitForSelector("#zzz", { timeout: 600 }) } catch (e) { waited = Date.now() - t0 - nav }
+192 | ({ navOk: nav > 1000, waited: waited >= 550 })`;
+193 |     const r2 = await cli.run([...H, "-t", "15"], { stdin: second });
+194 |     expect(r2.stderr).toBe("");
+                            ^
+error: expect(received).toBe(expected)
+
+- ""
++ "TimeoutError: Timed out after 15s (deadline) while in page.waitForSelector("#zzz")
++ [page dt] http://127.0.0.1:37505/slow "Slow"
++ "
+
+- Expected  - 1
++ Received  + 3
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime3.test.ts:194:23)
+(fail) per-page state left by a script > setDefaultTimeout/setDefaultNavigationTimeout do not leak into the next script [15124.27ms]
+201 | await p.evaluate(() => { window.onbeforeunload = () => "x" })
+202 | await p.click("#t") // user gesture so Chrome shows the beforeunload prompt
+203 | await p.goto(${q(srv.url("/page2"))})
+204 | await p.title()`;
+205 |     const r = await cli.run([...H, "-t", "15"], { stdin: script });
+206 |     expect(r.code).toBe(0);
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 0
+Received: 124
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime3.test.ts:206:20)
+(fail) per-page state left by a script > beforeunload dialogs are auto-accepted so the navigation proceeds [15034.60ms]
+(pass) errors and logs > cross-realm script errors reach the daemon log as Name: message [433.94ms]
+(pass) errors and logs > after a failed goto the [page] line names the attempted URL [181.91ms]
+(pass) errors and logs > dev-browser stop during a run surfaces as BrowserStoppedError [1615.18ms]
+killed 1 dangling process
+(fail) relative file paths resolve against the caller's cwd > uploadFile, page.screenshot({path}), handle.screenshot({path}) and pdf({path}) [30001.97ms]
+  ^ this test timed out after 30000ms.
+
+# Unhandled error between tests
+-------------------------------
+261 | const d = await p.$("#d"); await d.screenshot({ path: "el.png" });
+262 | await p.pdf({ path: "doc.pdf" });
+263 | name`;
+264 |     const r = await cli.run([...H], { stdin: script, cwd: dir });
+265 |     expect(r.stderr).toBe("");
+266 |     expect(r.stdout.trim()).toBe("up.txt");
+                                  ^
+error: expect(received).toBe(expected)
+
+Expected: "up.txt"
+Received: ""
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime3.test.ts:266:29)
+-------------------------------
+
+killed 1 dangling process
+(fail) realm > instanceof Error holds for Puppeteer errors and script errors [20000.62ms]
+  ^ this test timed out after 20000ms.
+
+# Unhandled error between tests
+-------------------------------
+270 | });
+271 | 
+272 | describe("realm", () => {
+273 |   test("instanceof Error holds for Puppeteer errors and script errors", async () => {
+274 |     const r = await cli.run([...H, "-e", 'const p = await browser.getPage("realm"); let a, b; try { await p.click("#nope") } catch (e) { a = e instanceof Error } try { throw new TypeError("x") } catch (e) { b = e instanceof Error && e instanceof TypeError } [a, b]']);
+275 |     expect(JSON.parse(r.stdout)).toEqual([true, true]);
+                      ^
+SyntaxError: JSON Parse error: Unexpected EOF
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime3.test.ts:275:17)
+-------------------------------
+
+
+test/e2e/lifecycle.test.ts:
+(pass) usage, version, help (no daemon needed) > unknown flag -> exit 2 with a dev-browser: message [22.41ms]
+(pass) usage, version, help (no daemon needed) > unknown command -> exit 2 [20.03ms]
+(pass) usage, version, help (no daemon needed) > --version [21.62ms]
+(pass) usage, version, help (no daemon needed) > --help contains USAGE and the version [54.96ms]
+(pass) usage, version, help (no daemon needed) > help <topic> prints only that section or a topic list [46.76ms]
+(pass) usage, version, help (no daemon needed) > --timeout validation is a usage error [24.05ms]
+(pass) usage, version, help (no daemon needed) > bad --idle-timeout is a usage error [28.44ms]
+(pass) usage, version, help (no daemon needed) > chrome --list prints at least one candidate [366.61ms]
+(pass) usage, version, help (no daemon needed) > chrome with an unknown flag is a usage error [96.54ms]
+(pass) usage, version, help (no daemon needed) > install-skill writes SKILL.md under HOME [306.56ms]
+(pass) daemon and browser lifecycle > first run spawns the daemon: pid file, socket, log [1111.83ms]
+(pass) daemon and browser lifecycle > browsers output shape [57.41ms]
+(pass) daemon and browser lifecycle > status output shape [51.40ms]
+(pass) daemon and browser lifecycle > --idle-timeout is reflected in browsers [81.81ms]
+193 | 
+194 |   test("idle reaper closes a launched browser after --idle-timeout", async () => {
+195 |     const r = await cli.run([...H, "--browser", "reap", "--idle-timeout", "1s", "-e", "1"]);
+196 |     expect(r.code).toBe(0);
+197 |     let b = await cli.run(["browsers"]);
+198 |     expect(b.stdout).toMatch(/reap:headless  headless  connected  \d+ page\(s\)  idle \d+s\/1s/);
+                           ^
+error: expect(received).toMatch(expected)
+
+Expected substring or pattern: /reap:headless  headless  connected  \d+ page\(s\)  idle \d+s\/1s/
+Received: "default:headless  headless  connected  1 page(s)  idle -1s/30m\nreap:headless  headless  connected  1 page(s)  idle -1s/1s\n"
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:198:22)
+(fail) daemon and browser lifecycle > idle reaper closes a launched browser after --idle-timeout [1041.10ms]
+207 | 
+208 |   test("a second profile name is a separate browser; stop NAME stops only it", async () => {
+209 |     const r = await cli.run([...H, "--browser", "work", "-e", "(await browser.getPage('w')).url()"]);
+210 |     expect(r).toEqual({ code: 0, stdout: "about:blank\n", stderr: "" });
+211 |     const b = await cli.run(["browsers"]);
+212 |     expect(b.stdout.trim().split("\n").length).toBe(2);
+                                                     ^
+error: expect(received).toBe(expected)
+
+Expected: 2
+Received: 3
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:212:48)
+(fail) daemon and browser lifecycle > a second profile name is a separate browser; stop NAME stops only it [1116.13ms]
+231 |     expect(JSON.parse(fs.readFileSync(pagesFile, "utf8")).surv).toBeDefined();
+232 | 
+233 |     const s = await cli.run(["stop", "default"]);
+234 |     expect(s).toEqual({ code: 0, stdout: "stopped 1 browser(s)\n", stderr: "" });
+235 |     const b = await cli.run(["browsers"]);
+236 |     expect(b).toEqual({ code: 0, stdout: "no browsers running\n", stderr: "" });
+                    ^
+error: expect(received).toEqual(expected)
+
+  {
+    "code": 0,
+    "stderr": "",
+    "stdout": 
+- "no browsers running
++ "reap:headless  headless  connected  1 page(s)  idle 1s/1s
++ work:headless  headless  connected  1 page(s)  idle 0s/30m
+  "
+  ,
+  }
+
+- Expected  - 1
++ Received  + 2
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:236:15)
+(fail) daemon and browser lifecycle > stop default -> browsers says none; names file survives; getPage recreates [332.30ms]
+(pass) daemon and browser lifecycle > killing the daemon with SIGTERM: next run spawns a fresh daemon [1763.51ms]
+270 |     process.kill(oldPid, "SIGKILL");
+271 |     expect(await waitFor(() => !pidAlive(oldPid), 10_000)).toBe(true);
+272 |     expect(fs.existsSync(path.join(cli.home, "daemon.sock"))).toBe(true); // stale
+273 |     // Chrome is orphaned (still holds the profile lock); the new daemon must reclaim the profile.
+274 |     const r = await cli.run([...H, "-e", "(await browser.getPage('after-kill')).url()"]);
+275 |     expect(r).toEqual({ code: 0, stdout: "about:blank\n", stderr: "" });
+                    ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "about:blank
++   "code": 1,
++   "stderr": 
++ "ProfileBusyError: profile "default" (headless) is in use by another Chrome (pid 98102, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:275:15)
+(fail) daemon and browser lifecycle > SIGKILLed daemon leaves a stale socket; the client recovers [6603.23ms]
+(pass) daemon and browser lifecycle > stop with no name stops everything and the daemon; auto-restarts on the next call [270.89ms]
+291 | 
+292 |   test("concurrent cold start: parallel clients share one daemon", async () => {
+293 |     await cli.run(["stop"]);
+294 |     await sleep(300);
+295 |     const rs = await Promise.all([1, 2, 3, 4].map((n) => cli.run([...H, "-e", `${n}`])));
+296 |     for (const [i, r] of rs.entries()) expect(r).toEqual({ code: 0, stdout: `${i + 1}\n`, stderr: "" });
+                                                       ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "1
++   "code": 1,
++   "stderr": 
++ "ProfileBusyError: profile "default" (headless) is in use by another Chrome (pid 98102, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:296:50)
+(fail) daemon and browser lifecycle > concurrent cold start: parallel clients share one daemon [6909.93ms]
+(pass) hung scripts > detached continuations cannot use browser registry operations after a run ends [1624.52ms]
+329 |   });
+330 | 
+331 |   test("a finite busy loop past the deadline still returns; the daemon stays healthy", async () => {
+332 |     const r = await cli.run([...H, "--timeout", "1", "-e", "const t = Date.now(); let i = 0; while (Date.now() - t < 2000) i++; 'done'"]);
+333 |     // the event loop was blocked so the deadline timer could not fire first; the value wins
+334 |     expect(r.code === 0 || r.code === 124).toBe(true);
+                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: false
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:334:44)
+(fail) hung scripts > a finite busy loop past the deadline still returns; the daemon stays healthy [907.19ms]
+339 |   test("an infinite loop: the client watchdog kills the hung daemon; the next call restarts it", async () => {
+340 |     const pid = Number(fs.readFileSync(path.join(cli.home, "daemon.pid"), "utf8"));
+341 |     const t0 = Date.now();
+342 |     const r = await cli.run([...H, "--timeout", "1", "-e", "while (true) {}"], { timeoutMs: 40_000 });
+343 |     expect(r.code).toBe(1);
+344 |     expect(r.stderr).toMatch(/no response from daemon for 16s; killed the hung daemon/);
+                           ^
+error: expect(received).toMatch(expected)
+
+Expected substring or pattern: /no response from daemon for 16s; killed the hung daemon/
+Received: "ProfileBusyError: profile \"default\" (headless) is in use by another Chrome (pid 98102, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.\n"
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:344:22)
+(fail) hung scripts > an infinite loop: the client watchdog kills the hung daemon; the next call restarts it [892.49ms]
+(pass) protocol: version handshake > daemon answers a mismatched hello with a version error and honors shutdown [272.33ms]
+(pass) protocol: version handshake > hello frame is the first line; a bad first frame yields a protocol error [45.21ms]
+466 |       });
+467 |     });
+468 |     await new Promise<void>((resolve) => fake.listen(sockPath, resolve));
+469 |     try {
+470 |       const r = await cli.run([...H, "-e", "'fresh'"]);
+471 |       expect(r).toEqual({ code: 0, stdout: "fresh\n", stderr: "" });
+                      ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "fresh
++   "code": 1,
++   "stderr": 
++ "ProfileBusyError: profile "default" (headless) is in use by another Chrome (pid 98102, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:471:17)
+(fail) client: version mismatch recovery > an old daemon is asked to exit and the request is retried on a fresh one [6722.90ms]
+(pass) --connect to an existing Chrome > --connect PORT [247.43ms]
+(pass) --connect to an existing Chrome > --connect http://127.0.0.1:PORT reaches the same browser and the same named page [104.27ms]
+(pass) --connect to an existing Chrome > --connect auto finds it via the remembered chrome-ports.json [486.24ms]
+(pass) --connect to an existing Chrome > dev-browser pages --connect lists the external Chrome's tabs [33.58ms]
+(pass) --connect to an existing Chrome > stop by cdp key disconnects without killing Chrome [32.16ms]
+(pass) --connect to an existing Chrome > --connect to a dead port is a clean error [3034.46ms]
+
+test/e2e/runtime2.test.ts:
+52 | const t1 = Date.now()
+53 | await b.click("#b")
+54 | const dt2 = Date.now() - t1;
+55 | ({ clicked: await a.evaluate(() => window.clicked), w: s.width, fast: dt < 3000 && dt2 < 3000 })`;
+56 |     const r = await cli.run([...H, "-t", "15"], { stdin: script });
+57 |     expect(r.stderr).toBe("");
+                          ^
+error: expect(received).toBe(expected)
+
+- ""
++ "TimeoutError: Timed out after 15s (deadline) while in page.click("#b")
++ [page bgA] http://127.0.0.1:36521/btn "Btn"
++ [page bgB] http://127.0.0.1:36521/btn "Btn"
++ "
+
+- Expected  - 1
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime2.test.ts:57:22)
+(fail) background tabs > click/shot on a named page that is no longer the front tab completes [15040.40ms]
+(pass) zombie scripts > after a deadline the script stops at its next page call and the page is free for the next script [1815.21ms]
+(pass) zombie scripts > a zombie that swallows errors and retries does not wedge the daemon [2020.58ms]
+(pass) zombie scripts > timeout message names the in-flight call with its selector; plain sleeps keep the old message [2064.14ms]
+(pass) zombie scripts > client disconnect ends the run: the script stops touching the page and status shows 0 active [2573.36ms]
+(pass) zombie scripts > page listeners and timers from a finished script are removed [1092.11ms]
+161 | await p.click("#alert")
+162 | await p.click("#confirm")
+163 | await new Promise(r => setTimeout(r, 50));
+164 | [await p.evaluate(() => window.afterAlert), await p.evaluate(() => window.answer)]`;
+165 |     const r = await cli.run([...H, "-t", "10"], { stdin: script });
+166 |     expect(r.code).toBe(0);
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 0
+Received: 124
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime2.test.ts:166:20)
+(fail) dialogs > unhandled alert is auto-dismissed and reported on stderr; click does not hang [10034.67ms]
+175 | p.on("dialog", d => d.accept())
+176 | await p.click("#confirm")
+177 | await new Promise(r => setTimeout(r, 50))
+178 | await p.evaluate(() => window.answer)`;
+179 |     const r = await cli.run([...H, "-t", "10"], { stdin: script });
+180 |     expect(r).toEqual({ code: 0, stdout: "true\n", stderr: "" });
+                    ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "true
++   "code": 124,
++   "stderr": 
++ "TimeoutError: Timed out after 10s (deadline) while in page.click("#confirm")
++ [page dlg] http://127.0.0.1:36521/dialogs "Dialogs"
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 5
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime2.test.ts:180:15)
+(fail) dialogs > a script's own dialog handler keeps control [10037.53ms]
+(pass) page console hygiene > favicon 404 is dropped; failed resources name their URL; overflow gets a marker [771.65ms]
+(pass) result formatting > vm-realm Error/Map/Set print usefully; console.log(err) shows the message [63.55ms]
+(pass) result formatting > --json result frame carries structured data [61.20ms]
+(pass) result formatting > trailing object literal without parens is the result [30.58ms]
+231 |   test("page.shot() as the last expression prints one [image] line and a compact object", async () => {
+232 |     const script = `const p = await browser.getPage("shot2")
+233 | await p.goto(${q(srv.url("/"))})
+234 | await p.shot()`;
+235 |     const r = await cli.run(H, { stdin: script });
+236 |     expect(r.code).toBe(0);
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 0
+Received: 124
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime2.test.ts:236:20)
+(fail) result formatting > page.shot() as the last expression prints one [image] line and a compact object [30036.97ms]
+killed 1 dangling process
+(fail) errors > per-action timeout shows the cause; stale ref via selector shows the documented message and a script frame [20002.51ms]
+  ^ this test timed out after 20000ms.
+
+# Unhandled error between tests
+-------------------------------
+244 |   test("per-action timeout shows the cause; stale ref via selector shows the documented message and a script frame", async () => {
+245 |     const script = `const p = await browser.getPage("err2")
+246 | await p.goto(${q(srv.url("/"))})
+247 | await p.waitForSelector("#never", { timeout: 300 })`;
+248 |     const r = await cli.run(H, { stdin: script });
+249 |     expect(r.code).toBe(1);
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 143
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/runtime2.test.ts:249:20)
+-------------------------------
+
+(pass) errors > stack columns before the inserted return( on the last line are not over-shifted [29.65ms]
+
+test/e2e/run.test.ts:
+(pass) basic eval and output > -e '1+1' -> 2 [25.96ms]
+(pass) basic eval and output > stdin script: console.log streams, object return is pretty JSON [34.24ms]
+(pass) basic eval and output > string return is printed raw (no quotes) [60.05ms]
+(pass) basic eval and output > undefined return prints nothing; null prints null [146.83ms]
+(pass) basic eval and output > console.warn/error -> stderr; console.log -> stdout [30.56ms]
+(pass) basic eval and output > top-level await and fetch work [31.58ms]
+(pass) basic eval and output > empty stdin script runs as an empty program and exits 0 [28.70ms]
+(pass) basic eval and output > run FILE [28.22ms]
+(pass) basic eval and output > run FILE: missing file is a usage error, not a crash [24.29ms]
+(pass) errors > syntax error -> stderr SyntaxError, exit 1 [31.50ms]
+(pass) errors > thrown TypeError -> name: message, script frame, [page NAME] context, exit 1 [101.11ms]
+(pass) errors > error from -e uses <eval> as the script name and line 1 [38.29ms]
+(pass) errors > script file name appears in stack [29.75ms]
+(pass) errors > thrown non-Error value [32.60ms]
+(pass) errors > --timeout 1 with a 3 s sleep -> TimeoutError, exit 124; next script still works [1063.87ms]
+(pass) errors > timeout inside a page action is clamped and still exits 124 with page context [1041.10ms]
+(pass) --json > prints NDJSON frames incl. result and done [30.63ms]
+(pass) --json > --json error frame [28.43ms]
+(pass) output cap > console.log 120k chars -> capped marker + spill file with everything [36.36ms]
+(pass) output cap > --no-cap prints everything [32.36ms]
+(pass) page console collection > page console.error + uncaught -> stderr [page:NAME] lines [322.46ms]
+(pass) page console collection > --quiet-page suppresses [269.32ms]
+(pass) script globals and page helpers > saveFile/readFile round trip; saveFile('../x') throws [37.75ms]
+263 |     const script = `const page = await browser.getPage("shotpage")
+264 | await page.goto(${JSON.stringify(srv.url("/"))})
+265 | const s = await page.shot()
+266 | console.log(JSON.stringify(s))`;
+267 |     const r = await cli.run(H, { stdin: script });
+268 |     expect(r.code).toBe(0);
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 0
+Received: 124
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/run.test.ts:268:20)
+(fail) script globals and page helpers > page.shot() prints [image] path (WxH) and writes a JPEG [30037.79ms]
+284 | await page.goto(${JSON.stringify(srv.url("/"))})
+285 | await page.shot()`;
+286 |     const r = await cli.run([...H, "--json"], { stdin: script });
+287 |     const frames = r.stdout.trim().split("\n").map((l) => JSON.parse(l));
+288 |     const img = frames.find((f) => f.type === "image");
+289 |     expect(img).toBeDefined();
+                      ^
+error: expect(received).toBeDefined()
+
+Received: undefined
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/run.test.ts:289:17)
+(fail) script globals and page helpers > page.shot() in --json mode emits an image frame [30032.35ms]
+296 | await page.goto(${JSON.stringify(srv.url("/form"))})
+297 | await page.fill("#name", "new value")
+298 | await page.fill("#ta", "multi");
+299 | [await page.$eval("#name", e => e.value), await page.$eval("#ta", e => e.value)]`;
+300 |     const r = await cli.run(H, { stdin: script });
+301 |     expect(r.stderr).toBe("");
+                           ^
+error: expect(received).toBe(expected)
+
+- ""
++ "TimeoutError: Timed out after 30s (deadline) while in page.fill("#name")
++ [page fillpage] http://127.0.0.1:36571/form "Form"
++ "
+
+- Expected  - 1
++ Received  + 3
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/run.test.ts:301:22)
+(fail) script globals and page helpers > page.fill replaces an input's value [30036.45ms]
+(pass) script globals and page helpers > page.goto defaults to domcontentloaded (load never fires) [148.26ms]
+(pass) script globals and page helpers > Puppeteer objects are tamed in console output [144.27ms]
+(pass) concurrency > two scripts sleeping 600 ms finish in < 1.5 s total [634.09ms]
+(pass) stack columns > ReferenceError in a one-line -e points at the real column [30.37ms]
+(pass) page console cap > at most 20 [page:...] lines are printed [284.90ms]
+
+test/e2e/pages.test.ts:
+(pass) named pages > a named page persists its URL across two invocations [135.54ms]
+(pass) named pages > getPage returns the same tab for the same name within one script [92.04ms]
+(pass) named pages > pages file under DEV_BROWSER_HOME/pages/*.json contains the name -> targetId [36.46ms]
+(pass) named pages > getPage by targetId from listPages attaches to the tab without renaming it [108.60ms]
+(pass) named pages > getPage with an unknown targetId throws a helpful error [30.97ms]
+(pass) named pages > getPage('') throws a TypeError [31.66ms]
+(pass) anonymous pages > newPage is not auto-closed; listPages count grows; closePage by name works [403.86ms]
+(pass) anonymous pages > closing a named tab with page.close() drops the name and getPage recreates it [367.15ms]
+(pass) dev-browser pages > lists browser key, id, name, url, title [29.11ms]
+(pass) dev-browser pages > --json payload shape [29.89ms]
+(pass) dev-browser pages > listPages entries have the documented shape [34.50ms]
+
+test/unit/output.test.ts:
+(pass) OutputSink > below cap: everything streams through unchanged [0.44ms]
+(pass) OutputSink > over cap: head streamed, marker + tail printed, spill file has everything [1.29ms]
+(pass) OutputSink > one huge write crossing the cap [0.17ms]
+(pass) OutputSink > stderr is never capped [0.07ms]
+(pass) OutputSink > cap disabled: everything streams, no spill, no marker [0.08ms]
+(pass) OutputSink > defaults: 50k cap, 5k tail [0.42ms]
+(pass) OutputSink > finish is a no-op when nothing was capped [0.03ms]
+
+test/unit/smoke.test.ts:
+(pass) fixture page + server [1152.35ms]
+(pass) cli env runs -e [1373.17ms]
+
+test/unit/transform.test.ts:
+(pass) transformScript > last expression becomes the return value [4.14ms]
+(pass) transformScript > trailing semicolon [1.06ms]
+(pass) transformScript > trailing comment after last expression [1.16ms]
+(pass) transformScript > multi-line last expression [1.46ms]
+(pass) transformScript > multi-line call expression as last statement [1.00ms]
+(pass) transformScript > explicit return works [0.72ms]
+(pass) transformScript > const-only script returns undefined [0.90ms]
+(pass) transformScript > lone string literal (a 'directive' to the parser) is still returned [1.10ms]
+(pass) transformScript > top-level await [5.10ms]
+(pass) transformScript > await expression as last statement returns the resolved value [0.62ms]
+(pass) transformScript > never executes twice [0.34ms]
+(pass) transformScript > syntax error message includes line and column [0.65ms]
+(pass) transformScript > import statement gives a friendly error [0.71ms]
+(pass) transformScript > stack line numbers match the user's script (Bun ignores negative lineOffset) [0.45ms]
+(pass) transformScript > hashbang is allowed [0.21ms]
+(pass) transformScript > code is an async arrow expression sharing line 1 with the script [0.28ms]
+(pass) transformScript column shifts > records the wrapper shift on line 1 and the return( shift on the last statement line [0.24ms]
+(pass) transformScript: trailing object literal > `{ a: 1 }` as the last statement is returned like an object literal (not a block) [1.19ms]
+(pass) transformScript: trailing object literal > an object literal that does not even parse as a block (await/commas) is retried with parens [1.30ms]
+(pass) transformScript: trailing object literal > real blocks and labels are left alone; other syntax errors still throw [0.68ms]
+(pass) transformScript: trailing object literal > returnInsert records where `return (` went [0.38ms]
+
+test/unit/config-paths.test.ts:
+(pass) default home is versioned away from the v0.2 daemon [0.07ms]
+(pass) parseDuration > units [0.14ms]
+(pass) parseDuration > garbage throws [0.08ms]
+(pass) formatDuration > round-trips nicely [0.03ms]
+(pass) resolveIdleTimeoutMs precedence > flag > env > config > default [0.10ms]
+(pass) resolveIdleTimeoutMs precedence > bad flag throws [0.02ms]
+(pass) resolveIdleTimeoutMs precedence > accepts the 0.2.x DEV_BROWSER_IDLE_TIMEOUT_MS name as a fallback [0.02ms]
+(pass) jailPath > accepts plain names under the tmp dir [0.07ms]
+(pass) jailPath > rejects escapes [0.15ms]
+(pass) sanitizeName / sanitizeKey > sanitizeName [0.08ms]
+(pass) sanitizeName / sanitizeKey > sanitizeKey [0.10ms]
+(pass) sanitizeName / sanitizeKey > pagesFile uses the sanitized key [0.04ms]
+(pass) LineDecoder > partial chunks across boundaries [0.16ms]
+(pass) LineDecoder > UTF-8 code points split across byte chunks are preserved [0.31ms]
+(pass) LineDecoder > blank lines are skipped; incomplete tail is held [0.06ms]
+(pass) LineDecoder > cap on a single line [0.09ms]
+(pass) LineDecoder > invalid JSON throws [0.04ms]
+(pass) LineDecoder > encodeFrame round-trips [0.03ms]
+(pass) jailPath accepts downloads/<name> and nothing deeper [0.16ms]
+
+test/unit/migrate-from-doobie.test.ts:
+copied config.json, browsers from /tmp/dev-browser-migrate-O9MOW7/doobie to /tmp/dev-browser-migrate-O9MOW7/dev-browser-v1
+the original doobie state was left unchanged
+(pass) copies durable state and leaves the source intact [7.77ms]
+dev-browser: refusing to overwrite existing v1 state in /tmp/dev-browser-migrate-W7JcjV/dev-browser-v1 (config.json).
+Move that directory aside or use DEV_BROWSER_HOME to select an empty destination.
+(pass) refuses to overwrite existing v1 state [1.86ms]
+dev-browser: doobie daemon pid 47296 is still running. Run `doobie stop` before migrating.
+(pass) refuses to copy while the doobie daemon is running [1.52ms]
+
+test/unit/client-transport.test.ts:
+(pass) client transport: Bun.connect backpressure > a 2 MB payload arrives intact when the server reads slowly [28.74ms]
+(pass) client transport: Bun.connect backpressure > many small writes keep their order under backpressure [50.83ms]
+(pass) profile lock safety predicate (classifyLockHolder) > no lock -> none; dead holder -> stale [0.27ms]
+(pass) profile lock safety predicate (classifyLockHolder) > a pid that belongs to a live BrowserManager entry or chrome-ports.json is ours, never an orphan [0.04ms]
+(pass) profile lock safety predicate (classifyLockHolder) > reparented to init (daemon died) -> orphan; parent vanished -> orphan [0.07ms]
+(pass) profile lock safety predicate (classifyLockHolder) > a live parent that is not us (another daemon, a manual launch) -> foreign, not killable [0.03ms]
+(pass) profile lock safety predicate (classifyLockHolder) > our own child that is not a live entry -> child (wait first) [0.03ms]
+(pass) profile lock safety predicate (classifyLockHolder) > pid reuse: live process that does not mention the profile -> unrelated [0.02ms]
+(pass) profile lock safety predicate (classifyLockHolder) > chromePortPids reads pids recorded by `dev-browser chrome` [0.91ms]
+(pass) profile dirs > headed and headless instances of one name use different user-data-dirs; dev-browser chrome has its own root [0.64ms]
+(pass) profile dirs > keyFor: headless and --ignore-https-errors get their own instances [0.08ms]
+(pass) Chrome for Testing discovery (installedCandidates) > finds the linux and the (deep) macOS layouts under a temp DEV_BROWSER_HOME [3.68ms]
+(pass) dev-browser chrome picks the user's real browser > system beats env/config beats installed/playwright [0.10ms]
+(pass) CDP endpoint redaction > drops query strings and userinfo, keeps host/port/path [0.20ms]
+(pass) CDP endpoint redaction > canonical identity hides credentials without aliasing distinct remote sessions [0.21ms]
+(pass) --ignore-https-errors flag > is parsed and absent by default [0.22ms]
+(pass) read-only DEV_BROWSER_HOME > ensureHome fails fast with a clear message [0.84ms]
+
+test/unit/docs.test.ts:
+(pass) help.md stays within the line budget and every topic is present [1.80ms]
+(pass) help.md no longer carries the stale claims from the review [0.30ms]
+(pass) README, SKILL and design doc reflect the current behaviour [0.06ms]
+(pass) documented behaviours hold: help exit 2, ASI ReferenceError, stale ref $ -> null, ref wait is a TimeoutError, pages -b [2766.19ms]
+
+test/unit/launch-state.test.ts:
+(pass) preparePrefs creates/patches Preferences: clean exit, leak detection off, no password/autofill UI [1.60ms]
+(pass) needsNoSandbox reads the remembered set from launch-state.json [0.51ms]
+
+test/unit/packaging.test.ts:
+(pass) download-binary module > platformAsset names a supported asset on this CI platform [0.07ms]
+(pass) download-binary module > default base is the GitHub release URL for package.json version [0.07ms]
+(pass) download-binary module > DEV_BROWSER_DOWNLOAD_BASE overrides the base (trailing slash stripped) [0.08ms]
+(pass) download-binary module > findChecksum accepts text and binary (*) sha256sum lines [0.31ms]
+113 |     const dest = path.join(tmp(), "bin", "dev-browser-bin");
+114 |     const logs: string[] = [];
+115 |     const r = await dl.downloadBinary({ base: goodBase, dest, log: (m) => logs.push(m) });
+116 |     expect(r.dest).toBe(dest);
+117 |     expect(fs.readFileSync(dest)).toEqual(FAKE_BIN);
+118 |     expect(fs.statSync(dest).mode & 0o777).toBe(0o755);
+                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: 493
+Received: 448
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/unit/packaging.test.ts:118:44)
+(fail) download-binary module > downloads, verifies and installs the binary (mode 755, atomic) [6.70ms]
+(pass) download-binary module > follows redirects [5.96ms]
+(pass) download-binary module > refuses a checksum mismatch and leaves nothing behind [1.52ms]
+(pass) download-binary module > refuses when SHA256SUMS has no entry for the asset [1.70ms]
+(fail) download-binary module > 404 and connection errors reject with a useful message [133317.79ms]
+  ^ this test timed out after 120000ms.
+(pass) download-binary module > DEV_BROWSER_DOWNLOAD_BASE env drives downloadBinary when no base is given [3.97ms]
+(pass) relinkGlobal > does nothing for a project-local install (npm_config_global unset) [2.77ms]
+(pass) relinkGlobal > relinks for a global install whose link points at this package [2.54ms]
+(pass) relinkGlobal > does not hijack a global link that points at a different dev-browser package [2.72ms]
+(pass) relinkGlobal > ignores a missing link or a non-symlink [2.00ms]
+(pass) bin/dev-browser.cjs shim > self-heals: downloads the binary on first run, then runs it; second run does not download [204.64ms]
+(pass) bin/dev-browser.cjs shim > passes the binary's exit code through [98.85ms]
+killed 1 dangling process
+(fail) bin/dev-browser.cjs shim > offline / unreachable mirror: clear error, exit 1, no bun advice [120001.29ms]
+  ^ this test timed out after 120000ms.
+
+# Unhandled error between tests
+-------------------------------
+283 |   });
+284 | 
+285 |   test("offline / unreachable mirror: clear error, exit 1, no bun advice", async () => {
+286 |     const pkg = fakePackage();
+287 |     const r = await runNode(path.join(pkg, "bin/dev-browser.cjs"), ["--version"], { DEV_BROWSER_DOWNLOAD_BASE: "http://127.0.0.1:1/x" }, pkg);
+288 |     expect(r.code).toBe(1);
+                         ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 143
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/unit/packaging.test.ts:288:20)
+-------------------------------
+
+(pass) bin/dev-browser.cjs shim > checksum mismatch refuses the binary [101.24ms]
+(pass) bin/dev-browser.cjs shim > DEV_BROWSER_SKIP_DOWNLOAD: does not download, explains how to fix [97.21ms]
+(pass) bin/dev-browser.cjs shim > dev checkout: the real shim in this repo runs src/cli/main.ts with bun when no binary exists [119.87ms]
+(pass) scripts/postinstall.cjs > installs from DEV_BROWSER_DOWNLOAD_BASE and does not touch a global link for a local install [126.57ms]
+(pass) scripts/postinstall.cjs > global install relinks the global `dev-browser` symlink at the binary [99.51ms]
+(pass) scripts/postinstall.cjs > download failure: exit 0, message recommends npm rebuild / manual download, never bun [100.58ms]
+(pass) scripts/postinstall.cjs > DEV_BROWSER_SKIP_DOWNLOAD skips; dev checkout (src/ present) is a no-op [174.79ms]
+(pass) package.json > ships no runtime dependencies (the binary bundles everything) [0.25ms]
+(pass) package.json > files whitelist is the shim, the install scripts and docs only [0.07ms]
+(pass) package.json > npm pack --dry-run lists exactly the published files [381.66ms]
+
+test/unit/args.test.ts:
+(pass) parseArgs > no args -> script from stdin, defaults [0.66ms]
+(pass) parseArgs > every global flag [0.19ms]
+(pass) parseArgs > short flags [0.05ms]
+(pass) parseArgs > --headed overrides --headless [0.01ms]
+(pass) parseArgs > --flag=value form [0.04ms]
+(pass) parseArgs > --connect without value -> auto [0.06ms]
+(pass) parseArgs > --connect with url / port / host:port / unix: [0.09ms]
+(pass) parseArgs > --connect before a subcommand does not eat the subcommand [0.06ms]
+(pass) parseArgs > --connect with value before a subcommand [0.02ms]
+(pass) parseArgs > run FILE [0.10ms]
+(pass) parseArgs > stop [NAME] [0.08ms]
+(pass) parseArgs > simple subcommands [0.06ms]
+(pass) parseArgs > subcommands with passthrough args [0.05ms]
+(pass) parseArgs > unknown flag -> UsageError [0.05ms]
+(pass) parseArgs > unknown command -> UsageError [0.02ms]
+(pass) parseArgs > missing values -> UsageError [0.05ms]
+(pass) parseArgs > --timeout validation [0.05ms]
+(pass) parseArgs > -e accepts code starting with a dash [0.03ms]
+(pass) parseArgs > -- ends flag parsing [0.01ms]
+(pass) parseArgs: global flags after a subcommand > status/pages/browsers/stop accept --json after the subcommand [0.09ms]
+(pass) parseArgs: global flags after a subcommand > stray positional after a simple subcommand is a usage error [0.05ms]
+
+test/unit/errors.test.ts:
+(pass) cleanStack > keeps only script frames, strips anonymous names [0.35ms]
+(pass) cleanStack > max 5 frames [0.11ms]
+(pass) cleanStack > no script frames -> undefined [0.02ms]
+(pass) cleanStack > script names with regex chars are matched literally [0.06ms]
+(pass) cleanStack > multi-line message header is skipped [0.02ms]
+(pass) cleanStack > line1ColumnShift adjusts columns on line 1 only [0.02ms]
+(pass) cleanStack > frames without parentheses
+(pass) formatScriptError > Error objects [0.14ms]
+(pass) formatScriptError > thrown primitives [0.03ms]
+(pass) formatScriptError > object with empty name falls back to Error [0.02ms]
+(pass) cleanStack columnShifts > per-line shifts (wrapper on line 1, return( on the last statement's line) [0.02ms]
+(pass) formatScriptError cause > appends err.cause's message when it adds information [0.03ms]
+(pass) formatScriptError cause > string causes work; a cause already contained in the message is not repeated [0.04ms]
+(pass) formatScriptError cause > stack header is still recognised after the cause is appended [0.02ms]
+(pass) cleanStack returnInsert > frames before the insertion point are only shifted by the wrapper [0.01ms]
+(pass) cleanStack returnInsert > frames after the insertion point are shifted by wrapper + return(
+(pass) cleanStack returnInsert > frames inside the inserted text clamp to the insertion point
+(pass) cleanStack returnInsert > other lines unaffected; without returnInsert the whole-line shift applies [0.02ms]
+
+test/unit/chrome-cmd.test.ts:
+(pass) dev-browser chrome verifies the launch > a Chrome that exits immediately: exit 1, stderr tail shown, no port recorded [202.91ms]
+(pass) dev-browser chrome verifies the launch > sandbox failure on Linux is retried once with --no-sandbox and remembered [508.36ms]
+(pass) dev-browser chrome verifies the launch > a real headless Chrome (--headless) answers /json/version before success is printed [1138.13ms]
+(pass) dev-browser chrome verifies the launch > launching twice on the same profile is a clear error (ProcessSingleton), not a false success [1436.80ms]
+(pass) dev-browser chrome verifies the launch > flags: --headless is accepted, unknown flags are usage errors [85.29ms]
+(pass) dev-browser help <unknown topic> > exits 2 with the message on stderr; known topics still exit 0 [48.72ms]
+(pass) dev-browser help <unknown topic> > findTopicText/unknownTopicMessage [2.62ms]
+
+49 tests failed:
+(fail) frame keys stay stable per frame across snapshots; removed frames free no keys [5351.97ms]
+(fail) refs work with page.$ / click / ref and are stable across snapshots [30206.43ms]
+(fail) available iframes are nested with document-scoped frame refs and clickable [30275.71ms]
+(fail) waitForSelector('ref/eN') and locator('ref/eN').click() work [3184.98ms]
+(fail) dev_browser_run returns text + image content, errors set isError [30120.60ms]
+(fail) background tabs > click and shot on a page that is not the front tab do not hang [20000.42ms]
+  ^ this test timed out after 20000ms.
+(fail) background tabs > front lock: bringToFront every time (no cache), ~1 ms per action; same-page actions join, other pages queue [41.58ms]
+(fail) background tabs > raf-polled waits (visible/hidden, waitForFunction) resolve on a page another page's actions pushed to the background [20001.81ms]
+  ^ this test timed out after 20000ms.
+(fail) background tabs > locator actions and ElementHandle.scrollIntoView on a background tab complete [38.27ms]
+(fail) page.shot() math > viewport shot at DPR 2 is 1:1 CSS pixels with scale 1 [31015.85ms]
+(fail) page.shot() math > viewport shot at DPR 1 and maxEdge downscale [30147.05ms]
+(fail) page.shot() math > fullPage and clip shots at DPR 2: size = CSS size * scale, scale = min(1, maxEdge/longest) [30112.31ms]
+(fail) page.shot() math > type follows the name extension; png gets png bytes [30105.39ms]
+(fail) dialogs > an unhandled alert is auto-dismissed and reported; click does not hang [30150.70ms]
+(fail) dialogs > a script's own dialog listener keeps control [30127.09ms]
+(fail) run gate > guarded page: calls work, then throw RunAbortedError after close; listeners and timers are cleaned up [30346.87ms]
+(fail) frame refs survive same-document navigation but never alias after reload, renderer swap, parent reload, or detach [31307.13ms]
+(fail) --connect: the user's own tabs are not extended > a popup opened from the user's tab is not extended either [5091.73ms]
+(fail) --connect: the user's own tabs are not extended > a popup opened from a dev-browser page is extended (opener is a touched page) [30001.54ms]
+  ^ this test timed out after 30000ms.
+(fail) --connect: the user's own tabs are not extended > a user tab reached via getPage(targetId) is extended lazily, on first access [43.80ms]
+(fail) --connect: the user's own tabs are not extended > browser.newPage() from a script is extended; listPages shows the user's tabs without touching them [0.38ms]
+(fail) pages reached through Puppeteer's own graph are extended > page.browser().newPage(), popups via waitForTarget, browserContext().pages() [30000.59ms]
+  ^ this test timed out after 30000ms.
+(fail) front lock > two concurrent scripts clicking 40x on two pages of one browser both finish [20040.32ms]
+(fail) front lock > an external Target.activateTarget between actions does not stall the next click/shot [15038.67ms]
+(fail) front lock > waitForSelector({visible}) on a background tab resolves [15036.09ms]
+(fail) gate coverage beyond the page proxy > page.browser().pages() returns the same proxies as getPage; popups and frame.page() keep identity [15036.85ms]
+(fail) per-page state left by a script > setDefaultTimeout/setDefaultNavigationTimeout do not leak into the next script [15124.27ms]
+(fail) per-page state left by a script > beforeunload dialogs are auto-accepted so the navigation proceeds [15034.60ms]
+(fail) relative file paths resolve against the caller's cwd > uploadFile, page.screenshot({path}), handle.screenshot({path}) and pdf({path}) [30001.97ms]
+  ^ this test timed out after 30000ms.
+(fail) realm > instanceof Error holds for Puppeteer errors and script errors [20000.62ms]
+  ^ this test timed out after 20000ms.
+(fail) daemon and browser lifecycle > idle reaper closes a launched browser after --idle-timeout [1041.10ms]
+(fail) daemon and browser lifecycle > a second profile name is a separate browser; stop NAME stops only it [1116.13ms]
+(fail) daemon and browser lifecycle > stop default -> browsers says none; names file survives; getPage recreates [332.30ms]
+(fail) daemon and browser lifecycle > SIGKILLed daemon leaves a stale socket; the client recovers [6603.23ms]
+(fail) daemon and browser lifecycle > concurrent cold start: parallel clients share one daemon [6909.93ms]
+(fail) hung scripts > a finite busy loop past the deadline still returns; the daemon stays healthy [907.19ms]
+(fail) hung scripts > an infinite loop: the client watchdog kills the hung daemon; the next call restarts it [892.49ms]
+(fail) client: version mismatch recovery > an old daemon is asked to exit and the request is retried on a fresh one [6722.90ms]
+(fail) background tabs > click/shot on a named page that is no longer the front tab completes [15040.40ms]
+(fail) dialogs > unhandled alert is auto-dismissed and reported on stderr; click does not hang [10034.67ms]
+(fail) dialogs > a script's own dialog handler keeps control [10037.53ms]
+(fail) result formatting > page.shot() as the last expression prints one [image] line and a compact object [30036.97ms]
+(fail) errors > per-action timeout shows the cause; stale ref via selector shows the documented message and a script frame [20002.51ms]
+  ^ this test timed out after 20000ms.
+(fail) script globals and page helpers > page.shot() prints [image] path (WxH) and writes a JPEG [30037.79ms]
+(fail) script globals and page helpers > page.shot() in --json mode emits an image frame [30032.35ms]
+(fail) script globals and page helpers > page.fill replaces an input's value [30036.45ms]
+(fail) download-binary module > downloads, verifies and installs the binary (mode 755, atomic) [6.70ms]
+(fail) download-binary module > 404 and connection errors reject with a useful message [133317.79ms]
+  ^ this test timed out after 120000ms.
+(fail) bin/dev-browser.cjs shim > offline / unreachable mirror: clear error, exit 1, no bun advice [120001.29ms]
+  ^ this test timed out after 120000ms.
+
+ 294 pass
+ 49 fail
+ 9 errors
+ 3312 expect() calls
+Ran 343 tests across 28 files. [1100.92s]
+error: script "test" exited with code 1

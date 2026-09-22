@@ -1,0 +1,65 @@
+{
+  "homes": [
+    "/tmp/dev-browser-e2e-life-KFSglK",
+    "/tmp/dev-browser-e2e-life2-FckPRQ"
+  ],
+  "terminated": [
+    {
+      "pid": 88800,
+      "ppid": 51939,
+      "state": "S",
+      "command": [
+        "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/153.0.8003.0+stealthcdp.86aec912997e/chrome-linux/chrome_crashpad_handler",
+        "--monitor-self",
+        "--monitor-self-annotation=ptype=crashpad-handler"
+      ],
+      "homes": [
+        "/tmp/dev-browser-e2e-life2-FckPRQ"
+      ],
+      "profiles": []
+    },
+    {
+      "pid": 88802,
+      "ppid": 51939,
+      "state": "S",
+      "command": [
+        "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/153.0.8003.0+stealthcdp.86aec912997e/chrome-linux/chrome_crashpad_handler",
+        "--no-periodic-tasks",
+        "--monitor-self-annotation=ptype=crashpad-handler"
+      ],
+      "homes": [
+        "/tmp/dev-browser-e2e-life2-FckPRQ"
+      ],
+      "profiles": []
+    },
+    {
+      "pid": 98104,
+      "ppid": 51939,
+      "state": "S",
+      "command": [
+        "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/153.0.8003.0+stealthcdp.86aec912997e/chrome-linux/chrome_crashpad_handler",
+        "--monitor-self",
+        "--monitor-self-annotation=ptype=crashpad-handler"
+      ],
+      "homes": [
+        "/tmp/dev-browser-e2e-life-KFSglK"
+      ],
+      "profiles": []
+    },
+    {
+      "pid": 98106,
+      "ppid": 51939,
+      "state": "S",
+      "command": [
+        "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/153.0.8003.0+stealthcdp.86aec912997e/chrome-linux/chrome_crashpad_handler",
+        "--no-periodic-tasks",
+        "--monitor-self-annotation=ptype=crashpad-handler"
+      ],
+      "homes": [
+        "/tmp/dev-browser-e2e-life-KFSglK"
+      ],
+      "profiles": []
+    }
+  ],
+  "remaining": []
+}

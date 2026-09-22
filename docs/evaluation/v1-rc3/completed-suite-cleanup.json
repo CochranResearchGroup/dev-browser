@@ -1,0 +1,154 @@
+{
+  "homes": [
+    "/tmp/dev-browser-e2e-life-J0JrPB",
+    "/tmp/dev-browser-e2e-life-LkHvbH",
+    "/tmp/dev-browser-e2e-life2-hxBmgn"
+  ],
+  "terminated": {
+    "18485": [
+      51939,
+      "/home/ecochran76/.npm/_npx/60c3515df86f25b1/node_modules/bun/bin/bun.exe"
+    ],
+    "19344": [
+      18485,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --allow-pre-commit-input --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-crash-reporter --disable-default-apps --disable-dev-shm-usage --disable-hang-monitor --disable-infobars --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-search-engine-choice-screen --disable-sync --enable-automation --export-tagged-pdf --force-color-profile=srgb --generate-pdf-document-outline --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --disable-features=Translate,AcceptCHFrame,MediaRouter,OptimizationHints,WebUIReloadButton,WebUIOmniboxPopup,WebUIOmniboxAimPopup,ProcessPerSiteUpToMainFrameThreshold,IsolateSandboxedIframes --enable-features=PdfOopif --user-data-dir=/tmp/dev-browser-e2e-life2-hxBmgn/browsers/default/profile-headless --headless=new --hide-scrollbars --mute-audio --disable-extensions --no-first-run --no-default-browser-check --disable-search-engine-choice-screen --hide-crash-restore-bubble --remote-debugging-port=0 --noerrdialogs --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl about:blank"
+    ],
+    "19346": [
+      51939,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome_crashpad_handler"
+    ],
+    "19348": [
+      51939,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome_crashpad_handler"
+    ],
+    "19352": [
+      19344,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=zygote --no-zygote-sandbox --headless=new --crashpad-handler-pid=19346 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life2-hxBmgn/browsers/default/profile-headless --change-stack-guard-on-fork=enable --no-first-run --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl"
+    ],
+    "19353": [
+      19344,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=zygote --headless=new --crashpad-handler-pid=19346 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life2-hxBmgn/browsers/default/profile-headless --change-stack-guard-on-fork=enable --no-first-run --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl"
+    ],
+    "19355": [
+      19353,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=zygote --headless=new --crashpad-handler-pid=19346 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life2-hxBmgn/browsers/default/profile-headless --change-stack-guard-on-fork=enable --no-first-run --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl"
+    ],
+    "19376": [
+      19344,
+      "/bin/sh"
+    ],
+    "27655": [
+      51939,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --allow-pre-commit-input --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-crash-reporter --disable-default-apps --disable-dev-shm-usage --disable-hang-monitor --disable-infobars --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-search-engine-choice-screen --disable-sync --enable-automation --export-tagged-pdf --force-color-profile=srgb --generate-pdf-document-outline --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --disable-features=Translate,AcceptCHFrame,MediaRouter,OptimizationHints,WebUIReloadButton,WebUIOmniboxPopup,WebUIOmniboxAimPopup,ProcessPerSiteUpToMainFrameThreshold,IsolateSandboxedIframes --enable-features=PdfOopif --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --headless=new --hide-scrollbars --mute-audio --disable-extensions --no-first-run --no-default-browser-check --disable-search-engine-choice-screen --hide-crash-restore-bubble --remote-debugging-port=0 --noerrdialogs --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl about:blank"
+    ],
+    "27657": [
+      51939,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome_crashpad_handler"
+    ],
+    "27659": [
+      51939,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome_crashpad_handler"
+    ],
+    "27663": [
+      27655,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=zygote --no-zygote-sandbox --headless=new --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --no-first-run --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl"
+    ],
+    "27664": [
+      27655,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=zygote --headless=new --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --no-first-run --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl"
+    ],
+    "27666": [
+      27664,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=zygote --headless=new --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --no-first-run --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl"
+    ],
+    "27729": [
+      27655,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=network --disable-dev-shm-usage --use-angle=swiftshader-webgl --mute-audio --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --shared-files=network_parent_dirs_pipe:100,v8_context_snapshot_data:101 --field-trial-handle=3,i,17751391374582481429,2231172062266117731,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,16433262113027340517,7092679718232486456,4 --trace-process-track-uuid=5917389879724681192"
+    ],
+    "27742": [
+      27666,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-US --service-sandbox-type=utility --disable-dev-shm-usage --use-angle=swiftshader-webgl --mute-audio --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,17751391374582481429,2231172062266117731,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,16433262113027340517,7092679718232486456,4 --trace-process-track-uuid=6706664604185774173"
+    ],
+    "27774": [
+      27666,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=renderer --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --disable-dev-shm-usage --disable-background-timer-throttling --disable-breakpad --enable-automation --force-color-profile=srgb --remote-debugging-port=0 --allow-pre-commit-input --ozone-platform=headless --lang=en-US --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=7 --time-ticks-at-unix-epoch=-1789523243208180 --launch-time-ticks=520577570676 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,17751391374582481429,2231172062266117731,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,16433262113027340517,7092679718232486456,4 --trace-process-track-uuid=5456817771565011903"
+    ],
+    "27792": [
+      27666,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=renderer --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --disable-dev-shm-usage --disable-background-timer-throttling --disable-breakpad --enable-automation --force-color-profile=srgb --remote-debugging-port=0 --allow-pre-commit-input --ozone-platform=headless --lang=en-US --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=8 --time-ticks-at-unix-epoch=-1789523243208180 --launch-time-ticks=520577583155 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,17751391374582481429,2231172062266117731,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,16433262113027340517,7092679718232486456,4 --trace-process-track-uuid=6246092496026104884"
+    ],
+    "27832": [
+      27663,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=gpu-process --disable-dev-shm-usage --disable-breakpad --headless=new --ozone-platform=headless --use-angle=swiftshader-webgl --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --gpu-preferences=UAAAAAAAAAAgAQAEAAAAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAYAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --use-gl=disabled --shared-files --field-trial-handle=3,i,17751391374582481429,2231172062266117731,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,16433262113027340517,7092679718232486456,4 --trace-process-track-uuid=4996245663405342614"
+    ],
+    "27950": [
+      27666,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=renderer --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --disable-dev-shm-usage --disable-background-timer-throttling --disable-breakpad --enable-automation --force-color-profile=srgb --remote-debugging-port=0 --allow-pre-commit-input --ozone-platform=headless --disable-gpu-compositing --lang=en-US --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=12 --time-ticks-at-unix-epoch=-1789523243208180 --launch-time-ticks=520580633055 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,17751391374582481429,2231172062266117731,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,16433262113027340517,7092679718232486456,4 --trace-process-track-uuid=5785520387866435595"
+    ],
+    "41884": [
+      27663,
+      "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome --type=utility --utility-sub-type=on_device_model.mojom.OnDeviceModelService --lang=en-US --service-sandbox-type=on_device_model_execution --disable-dev-shm-usage --use-angle=swiftshader-webgl --mute-audio --crashpad-handler-pid=27657 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-LkHvbH/browsers/default/profile-headless --change-stack-guard-on-fork=enable --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,17751391374582481429,2231172062266117731,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,16433262113027340517,7092679718232486456,4 --trace-process-track-uuid=6047317144894546188"
+    ],
+    "43325": [
+      19376,
+      "/bin/sh"
+    ],
+    "43326": [
+      43325,
+      "/bin/sh"
+    ],
+    "48893": [
+      51939,
+      "/opt/google/chrome/chrome"
+    ],
+    "48896": [
+      51939,
+      "/opt/google/chrome/chrome_crashpad_handler"
+    ],
+    "48898": [
+      51939,
+      "/opt/google/chrome/chrome_crashpad_handler"
+    ],
+    "48904": [
+      48893,
+      "/opt/google/chrome/chrome --type=zygote --no-zygote-sandbox --headless=new --crashpad-handler-pid=48896 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-J0JrPB/browsers/default/profile-headless --change-stack-guard-on-fork=enable --no-first-run --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl"
+    ],
+    "48905": [
+      48893,
+      "/opt/google/chrome/chrome --type=zygote --headless=new --crashpad-handler-pid=48896 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-J0JrPB/browsers/default/profile-headless --change-stack-guard-on-fork=enable --no-first-run --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl"
+    ],
+    "48909": [
+      48905,
+      "/opt/google/chrome/chrome --type=zygote --headless=new --crashpad-handler-pid=48896 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-J0JrPB/browsers/default/profile-headless --change-stack-guard-on-fork=enable --no-first-run --ozone-platform=headless --ozone-override-screen-size=800,600 --use-angle=swiftshader-webgl"
+    ],
+    "48939": [
+      48904,
+      "/opt/google/chrome/chrome --type=gpu-process --disable-dev-shm-usage --disable-breakpad --headless=new --ozone-platform=headless --use-angle=swiftshader-webgl --crashpad-handler-pid=48896 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-J0JrPB/browsers/default/profile-headless --change-stack-guard-on-fork=enable --gpu-preferences=YAAAAAAAAAAgAAAEAAAAAAAAAAAAAGAASAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAMAAAAAQAAAAAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --shared-files --field-trial-handle=3,i,13593179127909354496,6310773747041426643,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,15464155090549006682,4881553032158648763,4 --trace-process-track-uuid=3190708988185955192"
+    ],
+    "48943": [
+      48893,
+      "/opt/google/chrome/chrome --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --disable-dev-shm-usage --use-angle=swiftshader-webgl --mute-audio --crashpad-handler-pid=48896 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-J0JrPB/browsers/default/profile-headless --change-stack-guard-on-fork=enable --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,13593179127909354496,6310773747041426643,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,15464155090549006682,4881553032158648763,4 --trace-process-track-uuid=3190708989122997041"
+    ],
+    "48957": [
+      48909,
+      "/opt/google/chrome/chrome --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-US --service-sandbox-type=utility --disable-dev-shm-usage --use-angle=swiftshader-webgl --mute-audio --crashpad-handler-pid=48896 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-J0JrPB/browsers/default/profile-headless --change-stack-guard-on-fork=enable --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,13593179127909354496,6310773747041426643,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,15464155090549006682,4881553032158648763,4 --trace-process-track-uuid=3190708990060038890"
+    ],
+    "49001": [
+      48909,
+      "/opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=48896 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-J0JrPB/browsers/default/profile-headless --change-stack-guard-on-fork=enable --disable-dev-shm-usage --disable-background-timer-throttling --disable-breakpad --enable-automation --force-color-profile=srgb --remote-debugging-port=0 --allow-pre-commit-input --ozone-platform=headless --disable-gpu-compositing --lang=en-US --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=6 --time-ticks-at-unix-epoch=-1789523227832596 --launch-time-ticks=520858097611 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,13593179127909354496,6310773747041426643,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,15464155090549006682,4881553032158648763,4 --trace-process-track-uuid=3190708991934122588"
+    ],
+    "49002": [
+      48909,
+      "/opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=48896 --enable-crash-reporter=, --noerrdialogs --user-data-dir=/tmp/dev-browser-e2e-life-J0JrPB/browsers/default/profile-headless --change-stack-guard-on-fork=enable --disable-dev-shm-usage --disable-background-timer-throttling --disable-breakpad --enable-automation --force-color-profile=srgb --remote-debugging-port=0 --allow-pre-commit-input --ozone-platform=headless --disable-gpu-compositing --lang=en-US --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1789523227832596 --launch-time-ticks=520858100925 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,13593179127909354496,6310773747041426643,262144 --enable-features=PdfOopif --disable-features=AcceptCHFrame,IsolateSandboxedIframes,MediaRouter,OptimizationHints,PaintHolding,ProcessPerSiteUpToMainFrameThreshold,Translate,WebUIOmniboxAimPopup,WebUIOmniboxPopup,WebUIReloadButton --variations-seed-version --pseudonymization-salt-handle=7,i,15464155090549006682,4881553032158648763,4 --trace-process-track-uuid=3190708990997080739"
+    ],
+    "53993": [
+      43326,
+      "xprop"
+    ],
+    "53994": [
+      43326,
+      "grep"
+    ]
+  },
+  "remaining": {}
+}

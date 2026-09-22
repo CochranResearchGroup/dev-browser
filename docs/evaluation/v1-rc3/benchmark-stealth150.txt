@@ -1,0 +1,25 @@
+binary: /home/ecochran76/workspace.local/dev-browser-v1-eval/dist/dev-browser
+home:   /tmp/dev-browser-bench-7Esfom
+runs:   15
+warming up daemon ... 945 ms (cold incl. launch)
+  1+1 ... 26.8 ms
+  getPage+title ... 29.5 ms
+  evaluate(()=>1) ... 25.9 ms
+  snapshot small ... 6.53 ms
+  snapshot large ... 60.6 ms
+  shot viewport ... 40.7 ms
+  per-call overhead ... [daemon 1.16 ms/call, raw 0.93 ms/call] 0.23 ms
+  cold start ... 934 ms
+
+name              | median ms | target ms |      | note
+----------------- | --------- | --------- | ---- | ----
+1+1               |      26.8 |      25.0 | FAIL | e2e
+getPage+title     |      29.5 |      40.0 | pass | e2e
+evaluate(()=>1)   |      25.9 |      40.0 | pass | e2e
+snapshot small    |      6.53 |      30.0 | pass | in-script
+snapshot large    |      60.6 |       150 | pass | in-script
+shot viewport     |      40.7 |       120 | pass | in-script
+per-call overhead |      0.23 |      0.10 | FAIL | daemon minus raw
+cold start        |       934 |      1500 | pass | 3 runs
+
+2 item(s) over target

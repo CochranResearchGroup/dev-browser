@@ -1,0 +1,14 @@
+bun install v1.3.14 (0d9b296a)
+
+$ node scripts/postinstall.cjs
+dev-browser: DEV_BROWSER_SKIP_DOWNLOAD set, not downloading the binary
+
++ @puppeteer/browsers@3.0.6
++ @types/bun@1.3.14
++ @types/node@24.3.0
++ acorn@8.15.0
++ puppeteer-core@25.8.0
++ typescript@5.9.2
++ yauzl@3.4.0
+
+34 packages installed [988.00ms]

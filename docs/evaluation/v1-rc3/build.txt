@@ -1,0 +1,6 @@
+$ bun run scripts/build.ts all
+build/daemon.js 1765 KB in 41ms
+   [5ms]  minify  -1.84 MB (estimate)
+   [1ms]  bundle  15 modules
+ [322ms] compile  /home/ecochran76/workspace.local/dev-browser-v1-eval/dist/dev-browser
+dist/dev-browser 92 MB in 387ms

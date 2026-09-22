@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-09-22T02:47:55.406919+00:00",
+  "installedSha256": "8ec4899b452e741c1dc848c05a4c848110370999004ef7fe51549a8e1498a56c",
+  "config": {
+    "executablePath": "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome"
+  },
+  "status": {
+    "id": "v1-evaluation-closeout",
+    "type": "result",
+    "data": {
+      "pid": 77326,
+      "uptimeMs": 2129154,
+      "browserCount": 0,
+      "browsers": [],
+      "socketPath": "/home/ecochran76/.dev-browser/daemon.sock",
+      "idleTimeoutMs": 0
+    }
+  },
+  "evaluationProcesses": [],
+  "mainStatus": "## main...upstream/main [ahead 7, behind 10]\n?? .codex\n"
+}

@@ -1,0 +1,73 @@
+{
+  "upstreamCommit": "a25e7672e199153b2f5b52a841a62436a28d925f",
+  "version": "1.0.0-rc.3",
+  "bun": "1.3.14",
+  "puppeteer": "25.8.0",
+  "binary": "/home/ecochran76/workspace.local/dev-browser-v1-eval/dist/dev-browser",
+  "binarySha256": "6ee36900b401afc127612badd0517cd3e7e4e158fa58ad65f7e0fbc6d0b55a3b",
+  "bytes": 96442496,
+  "dependencyInstall": "passed, frozen lockfile; prebuilt download skipped",
+  "typecheck": "passed",
+  "build": "passed",
+  "npmPackDryRun": "passed",
+  "runtimeSourceModified": false,
+  "stealth150FullSuite": {
+    "passed": 335,
+    "failed": 8,
+    "errors": 1,
+    "files": 28,
+    "seconds": 406.69
+  },
+  "stock151LifecycleControl": {
+    "passed": 28,
+    "failed": 5,
+    "files": 1,
+    "seconds": 34.05
+  },
+  "stockVersion": "Google Chrome 151.0.7922.108",
+  "testEnvironment": {
+    "umask": "0077",
+    "platform": "WSL Linux",
+    "headedDisplay": "Xvfb"
+  },
+  "compiled-stealth150": {
+    "passed": 10,
+    "failed": 1
+  },
+  "compiled-stealth153": {
+    "passed": 5,
+    "failed": 6
+  },
+  "benchmarkStealth150": {
+    "runs": 15,
+    "scale": 1,
+    "passedTargets": 6,
+    "failedTargets": 2,
+    "mediansMs": {
+      "onePlusOne": 26.8,
+      "getPageTitle": 29.5,
+      "evaluate": 25.9,
+      "snapshotSmall": 6.53,
+      "snapshotLarge": 60.6,
+      "screenshot": 40.7,
+      "perCallOverhead": 0.23,
+      "coldStart": 934
+    },
+    "note": "Measured while the 153 compatibility suite was running; absolute observations, not a v0.2.9 comparison."
+  },
+  "stealth153FullSuite": {
+    "passed": 294,
+    "failed": 49,
+    "errors": 9,
+    "files": 28,
+    "seconds": 1100.92
+  },
+  "closeout": {
+    "installedUnchanged": true,
+    "installedDaemonPid": 77326,
+    "installedBrowserCount": 0,
+    "remainingEvaluationProcesses": 0,
+    "earlierLeftoversTerminated": 36,
+    "finalLeftoversTerminated": 8
+  }
+}

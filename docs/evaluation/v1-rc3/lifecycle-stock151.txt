@@ -1,0 +1,152 @@
+bun test v1.3.14 (0d9b296a)
+
+test/e2e/lifecycle.test.ts:
+(pass) usage, version, help (no daemon needed) > unknown flag -> exit 2 with a dev-browser: message [25.13ms]
+(pass) usage, version, help (no daemon needed) > unknown command -> exit 2 [25.01ms]
+(pass) usage, version, help (no daemon needed) > --version [25.22ms]
+(pass) usage, version, help (no daemon needed) > --help contains USAGE and the version [53.28ms]
+(pass) usage, version, help (no daemon needed) > help <topic> prints only that section or a topic list [52.05ms]
+(pass) usage, version, help (no daemon needed) > --timeout validation is a usage error [23.43ms]
+(pass) usage, version, help (no daemon needed) > bad --idle-timeout is a usage error [26.41ms]
+(pass) usage, version, help (no daemon needed) > chrome --list prints at least one candidate [430.14ms]
+(pass) usage, version, help (no daemon needed) > chrome with an unknown flag is a usage error [100.07ms]
+(pass) usage, version, help (no daemon needed) > install-skill writes SKILL.md under HOME [307.87ms]
+(pass) daemon and browser lifecycle > first run spawns the daemon: pid file, socket, log [874.36ms]
+(pass) daemon and browser lifecycle > browsers output shape [50.49ms]
+(pass) daemon and browser lifecycle > status output shape [53.35ms]
+(pass) daemon and browser lifecycle > --idle-timeout is reflected in browsers [73.97ms]
+(pass) daemon and browser lifecycle > idle reaper closes a launched browser after --idle-timeout [1936.61ms]
+(pass) daemon and browser lifecycle > a second profile name is a separate browser; stop NAME stops only it [841.87ms]
+(pass) daemon and browser lifecycle > stop default -> browsers says none; names file survives; getPage recreates [891.11ms]
+(pass) daemon and browser lifecycle > killing the daemon with SIGTERM: next run spawns a fresh daemon [1048.42ms]
+270 |     process.kill(oldPid, "SIGKILL");
+271 |     expect(await waitFor(() => !pidAlive(oldPid), 10_000)).toBe(true);
+272 |     expect(fs.existsSync(path.join(cli.home, "daemon.sock"))).toBe(true); // stale
+273 |     // Chrome is orphaned (still holds the profile lock); the new daemon must reclaim the profile.
+274 |     const r = await cli.run([...H, "-e", "(await browser.getPage('after-kill')).url()"]);
+275 |     expect(r).toEqual({ code: 0, stdout: "about:blank\n", stderr: "" });
+                    ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "about:blank
++   "code": 1,
++   "stderr": 
++ "ProfileBusyError: profile "default" (headless) is in use by another Chrome (pid 48893, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:275:15)
+(fail) daemon and browser lifecycle > SIGKILLed daemon leaves a stale socket; the client recovers [6610.33ms]
+(pass) daemon and browser lifecycle > stop with no name stops everything and the daemon; auto-restarts on the next call [288.91ms]
+291 | 
+292 |   test("concurrent cold start: parallel clients share one daemon", async () => {
+293 |     await cli.run(["stop"]);
+294 |     await sleep(300);
+295 |     const rs = await Promise.all([1, 2, 3, 4].map((n) => cli.run([...H, "-e", `${n}`])));
+296 |     for (const [i, r] of rs.entries()) expect(r).toEqual({ code: 0, stdout: `${i + 1}\n`, stderr: "" });
+                                                       ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "1
++   "code": 1,
++   "stderr": 
++ "ProfileBusyError: profile "default" (headless) is in use by another Chrome (pid 48893, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:296:50)
+(fail) daemon and browser lifecycle > concurrent cold start: parallel clients share one daemon [6873.29ms]
+(pass) hung scripts > detached continuations cannot use browser registry operations after a run ends [1178.82ms]
+329 |   });
+330 | 
+331 |   test("a finite busy loop past the deadline still returns; the daemon stays healthy", async () => {
+332 |     const r = await cli.run([...H, "--timeout", "1", "-e", "const t = Date.now(); let i = 0; while (Date.now() - t < 2000) i++; 'done'"]);
+333 |     // the event loop was blocked so the deadline timer could not fire first; the value wins
+334 |     expect(r.code === 0 || r.code === 124).toBe(true);
+                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: false
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:334:44)
+(fail) hung scripts > a finite busy loop past the deadline still returns; the daemon stays healthy [870.65ms]
+339 |   test("an infinite loop: the client watchdog kills the hung daemon; the next call restarts it", async () => {
+340 |     const pid = Number(fs.readFileSync(path.join(cli.home, "daemon.pid"), "utf8"));
+341 |     const t0 = Date.now();
+342 |     const r = await cli.run([...H, "--timeout", "1", "-e", "while (true) {}"], { timeoutMs: 40_000 });
+343 |     expect(r.code).toBe(1);
+344 |     expect(r.stderr).toMatch(/no response from daemon for 16s; killed the hung daemon/);
+                           ^
+error: expect(received).toMatch(expected)
+
+Expected substring or pattern: /no response from daemon for 16s; killed the hung daemon/
+Received: "ProfileBusyError: profile \"default\" (headless) is in use by another Chrome (pid 48893, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.\n"
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:344:22)
+(fail) hung scripts > an infinite loop: the client watchdog kills the hung daemon; the next call restarts it [843.09ms]
+(pass) protocol: version handshake > daemon answers a mismatched hello with a version error and honors shutdown [275.89ms]
+(pass) protocol: version handshake > hello frame is the first line; a bad first frame yields a protocol error [44.29ms]
+466 |       });
+467 |     });
+468 |     await new Promise<void>((resolve) => fake.listen(sockPath, resolve));
+469 |     try {
+470 |       const r = await cli.run([...H, "-e", "'fresh'"]);
+471 |       expect(r).toEqual({ code: 0, stdout: "fresh\n", stderr: "" });
+                      ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "code": 0,
+-   "stderr": "",
+-   "stdout": 
+- "fresh
++   "code": 1,
++   "stderr": 
++ "ProfileBusyError: profile "default" (headless) is in use by another Chrome (pid 48893, parent pid 51939). Stop it first (`dev-browser stop default`, or quit that Chrome), or use a different -b NAME.
+  "
+  ,
++   "stdout": "",
+  }
+
+- Expected  - 4
++ Received  + 4
+
+      at <anonymous> (/home/ecochran76/workspace.local/dev-browser-v1-eval/test/e2e/lifecycle.test.ts:471:17)
+(fail) client: version mismatch recovery > an old daemon is asked to exit and the request is retried on a fresh one [6771.87ms]
+(pass) --connect to an existing Chrome > --connect PORT [119.55ms]
+(pass) --connect to an existing Chrome > --connect http://127.0.0.1:PORT reaches the same browser and the same named page [78.38ms]
+(pass) --connect to an existing Chrome > --connect auto finds it via the remembered chrome-ports.json [472.32ms]
+(pass) --connect to an existing Chrome > dev-browser pages --connect lists the external Chrome's tabs [31.48ms]
+(pass) --connect to an existing Chrome > stop by cdp key disconnects without killing Chrome [31.39ms]
+(pass) --connect to an existing Chrome > --connect to a dead port is a clean error [3029.56ms]
+
+5 tests failed:
+(fail) daemon and browser lifecycle > SIGKILLed daemon leaves a stale socket; the client recovers [6610.33ms]
+(fail) daemon and browser lifecycle > concurrent cold start: parallel clients share one daemon [6873.29ms]
+(fail) hung scripts > a finite busy loop past the deadline still returns; the daemon stays healthy [870.65ms]
+(fail) hung scripts > an infinite loop: the client watchdog kills the hung daemon; the next call restarts it [843.09ms]
+(fail) client: version mismatch recovery > an old daemon is asked to exit and the request is retried on a fresh one [6771.87ms]
+
+ 28 pass
+ 5 fail
+ 132 expect() calls
+Ran 33 tests across 1 file. [34.05s]
