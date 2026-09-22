@@ -169,7 +169,7 @@ function createManager(
     options.fetch ??
     (vi.fn(async () => {
       throw new Error("unexpected fetch");
-    }) as typeof globalThis.fetch);
+    }) as unknown as typeof globalThis.fetch);
   const readFile =
     options.readFile ??
     (vi.fn(async (filePath: string) => {
@@ -177,9 +177,7 @@ function createManager(
     }) as ReturnType<typeof vi.fn>);
   const launchPersistentContext =
     options.launchPersistentContext ?? (vi.fn() as ReturnType<typeof vi.fn>);
-  const readdir =
-    options.readdir ??
-    (vi.fn(async () => []) as ReturnType<typeof vi.fn>);
+  const readdir = options.readdir ?? (vi.fn(async () => []) as ReturnType<typeof vi.fn>);
 
   const manager = new BrowserManager(path.join("/tmp", "dev-browser-auto-connect-tests"), {
     connectOverCDP: connectOverCDP as never,
@@ -212,6 +210,94 @@ afterEach(() => {
 });
 
 describe("BrowserManager auto-connect", () => {
+  it.each([false, true])(
+    "launches the configured executable with headless=%s",
+    async (headless) => {
+      const context = new MockContext();
+      context.setBrowser(new MockBrowser([context]));
+      const launchPersistentContext = vi.fn(async () => context);
+      const executablePath = "/opt/chromium-stealthcdp/chrome";
+      const readFile = vi.fn(async (filePath: string) => {
+        expect(filePath).toBe(path.join("/Users/tester", ".dev-browser", "config.json"));
+        return JSON.stringify({ executablePath, idleTimeout: "5m" });
+      });
+      const { manager } = createManager({
+        platform: "linux",
+        isWsl: true,
+        readFile,
+        launchPersistentContext,
+      });
+      await manager.ensureBrowser("stealth", { headless });
+      expect(launchPersistentContext).toHaveBeenCalledWith(
+        expect.stringContaining(path.join("stealth", "chromium-profile")),
+        expect.objectContaining({ executablePath, headless })
+      );
+      expect(manager.listBrowsers()).toEqual([
+        expect.objectContaining({ name: "stealth", executablePath }),
+      ]);
+      await manager.stopAll();
+    }
+  );
+
+  it.each(["{}", '{"idleTimeout":"5m"}'])(
+    "keeps bundled Chromium for config %s",
+    async (contents) => {
+      const context = new MockContext();
+      context.setBrowser(new MockBrowser([context]));
+      const launchPersistentContext = vi.fn(async () => context);
+      const { manager } = createManager({
+        readFile: vi.fn(async () => contents),
+        launchPersistentContext,
+      });
+      await manager.ensureBrowser("bundled");
+      expect(launchPersistentContext).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.not.objectContaining({ executablePath: expect.anything() })
+      );
+      await manager.stopAll();
+    }
+  );
+
+  it.each([
+    "invalid-json",
+    "null",
+    "[]",
+    '{"executablePath":""}',
+    '{"executablePath":"relative/chrome"}',
+    '{"executablePath":42}',
+  ])("rejects invalid browser configuration without launching: %s", async (contents) => {
+    const { manager, launchPersistentContext } = createManager({
+      readFile: vi.fn(async () => contents),
+    });
+    await expect(manager.ensureBrowser("invalid")).rejects.toThrow("Invalid");
+    expect(launchPersistentContext).not.toHaveBeenCalled();
+  });
+
+  it("does not silently use bundled Chromium when the configured executable fails", async () => {
+    const launchPersistentContext = vi.fn(async () => {
+      throw new Error("executable does not exist");
+    });
+    const { manager } = createManager({
+      readFile: vi.fn(async () => '{"executablePath":"/missing/chrome"}'),
+      launchPersistentContext,
+    });
+    await expect(manager.ensureBrowser("missing")).rejects.toThrow("executable does not exist");
+    expect(launchPersistentContext).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not read the launch executable configuration when attaching over CDP", async () => {
+    const readFile = vi.fn(async () => {
+      throw new Error("must not read launch config");
+    });
+    const { manager } = createManager({
+      readFile,
+      connectOverCDP: vi.fn(async () => new MockBrowser([new MockContext()])),
+    });
+    await manager.connectBrowser("external", "ws://127.0.0.1:9333/devtools/browser/external");
+    expect(readFile).not.toHaveBeenCalled();
+    await manager.stopAll();
+  });
+
   it("passes ignoreHTTPSErrors to launched browsers and only relaunches when it changes", async () => {
     const launchPersistentContext = vi.fn(async () => {
       const context = new MockContext();
@@ -289,6 +375,29 @@ describe("BrowserManager auto-connect", () => {
     expect(relaunchedEntry.ignoreHTTPSErrors).toBe(true);
   });
 
+  it("closes a persistent context that returns after its request is aborted", async () => {
+    const controller = new AbortController();
+    const context = new MockContext();
+    const browser = new MockBrowser([context]);
+    context.setBrowser(browser);
+    const launchPersistentContext = vi.fn(async () => {
+      controller.abort(new Error("launch request disconnected"));
+      return context;
+    });
+    const { manager } = createManager({ launchPersistentContext });
+
+    await expect(
+      manager.ensureBrowser("late-launch", {
+        headless: true,
+        signal: controller.signal,
+      })
+    ).rejects.toThrow("launch request disconnected");
+
+    expect(context.closeCalls).toBe(1);
+    expect(browser.closeCalls).toBe(1);
+    expect(manager.getBrowser("late-launch")).toBeUndefined();
+  });
+
   it("parses DevToolsActivePort and returns the browser websocket endpoint", async () => {
     const homeDir = "/Users/tester";
     const devToolsPath = path.join(
@@ -345,7 +454,7 @@ describe("BrowserManager auto-connect", () => {
   });
 
   it("checks a custom profile path for DevToolsActivePort before default locations", async () => {
-    const customProfilePath = "/tmp/custom-chrome-profile";
+    const customProfilePath = path.resolve("/tmp/custom-chrome-profile");
     const devToolsPath = path.join(customProfilePath, "DevToolsActivePort");
     const readFile = vi.fn(async (filePath: string) => {
       if (filePath === devToolsPath) {
@@ -413,7 +522,7 @@ describe("BrowserManager auto-connect", () => {
 
       throw createEnoentError(filePath);
     });
-    const fetch = vi.fn() as typeof globalThis.fetch;
+    const fetch = vi.fn() as unknown as typeof globalThis.fetch;
     const { manager } = createManager({ fetch, homedir: () => homeDir, readFile });
 
     await expect(getInternals(manager).discoverChrome()).resolves.toBe(websocketUrl);
@@ -489,7 +598,7 @@ describe("BrowserManager auto-connect", () => {
           },
         }
       );
-    }) as typeof globalThis.fetch;
+    }) as unknown as typeof globalThis.fetch;
     const { manager } = createManager({
       connectOverCDP,
       fetch,
@@ -525,6 +634,25 @@ describe("BrowserManager auto-connect", () => {
         type: "connected",
       },
     ]);
+  });
+
+  it("closes a CDP browser connection that returns after its request is aborted", async () => {
+    const controller = new AbortController();
+    const browser = new MockBrowser([new MockContext()]);
+    const connectOverCDP = vi.fn(async () => {
+      controller.abort(new Error("connect request disconnected"));
+      return browser;
+    });
+    const { manager } = createManager({ connectOverCDP });
+
+    await expect(
+      manager.connectBrowser("late-connect", "ws://127.0.0.1:9222/devtools/browser/late", {
+        signal: controller.signal,
+      })
+    ).rejects.toThrow("connect request disconnected");
+
+    expect(browser.closeCalls).toBe(1);
+    expect(manager.getBrowser("late-connect")).toBeUndefined();
   });
 
   it("getBrowser returns connected entries without relaunching them", async () => {
@@ -568,7 +696,7 @@ describe("BrowserManager auto-connect", () => {
     const fetch = vi.fn(async (input: RequestInfo | URL) => {
       expect(String(input)).toBe("http://127.0.0.1:9222/json/version");
       return new Response("not found", { status: 404 });
-    }) as typeof globalThis.fetch;
+    }) as unknown as typeof globalThis.fetch;
     const readFile = vi.fn(async (filePath: string) => {
       if (filePath === devToolsPath) {
         return "9222\n/devtools/browser/from-active-port\n";
@@ -601,7 +729,7 @@ describe("BrowserManager auto-connect", () => {
     });
     const fetch = vi.fn(
       async () => new Response("not found", { status: 404 })
-    ) as typeof globalThis.fetch;
+    ) as unknown as typeof globalThis.fetch;
     const { manager } = createManager({
       fetch,
       homedir: () => homeDir,
@@ -662,7 +790,7 @@ describe("BrowserManager auto-connect", () => {
       }
 
       throw new Error("connection refused");
-    }) as typeof globalThis.fetch;
+    }) as unknown as typeof globalThis.fetch;
     const readFile = vi.fn(async (filePath: string) => {
       throw createEnoentError(filePath);
     });
@@ -728,6 +856,56 @@ describe("BrowserManager auto-connect", () => {
     expect(connectOverCDP).toHaveBeenCalledWith("ws://127.0.0.1:9333/devtools/browser/custom-port");
   });
 
+  it("preserves cancellation and deadlines when connecting through a custom profile", async () => {
+    const controller = new AbortController();
+    const browser = new MockBrowser([new MockContext()]);
+    const endpoint = "ws://127.0.0.1:9333/devtools/browser/custom-profile";
+    const connectOverCDP = vi.fn(async (_endpoint: string, options?: { timeout: number }) => {
+      expect(options?.timeout).toBeGreaterThan(0);
+      expect(options?.timeout).toBeLessThanOrEqual(5000);
+      controller.abort(new Error("custom profile request disconnected"));
+      return browser;
+    });
+    const readFile = vi.fn(async (filePath: string) => {
+      if (filePath === path.join(path.resolve("/custom/profile"), "DevToolsActivePort")) {
+        return "9333\n/devtools/browser/custom-profile\n";
+      }
+      throw createEnoentError(filePath);
+    });
+    const { manager, fetch } = createManager({ connectOverCDP, readFile });
+    await expect(
+      manager.connectBrowser("custom", "auto", {
+        profilePath: "/custom/profile",
+        port: 9333,
+        deadline: Date.now() + 5000,
+        signal: controller.signal,
+      })
+    ).rejects.toThrow("custom profile request disconnected");
+    expect(connectOverCDP).toHaveBeenCalledWith(endpoint, { timeout: expect.any(Number) });
+    expect(browser.closeCalls).toBe(1);
+    expect(manager.getBrowser("custom")).toBeUndefined();
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("does not attach after a custom port probe is cancelled", async () => {
+    const controller = new AbortController();
+    const fetch = vi.fn(async () => {
+      controller.abort(new Error("custom port request disconnected"));
+      return new Response(
+        JSON.stringify({
+          webSocketDebuggerUrl: "ws://127.0.0.1:9333/devtools/browser/custom-port",
+        }),
+        { status: 200 }
+      );
+    });
+    const { manager, connectOverCDP } = createManager({ fetch: fetch as typeof globalThis.fetch });
+    await expect(
+      manager.autoConnect("custom-port", { port: 9333, signal: controller.signal })
+    ).rejects.toThrow("custom port request disconnected");
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(connectOverCDP).not.toHaveBeenCalled();
+  });
+
   it("autoConnect discovers Windows Chrome profiles when running under WSL", async () => {
     const browser = new MockBrowser([new MockContext()]);
     const connectOverCDP = vi.fn(async () => browser);
@@ -740,9 +918,7 @@ describe("BrowserManager auto-connect", () => {
     const readFile = vi.fn(async (filePath: string) => {
       if (
         filePath ===
-        path.join(
-          "/mnt/c/Users/ecoch/AppData/Local/Google/Chrome/User Data/DevToolsActivePort"
-        )
+        path.join("/mnt/c/Users/ecoch/AppData/Local/Google/Chrome/User Data/DevToolsActivePort")
       ) {
         return "9222\n/devtools/browser/wsl-discovered\n";
       }
@@ -759,11 +935,13 @@ describe("BrowserManager auto-connect", () => {
 
     await manager.autoConnect("wsl-browser");
 
-    expect(readdir).toHaveBeenCalledWith("/mnt/c/Users", {
+    expect(readdir).toHaveBeenCalledWith(path.join("/mnt", "c", "Users"), {
       encoding: "utf8",
       withFileTypes: true,
     });
-    expect(connectOverCDP).toHaveBeenCalledWith("ws://127.0.0.1:9222/devtools/browser/wsl-discovered");
+    expect(connectOverCDP).toHaveBeenCalledWith(
+      "ws://127.0.0.1:9222/devtools/browser/wsl-discovered"
+    );
   });
 
   it("autoConnect falls back from DevToolsActivePort to port probing when the direct websocket is stale", async () => {
@@ -810,7 +988,7 @@ describe("BrowserManager auto-connect", () => {
       }
 
       throw new Error("connection refused");
-    }) as typeof globalThis.fetch;
+    }) as unknown as typeof globalThis.fetch;
     const readFile = vi.fn(async (filePath: string) => {
       if (filePath === devToolsPath) {
         return "9222\n/devtools/browser/from-active-port\n";
@@ -836,7 +1014,7 @@ describe("BrowserManager auto-connect", () => {
     ]);
   });
 
-  it("autoConnect discovers agent-browser managed sessions via the local daemon socket", async () => {
+  it("autoConnect discovers agent-browser managed sessions via the native daemon transport", async () => {
     const socketDir = await mkdtemp(path.join(os.tmpdir(), "dev-browser-agent-browser-"));
     const sessionName = "managed-session";
     const socketPath = path.join(socketDir, `${sessionName}.sock`);
@@ -877,11 +1055,19 @@ describe("BrowserManager auto-connect", () => {
 
     await new Promise<void>((resolve, reject) => {
       server.once("error", reject);
-      server.listen(socketPath, () => {
-        server.off("error", reject);
-        resolve();
-      });
+      server.listen(
+        process.platform === "win32" ? { host: "127.0.0.1", port: 0 } : socketPath,
+        () => {
+          server.off("error", reject);
+          resolve();
+        }
+      );
     });
+
+    if (process.platform === "win32") {
+      const address = server.address() as net.AddressInfo;
+      await writeFile(path.join(socketDir, `${sessionName}.port`), `${address.port}\n`);
+    }
 
     const connectOverCDP = vi.fn(async (endpoint: string) => {
       expect(endpoint).toBe(cdpUrl);
@@ -897,6 +1083,7 @@ describe("BrowserManager auto-connect", () => {
     try {
       const { manager } = createManager({
         connectOverCDP,
+        platform: process.platform,
         readFile: vi.fn(async (filePath: string) => readFileFromFs(filePath, "utf8")),
       });
 
@@ -924,7 +1111,7 @@ describe("BrowserManager auto-connect", () => {
     });
     const fetch = vi.fn(async () => {
       throw new Error("connection refused");
-    }) as typeof globalThis.fetch;
+    }) as unknown as typeof globalThis.fetch;
     const { manager } = createManager({
       fetch,
       readFile,
@@ -941,7 +1128,7 @@ describe("BrowserManager auto-connect", () => {
     });
     const fetch = vi.fn(async () => {
       throw new Error("connection refused");
-    }) as typeof globalThis.fetch;
+    }) as unknown as typeof globalThis.fetch;
     const { manager } = createManager({
       fetch,
       platform: "win32",

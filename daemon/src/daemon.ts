@@ -3,6 +3,9 @@ import { chmod, mkdir, unlink, writeFile } from "node:fs/promises";
 import net from "node:net";
 import path from "node:path";
 import { BrowserManager } from "./browser-manager.js";
+import { executeRequest } from "./execute-request.js";
+import { formatError } from "./format-error.js";
+import { IdleBrowserReaper } from "./idle-browser-reaper.js";
 import { createKeyedLock, createMutex } from "./lock.js";
 import {
   getBrowsersDir,
@@ -24,6 +27,10 @@ const SOCKET_CLOSE_TIMEOUT_MS = 500;
 const UNIX_DEV_BROWSER_DIR_MODE = 0o700;
 const UNIX_DAEMON_SOCKET_MODE = 0o600;
 const UNIX_DAEMON_PID_MODE = 0o600;
+// Bounds the in-memory request buffer. The socket decodes to UTF-8 strings, so
+// this is measured in JavaScript string length (UTF-16 code units), which is
+// what caps the JS string we actually retain.
+const MAX_FRAME_CHARS = 10 * 1024 * 1024;
 const EMBEDDED_PACKAGE_JSON = JSON.stringify({
   name: "dev-browser-runtime",
   private: true,
@@ -35,25 +42,29 @@ const EMBEDDED_PACKAGE_JSON = JSON.stringify({
   },
 });
 
+// Chrome 147's built-in remote debugging does not emit Target.attachedToTarget
+// for some target types, which hangs connectOverCDP unless Playwright is
+// allowed to attach to "other" targets. Respect an explicit user override.
+// See https://github.com/SawyerHood/dev-browser/issues/103 and
+// https://github.com/microsoft/playwright/issues/40027.
+if (process.env.PW_CHROMIUM_ATTACH_TO_OTHER === undefined) {
+  process.env.PW_CHROMIUM_ATTACH_TO_OTHER = "1";
+}
+
 const manager = new BrowserManager(BROWSERS_DIR);
 const startedAt = Date.now();
 const withBrowserLock = createKeyedLock<string>();
 const withInstallLock = createMutex();
 const clients = new Set<net.Socket>();
+const idleReaper = new IdleBrowserReaper({
+  listBrowsers: () => manager.listBrowsers(),
+  stopBrowser: (name) => manager.stopBrowser(name),
+  withBrowserLock,
+});
 
 let server: net.Server | null = null;
 let shuttingDown: Promise<void> | null = null;
-
-function formatError(error: unknown): string {
-  if (error instanceof Error) {
-    if (error.name === "ScriptTimeoutError") {
-      return error.message;
-    }
-    return error.stack ?? error.message;
-  }
-
-  return String(error);
-}
+let ownsEndpoint = false;
 
 async function writeMessage(socket: net.Socket, message: Response): Promise<void> {
   if (socket.destroyed) {
@@ -138,68 +149,56 @@ function createMessageQueue(socket: net.Socket) {
 }
 
 async function handleExecute(socket: net.Socket, request: ExecuteRequest): Promise<void> {
-  await withBrowserLock(request.browser, async () => {
-    if (request.connect === "auto") {
-      await manager.autoConnect(request.browser, {
-        port: request.connectPort,
-        profilePath: request.connectProfilePath,
-      });
-    } else if (request.connect) {
-      await manager.connectBrowser(request.browser, request.connect, {
-        port: request.connectPort,
-        profilePath: request.connectProfilePath,
-      });
-    } else {
-      await manager.ensureBrowser(request.browser, {
-        headless: request.headless,
-        ignoreHTTPSErrors: request.ignoreHTTPSErrors,
-      });
-    }
-
-    const output = createMessageQueue(socket);
-    const timeoutMs = request.timeoutMs ?? DEFAULT_SCRIPT_TIMEOUT_MS;
-
-    try {
-      await runScript(
-        request.script,
-        manager,
-        request.browser,
-        {
-          onStdout: (data) => {
-            void output.push({
-              id: request.id,
-              type: "stdout",
-              data,
-            });
-          },
-          onStderr: (data) => {
-            void output.push({
-              id: request.id,
-              type: "stderr",
-              data,
-            });
-          },
+  idleReaper.requestStarted(request.browser);
+  try {
+    await executeRequest(
+      request,
+      request.timeoutMs ?? DEFAULT_SCRIPT_TIMEOUT_MS,
+      {
+        isOpen: () => !socket.destroyed && socket.writable && !socket.writableEnded,
+        onDisconnect: (listener) => {
+          const onDisconnect = () => listener();
+          socket.once("close", onDisconnect);
+          socket.once("error", onDisconnect);
+          return () => {
+            socket.off("close", onDisconnect);
+            socket.off("error", onDisconnect);
+          };
         },
-        {
-          timeout: timeoutMs,
-        }
-      );
-
-      await output.drain();
-      await writeMessage(socket, {
-        id: request.id,
-        type: "complete",
-        success: true,
-      });
-    } catch (error) {
-      await output.drain().catch(() => undefined);
-      await writeMessage(socket, {
-        id: request.id,
-        type: "error",
-        message: formatError(error),
-      });
-    }
-  });
+        send: (message) => writeMessage(socket, message),
+      },
+      {
+        withBrowserLock,
+        prepareBrowser: async (currentRequest, context) => {
+          const operation = {
+            deadline: context.deadline,
+            signal: context.signal,
+            port: currentRequest.connectPort,
+            profilePath: currentRequest.connectProfilePath,
+          };
+          if (currentRequest.connect === "auto") {
+            await manager.autoConnect(currentRequest.browser, operation);
+          } else if (currentRequest.connect) {
+            await manager.connectBrowser(currentRequest.browser, currentRequest.connect, operation);
+          } else {
+            await manager.ensureBrowser(currentRequest.browser, {
+              headless: currentRequest.headless,
+              ignoreHTTPSErrors: currentRequest.ignoreHTTPSErrors,
+              ...operation,
+            });
+          }
+        },
+        runScript: async (currentRequest, output, context) => {
+          await runScript(currentRequest.script, manager, currentRequest.browser, output, {
+            signal: context.signal,
+            timeout: Math.max(1, context.deadline - Date.now()),
+          });
+        },
+      }
+    );
+  } finally {
+    idleReaper.requestFinished(request.browser);
+  }
 }
 
 async function handleInstall(socket: net.Socket, request: { id: string }): Promise<void> {
@@ -302,6 +301,10 @@ async function handleRequest(socket: net.Socket, line: string): Promise<void> {
 
   const { request } = parsed;
 
+  if (request.idleTimeoutMs !== undefined) {
+    idleReaper.configure(request.idleTimeoutMs);
+  }
+
   if (shuttingDown && request.type !== "stop") {
     await writeMessage(socket, {
       id: request.id,
@@ -317,10 +320,11 @@ async function handleRequest(socket: net.Socket, line: string): Promise<void> {
       return;
 
     case "browsers":
+      const browsers = manager.listBrowsers();
       await writeMessage(socket, {
         id: request.id,
         type: "result",
-        data: manager.listBrowsers(),
+        data: browsers.map((browser) => ({ ...browser, ...idleReaper.idleInfo(browser) })),
       });
       await writeMessage(socket, {
         id: request.id,
@@ -330,7 +334,8 @@ async function handleRequest(socket: net.Socket, line: string): Promise<void> {
       return;
 
     case "browser-stop":
-      await manager.stopBrowser(request.browser);
+      await withBrowserLock(request.browser, () => manager.stopBrowser(request.browser));
+      idleReaper.browserStopped(request.browser);
       await writeMessage(socket, {
         id: request.id,
         type: "result",
@@ -344,6 +349,7 @@ async function handleRequest(socket: net.Socket, line: string): Promise<void> {
       return;
 
     case "status":
+      const statusBrowsers = manager.listBrowsers();
       await writeMessage(socket, {
         id: request.id,
         type: "result",
@@ -351,8 +357,12 @@ async function handleRequest(socket: net.Socket, line: string): Promise<void> {
           pid: process.pid,
           uptimeMs: Date.now() - startedAt,
           browserCount: manager.browserCount(),
-          browsers: manager.listBrowsers(),
+          browsers: statusBrowsers.map((browser) => ({
+            ...browser,
+            ...idleReaper.idleInfo(browser),
+          })),
           socketPath: SOCKET_PATH,
+          idleTimeoutMs: idleReaper.idleTimeoutMs,
         },
       });
       await writeMessage(socket, {
@@ -393,11 +403,18 @@ async function shutdown(exitCode = 0): Promise<void> {
     const serverClosed = serverToClose ? closeServerInstance(serverToClose) : Promise.resolve();
 
     await manager.stopAll();
+    idleReaper.dispose();
     await Promise.allSettled(Array.from(clients, (socket) => closeClientSocket(socket)));
     await serverClosed;
-    const cleanup = [unlinkIfExists(PID_PATH)];
-    if (requiresDaemonEndpointCleanup()) {
-      cleanup.push(unlinkIfExists(SOCKET_PATH));
+    // Only remove the pid file and socket path if this process successfully
+    // bound them; otherwise a daemon that lost the startup race would delete
+    // the live daemon's endpoint.
+    const cleanup: Promise<void>[] = [];
+    if (ownsEndpoint) {
+      cleanup.push(unlinkIfExists(PID_PATH));
+      if (requiresDaemonEndpointCleanup()) {
+        cleanup.push(unlinkIfExists(SOCKET_PATH));
+      }
     }
     await Promise.allSettled(cleanup);
 
@@ -409,6 +426,54 @@ async function shutdown(exitCode = 0): Promise<void> {
   return shuttingDown;
 }
 
+async function isEndpointActive(endpoint: string): Promise<boolean> {
+  return await new Promise((resolve) => {
+    const probe = net.connect(endpoint);
+    const finish = (active: boolean) => {
+      probe.destroy();
+      resolve(active);
+    };
+    probe.once("connect", () => finish(true));
+    probe.once("error", () => finish(false));
+  });
+}
+
+function listenOnEndpoint(target: net.Server): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const onError = (error: Error) => reject(error);
+    target.once("error", onError);
+    target.listen(SOCKET_PATH, () => {
+      target.off("error", onError);
+      resolve();
+    });
+  });
+}
+
+async function bindEndpoint(target: net.Server): Promise<void> {
+  try {
+    await listenOnEndpoint(target);
+    return;
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code;
+    // Binding is the atomic claim. Only fall back to replacing the path when
+    // the bind actually failed because the path already exists.
+    if (code !== "EADDRINUSE" || !requiresDaemonEndpointCleanup()) {
+      throw error;
+    }
+  }
+
+  // The path exists. If a live daemon answers, defer to it; unlinking a bound
+  // Unix socket would not stop it and would only split clients between daemons.
+  if (await isEndpointActive(SOCKET_PATH)) {
+    process.stderr.write("daemon already running\n");
+    process.exit(0);
+  }
+
+  // Stale socket file from a crashed daemon — remove it and claim the path.
+  await unlinkIfExists(SOCKET_PATH);
+  await listenOnEndpoint(target);
+}
+
 async function start(): Promise<void> {
   await mkdir(BASE_DIR, {
     recursive: true,
@@ -416,13 +481,6 @@ async function start(): Promise<void> {
   });
   await chmodIfSupported(BASE_DIR, UNIX_DEV_BROWSER_DIR_MODE);
   await ensureDevBrowserTempDir();
-  if (requiresDaemonEndpointCleanup()) {
-    await unlinkIfExists(SOCKET_PATH);
-  }
-  await writeFile(PID_PATH, `${process.pid}\n`, {
-    mode: UNIX_DAEMON_PID_MODE,
-  });
-  await chmodIfSupported(PID_PATH, UNIX_DAEMON_PID_MODE);
 
   server = net.createServer((socket) => {
     if (shuttingDown) {
@@ -440,6 +498,24 @@ async function start(): Promise<void> {
       buffer += chunk;
       const lines = buffer.split("\n");
       buffer = lines.pop() ?? "";
+
+      if (buffer.length > MAX_FRAME_CHARS || lines.some((line) => line.length > MAX_FRAME_CHARS)) {
+        // Pause synchronously so the unparsed remainder of an oversized frame
+        // cannot be reinterpreted as fresh requests while the error response
+        // drains (the write callback may be deferred under backpressure).
+        socket.pause();
+        buffer = "";
+        void writeMessage(socket, {
+          id: "unknown",
+          type: "error",
+          message: `Request exceeds the maximum frame size of ${MAX_FRAME_CHARS} characters`,
+        })
+          .catch(() => undefined)
+          .finally(() => {
+            socket.destroy();
+          });
+        return;
+      }
 
       for (const rawLine of lines) {
         const line = rawLine.trim();
@@ -471,19 +547,19 @@ async function start(): Promise<void> {
     });
   });
 
+  await bindEndpoint(server);
+
+  // Only attach the runtime error handler after a successful bind so a bind
+  // failure handled by bindEndpoint cannot also trip a shutdown.
   server.on("error", (error) => {
     console.error("Daemon server error:", error);
     void shutdown(1);
   });
 
-  await new Promise<void>((resolve, reject) => {
-    server?.once("error", reject);
-    server?.listen(SOCKET_PATH, () => {
-      server?.off("error", reject);
-      resolve();
-    });
-  });
+  ownsEndpoint = true;
   await chmodIfSupported(SOCKET_PATH, UNIX_DAEMON_SOCKET_MODE);
+  await writeFile(PID_PATH, `${process.pid}\n`, { mode: UNIX_DAEMON_PID_MODE });
+  await chmodIfSupported(PID_PATH, UNIX_DAEMON_PID_MODE);
 
   process.stderr.write("daemon ready\n");
 }

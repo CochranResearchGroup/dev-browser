@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "receipts": [
+    {
+      "mode": "headless",
+      "executablePath": "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome",
+      "version": "150.0.7835.0",
+      "title": "stealth-ok",
+      "webdriver": false,
+      "snapshot": {
+        "full": "- generic [ref=e1]:\n  - textbox \"Name\" [ref=e2]: stealth-ok\n  - button \"Apply\" [active] [ref=e3]"
+      }
+    },
+    {
+      "mode": "headed",
+      "executablePath": "/home/ecochran76/workspace.local/chromium/artifacts/chromium-stealthcdp/150.0.7835.0+stealthcdp.3676a7503929/chrome-linux/chrome",
+      "version": "150.0.7835.0",
+      "title": "stealth-ok",
+      "webdriver": false,
+      "snapshot": {
+        "full": "- generic [ref=e1]:\n  - textbox \"Name\" [ref=e2]: stealth-ok\n  - button \"Apply\" [active] [ref=e3]"
+      }
+    }
+  ]
+}

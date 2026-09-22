@@ -13,6 +13,10 @@ A browser automation tool that lets AI agents and developers control browsers wi
 - **Auto-connect** - Connect to your running Chrome or launch a fresh Chromium
 - **Full Playwright API** - goto, click, fill, locators, evaluate, screenshots, and more
 
+## Demo
+
+https://github.com/user-attachments/assets/c6cf7fb9-b1dc-46ed-93b9-6e7240990c53
+
 ## CLI Installation
 
 ```bash
@@ -96,7 +100,7 @@ Windows npm installs download the native `dev-browser-windows-x64.exe` release a
 
 When `dev-browser` runs inside WSL:
 
-- daemon-managed launch mode still uses Playwright's bundled Chromium profile under `~/.dev-browser`
+- daemon-managed launch mode uses a persistent profile under `~/.dev-browser`; the browser executable can be configured as described below
 - `--connect` can auto-discover Chrome or Brave instances started on the Windows side when remote debugging is enabled
 - if auto-discovery still misses your browser, point directly at the Windows profile root with `--profile-path "/mnt/c/Users/<WindowsUser>/AppData/Local/Google/Chrome/User Data"`
 
@@ -106,9 +110,58 @@ Example:
 dev-browser --connect --profile-path "/mnt/c/Users/<WindowsUser>/AppData/Local/Google/Chrome/User Data"
 ```
 
+### Default browser executable
+
+To launch a custom Chromium build, such as native Linux `chromium-stealthcdp`
+inside WSL, set its absolute executable path in `~/.dev-browser/config.json`:
+
+```json
+{
+  "executablePath": "/absolute/path/to/chromium-stealthcdp/chrome-linux/chrome"
+}
+```
+
+This setting applies to both headed and headless daemon-managed browsers.
+`dev-browser status` and `dev-browser browsers` report the configured executable
+for launched browsers. Existing browser instances keep their executable until
+closed; new launches read the current configuration. A missing or invalid custom
+executable produces an error. Omit `executablePath` to use Playwright's bundled
+Chromium. `--connect` continues to attach to the requested external browser.
+
 ### Using with AI agents
 
-After installing, just tell your agent to run `dev-browser --help` — the help output includes a full LLM usage guide with examples and API reference. No plugin or skill installation needed.
+After installing, tell your agent to run `dev-browser --help` — the help output includes the current LLM usage guide and API reference.
+
+For agents that discover local skills, install or refresh the embedded skill explicitly:
+
+```bash
+dev-browser install-skill --codex   # ~/.codex/skills/dev-browser/SKILL.md
+dev-browser install-skill --claude  # ~/.claude/skills/dev-browser/SKILL.md
+dev-browser install-skill --agents  # ~/.agents/skills/dev-browser/SKILL.md
+```
+
+Flags may be combined. With an interactive terminal, `dev-browser install-skill` prompts for targets. In non-interactive environments it updates all three locations, including Codex, so an older copied skill does not survive a CLI upgrade.
+
+### Idle browser cleanup
+
+Daemon-launched named Chromium instances can be closed automatically after they have been idle for a configured duration:
+
+```bash
+dev-browser --idle-timeout 5m < script.js
+DEV_BROWSER_IDLE_TIMEOUT_MS=300000 dev-browser status
+```
+
+The flag accepts `30s`, `5m`, `1h`, or raw milliseconds. You can also set a user default in `~/.dev-browser/config.json`:
+
+```json
+{
+  "idleTimeout": "5m"
+}
+```
+
+Precedence is `--idle-timeout`, then `DEV_BROWSER_IDLE_TIMEOUT_MS`, then `idleTimeout` in the user config, then disabled. Set any source to `0` to disable cleanup. The effective setting is sent to an already-running daemon and shown by `dev-browser status`.
+
+Cleanup is applied independently to each named browser. Activity is measured from both the start and completion of each request, so running requests are never reaped. Only Chromium instances launched by dev-browser are eligible; browsers attached with `--connect` are never closed by idle cleanup. Closing an idle browser does not delete its profile directory, cookies, or login state, and the next request relaunches it from the same persistent profile. `dev-browser stop` keeps its existing behavior of stopping the daemon and all managed browser connections.
 
 <details>
 <summary>Allowing dev-browser in Claude Code without permission prompts</summary>
@@ -159,7 +212,7 @@ You can also allow related commands in the same list:
 </details>
 
 <details>
-<summary>Legacy plugin installation (Claude Code / Amp / Codex)</summary>
+<summary>Legacy Claude Code plugin installation</summary>
 
 ### Claude Code
 
@@ -169,26 +222,6 @@ You can also allow related commands in the same list:
 ```
 
 Restart Claude Code after installation.
-
-### Amp / Codex
-
-Copy the skill to your skills directory:
-
-```bash
-# For Amp: ~/.claude/skills | For Codex: ~/.codex/skills
-SKILLS_DIR=~/.claude/skills  # or ~/.codex/skills
-
-mkdir -p $SKILLS_DIR
-git clone https://github.com/sawyerhood/dev-browser /tmp/dev-browser-skill
-cp -r /tmp/dev-browser-skill/skills/dev-browser $SKILLS_DIR/dev-browser
-rm -rf /tmp/dev-browser-skill
-```
-
-If you already have the `dev-browser` CLI installed locally, you can also install the bundled skill directly:
-
-```bash
-dev-browser install-skill --codex
-```
 
 </details>
 
@@ -213,6 +246,11 @@ console.log/warn/error/info       // Routed to CLI stdout/stderr
 ```
 
 Pages are full [Playwright Page objects](https://playwright.dev/docs/api/class-page) — `goto`, `click`, `fill`, `locator`, `evaluate`, `screenshot`, and everything else, including `page.snapshotForAI({ track?, depth?, timeout? })`, which returns `{ full, incremental? }` for AI-friendly page snapshots.
+
+Every page also exposes two computer-use toolsets:
+
+- `page.cua.*` — pixel/vision tier: `screenshot()` saves a JPEG whose pixels map 1:1 onto CSS coordinates at any DPR and returns `{ path, width, height }`; `click`, `doubleClick`, `drag`, `move`, `scroll`, `keypress`, and `type` act at those coordinates.
+- `page.domCua.*` — DOM-id tier: `getVisibleDom()` snapshots visible interactive elements as pseudo-HTML lines with `node_id=N`; `click`, `doubleClick`, and `scroll` act by node id (ids are only valid against the latest snapshot of the current document), plus `type` and `keypress` for the focused element.
 
 ## Benchmarks
 
