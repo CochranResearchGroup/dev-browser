@@ -42,7 +42,16 @@ restores the bundled-browser default.
 
 The previous CLI and the config-absence marker were saved under
 `~/.dev-browser/backups/wsl-stealth-default-20260922T015934Z/`.
-The config is prepared and the rebuilt CLI is installed separately from the
-running daemon. The old daemon has 10 browser sessions; activating the new
-daemon requires permission to close those sessions. Until that restart,
-the running daemon continues to use its original implementation.
+Activation completed after explicit approval to close the 10 previous sessions.
+The installed CLI launched a fresh named browser without an executable override;
+daemon status reported the configured Linux artifact, and the script passed a
+real textbox fill, ordinary locator click, title check (`stealth-default-ok`),
+ARIA snapshot, and `navigator.webdriver === false` check. Its user agent reported
+HeadlessChrome/150.0.0.0. Installed daemon and sandbox bundle bytes match the
+rebuilt repository bundles.
+
+The process census found an extra startup daemon and a verification process
+tree that did not finish graceful shutdown. Those exact processes were removed;
+the final daemon is PID 77326 with zero browsers, ready to launch the configured
+default. The old PID 63226 and the temporary daemon/browser processes are gone.
+The activation changed no Chromium artifact aliases.
