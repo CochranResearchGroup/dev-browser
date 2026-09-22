@@ -65,3 +65,10 @@ python3 .agents/skills/repo-policy-selector/scripts/audit_planning_contract.py -
 python3 .agents/skills/repo-policy-selector/scripts/audit_planning_contract.py --repo-root . --active-only --json
 python3 .agents/skills/repo-policy-selector/scripts/select_policy.py --repo-root . --policy-root .agents/skills/repo-policy-selector/policy-library --json
 ```
+
+## Browser runtime operations
+
+Before launching/attaching browsers or handing off browser work, read
+[the maintained dev-browser skill](skills/dev-browser/SKILL.md). Agents choose
+the appropriate existing runtime/profile and own tab, browser, daemon, and
+resource cleanup. v1 remains explicit opt-in until an approved migration.
