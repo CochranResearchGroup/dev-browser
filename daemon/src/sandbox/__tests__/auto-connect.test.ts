@@ -218,7 +218,7 @@ describe("BrowserManager auto-connect", () => {
       const launchPersistentContext = vi.fn(async () => context);
       const executablePath = "/opt/chromium-stealthcdp/chrome";
       const readFile = vi.fn(async (filePath: string) => {
-        expect(filePath).toBe("/Users/tester/.dev-browser/config.json");
+        expect(filePath).toBe(path.join("/Users/tester", ".dev-browser", "config.json"));
         return JSON.stringify({ executablePath, idleTimeout: "5m" });
       });
       const { manager } = createManager({
@@ -229,7 +229,7 @@ describe("BrowserManager auto-connect", () => {
       });
       await manager.ensureBrowser("stealth", { headless });
       expect(launchPersistentContext).toHaveBeenCalledWith(
-        expect.stringContaining("stealth/chromium-profile"),
+        expect.stringContaining(path.join("stealth", "chromium-profile")),
         expect.objectContaining({ executablePath, headless })
       );
       expect(manager.listBrowsers()).toEqual([
@@ -454,7 +454,7 @@ describe("BrowserManager auto-connect", () => {
   });
 
   it("checks a custom profile path for DevToolsActivePort before default locations", async () => {
-    const customProfilePath = "/tmp/custom-chrome-profile";
+    const customProfilePath = path.resolve("/tmp/custom-chrome-profile");
     const devToolsPath = path.join(customProfilePath, "DevToolsActivePort");
     const readFile = vi.fn(async (filePath: string) => {
       if (filePath === devToolsPath) {
@@ -867,7 +867,7 @@ describe("BrowserManager auto-connect", () => {
       return browser;
     });
     const readFile = vi.fn(async (filePath: string) => {
-      if (filePath === path.join("/custom/profile", "DevToolsActivePort")) {
+      if (filePath === path.join(path.resolve("/custom/profile"), "DevToolsActivePort")) {
         return "9333\n/devtools/browser/custom-profile\n";
       }
       throw createEnoentError(filePath);
@@ -935,7 +935,7 @@ describe("BrowserManager auto-connect", () => {
 
     await manager.autoConnect("wsl-browser");
 
-    expect(readdir).toHaveBeenCalledWith("/mnt/c/Users", {
+    expect(readdir).toHaveBeenCalledWith(path.join("/mnt", "c", "Users"), {
       encoding: "utf8",
       withFileTypes: true,
     });
@@ -1014,7 +1014,7 @@ describe("BrowserManager auto-connect", () => {
     ]);
   });
 
-  it("autoConnect discovers agent-browser managed sessions via the local daemon socket", async () => {
+  it("autoConnect discovers agent-browser managed sessions via the native daemon transport", async () => {
     const socketDir = await mkdtemp(path.join(os.tmpdir(), "dev-browser-agent-browser-"));
     const sessionName = "managed-session";
     const socketPath = path.join(socketDir, `${sessionName}.sock`);
@@ -1055,11 +1055,19 @@ describe("BrowserManager auto-connect", () => {
 
     await new Promise<void>((resolve, reject) => {
       server.once("error", reject);
-      server.listen(socketPath, () => {
-        server.off("error", reject);
-        resolve();
-      });
+      server.listen(
+        process.platform === "win32" ? { host: "127.0.0.1", port: 0 } : socketPath,
+        () => {
+          server.off("error", reject);
+          resolve();
+        }
+      );
     });
+
+    if (process.platform === "win32") {
+      const address = server.address() as net.AddressInfo;
+      await writeFile(path.join(socketDir, `${sessionName}.port`), `${address.port}\n`);
+    }
 
     const connectOverCDP = vi.fn(async (endpoint: string) => {
       expect(endpoint).toBe(cdpUrl);
@@ -1075,6 +1083,7 @@ describe("BrowserManager auto-connect", () => {
     try {
       const { manager } = createManager({
         connectOverCDP,
+        platform: process.platform,
         readFile: vi.fn(async (filePath: string) => readFileFromFs(filePath, "utf8")),
       });
 
