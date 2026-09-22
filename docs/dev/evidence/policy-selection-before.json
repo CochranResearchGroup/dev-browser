@@ -1,0 +1,63 @@
+{
+  "repo_purpose": "library-cli",
+  "recommended_profile": "standalone-library",
+  "recommended_modules": [
+    "policy-management",
+    "policy-upgrade-management",
+    "policy-adoption-feedback-loop",
+    "graph-backed-memory-usage",
+    "planning-discipline",
+    "codegraph-usage",
+    "code-testing-discipline",
+    "git-worktree-hygiene",
+    "commit-history-discipline",
+    "branch-and-integration-strategy",
+    "commit-and-push-cadence",
+    "versioning-and-release",
+    "turn-closeout",
+    "validation-and-handoff",
+    "upstream-fork-maintenance"
+  ],
+  "memory_discovery": {
+    "policy_module": "graph-backed-memory-usage",
+    "policy_selected": true,
+    "rationale": "shared policy is selected, but repo evidence does not establish a concrete graph-memory workflow",
+    "repo_default": "task-conditional",
+    "repo_graph_memory_signals": false,
+    "task_decisions": [
+      "use",
+      "skip",
+      "unavailable"
+    ]
+  },
+  "existing_policy_surfaces": [
+    {
+      "action": "merge",
+      "canonical": true,
+      "path": "/home/ecochran76/workspace.local/dev-browser/AGENTS.md",
+      "rationale": "inline AGENTS policy should be thinned and merged into canonical repo-local policy files",
+      "source_type": "agents-entrypoint"
+    }
+  ],
+  "repo_local_policy_findings": [
+    {
+      "action": "keep",
+      "matched_modules": [],
+      "path": "/home/ecochran76/workspace.local/dev-browser/AGENTS.md",
+      "rationale": "section appears repo-specific and should remain in AGENTS.md",
+      "section_heading": "Tooling"
+    },
+    {
+      "action": "merge",
+      "matched_modules": [
+        "validation-and-handoff"
+      ],
+      "path": "/home/ecochran76/workspace.local/dev-browser/AGENTS.md",
+      "rationale": "section overlaps shared policy concepts and should be reviewed for merge into adopted local policy files",
+      "section_heading": "Validation"
+    }
+  ],
+  "existing_migration_surfaces": [],
+  "validation_problems": [],
+  "adoption_mode": "clean-adoption"
+}

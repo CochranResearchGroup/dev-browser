@@ -1,0 +1,16 @@
+{
+  "recommendation_mode": "patch-missing",
+  "memory_discovery": {
+    "policy_module": "graph-backed-memory-usage",
+    "policy_selected": true,
+    "rationale": "repo policy or guidance explicitly names a graph-backed memory workflow",
+    "repo_default": "use",
+    "repo_graph_memory_signals": true,
+    "task_decisions": [
+      "use",
+      "skip",
+      "unavailable"
+    ]
+  },
+  "validation_problems": []
+}
