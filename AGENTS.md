@@ -78,6 +78,8 @@ Read and follow:
 - `docs/dev/policies/0024-active-lane-coordination.md`
 - `docs/dev/policies/0025-subagent-workflow-optimization.md`
 - `docs/dev/policies/0026-collaborative-development-workflow.md`
+- `docs/dev/policies/0028-subagent-runtime-governance.md`
+- `docs/dev/policies/0029-forge-issue-reporting.md`
 
 ## Scope
 
